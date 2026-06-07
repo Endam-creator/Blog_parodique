@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Blog des Vérités Cachées - La voix de ceux qui savent</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --text-color: #ffffff;
+            --accent-green: #76b900;
+            --accent-green-hover: #8ae000;
+            --border-color: #444444;
+            --danger-red: #8b0000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            background-image: radial-gradient(rgba(0, 150, 0, 0.05) 15%, transparent 16%);
+            background-size: 15px 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 3px solid var(--border-color);
+            background-color: #151515;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            align-items: center;
+            background-color: #222;
+            padding: 15px 20px;
+            border-bottom: 4px solid var(--accent-green);
+            position: relative;
+        }
+
+        .logo-area {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            border: 3px solid var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .loupe-handle {
+            position: absolute;
+            width: 35px;
+            height: 8px;
+            background: linear-gradient(#fff, #666);
+            bottom: -5px;
+            left: -15px;
+            transform: rotate(45deg);
+            border-radius: 2px;
+        }
+
+        .header-titles h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-titles p {
+            color: var(--accent-green);
+            font-style: italic;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .edition-tag {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 2px;
+        }
+
+        /* MAIN CONTENT GRID */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        @media (min-width: 900px) {
+            .main-layout {
+                grid-template-columns: 65fr 35fr;
+            }
+        }
+
+        /* LEFT COLUMN (FEATURED) */
+        .featured-story {
+            border: 2px solid var(--border-color);
+            background-color: #1e1e1e;
+            position: relative;
+        }
+
+        .breaking-tag {
+            background-color: var(--accent-green);
+            color: #000;
+            padding: 5px 15px;
+            font-weight: bold;
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin: 10px;
+        }
+
+        .story-hero-img {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23333"/><text x="50" y="55" font-family="monospace" font-size="6" fill="%23555" text-anchor="middle">Z0NE_DE_GUERRE_PSYCHIQUE.RAW</text></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .story-hero-img h2 {
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px #000;
+            line-height: 1.3;
+        }
+
+        .story-hero-img h2 a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .story-hero-img h2 a:hover {
+            color: var(--accent-green);
+        }
+
+        .manifesto-text {
+            padding: 20px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .manifesto-text strong {
+            color: var(--accent-green);
+        }
+
+        /* RIGHT COLUMN (FEED) */
+        .stories-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .feed-card {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            border: 1px solid var(--border-color);
+            background-color: #1a1a1a;
+            min-height: 90px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .feed-card:hover {
+            border-color: var(--accent-green);
+        }
+
+        .feed-img {
+            background-color: #252525;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .feed-content {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .feed-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .feed-desc {
+            font-size: 0.8rem;
+            color: #ccc;
+            line-height: 1.3;
+        }
+
+        .classified-stamp {
+            position: absolute;
+            bottom: 2px;
+            right: 5px;
+            border: 1px solid var(--danger-red);
+            color: var(--danger-red);
+            font-size: 0.6rem;
+            padding: 1px 4px;
+            font-weight: bold;
+            transform: rotate(-5deg);
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* NEWSLETTER BAR */
+        .newsletter-bar {
+            background-color: #222;
+            border-top: 2px solid var(--border-color);
+            padding: 15px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .subscribe-tag {
+            color: var(--accent-green);
+            font-weight: bold;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-grow: 1;
+            max-width: 500px;
+            gap: 10px;
+        }
+
+        .newsletter-form input {
+            flex-grow: 1;
+            background-color: #000;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 8px 12px;
+            font-family: inherit;
+        }
+
+        .newsletter-form input:focus {
+            outline: 1px solid var(--accent-green);
+        }
+
+        .btn-submit {
+            background-color: var(--accent-green);
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-green-hover);
+        }
+
+        .sub-caption {
+            font-size: 0.75rem;
+            color: #aaa;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        /* FOOTER NAVIGATION */
+        footer {
+            background-color: #111;
+            border-top: 4px solid var(--border-color);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 5px;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: underline;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-green);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo-area">
+            <div class="logo-circle">🐱</div>
+            <div class="loupe-handle"></div>
+        </div>
+        <div class="header-titles">
+            <h1>Le Blog des Vérités Cachées</h1>
+            <p>- *La voix de ceux qui savent* -</p>
+            <div class="edition-tag">Édition Nationale & Univers Connexes</div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        
+        <div class="featured-story">
+            <div class="breaking-tag">Breaking News</div>
+            <div class="story-hero-img">
+                <h2><a href="#">TÉMOIGNAGE CHOC : "Mon appartement est une zone de guerre psychique quand je fais des cauchemars !" (LIRE L'INTERVIEW EXCLUSIVE EXTRÊME)</a></h2>
+            </div>
+            <div class="manifesto-text">
+                Vous en avez assez des versions officielles lisses et ennuyeuses ? Vous sentez que la vérité est plus tordue, plus folle, plus... réelle ? Vous êtes au bon endroit.<br><br>
+                <strong>"Le Blog des Vérités Cachées"</strong> plonge dans le quotidien secret de vos voisins de Brest, de Menton et d'ailleurs pour révéler l'incroyable complot qui se tisse sous nos yeux. Puces 5G invisibles, mutants planqués dans la plomberie, lucioles drones biologiques... tout est là, mesuré et vérifié par l'Investigateur Anonyme ! Entrez, si vous osez remettre en question le réel.
+            </div>
+        </div>
+
+        <div class="stories-feed">
+            
+            <a href="#" class="feed-card">
+                <div class="feed-img">✨</div>
+                <div class="feed-content">
+                    <div class="feed-title">Lucioles Extraterrestres en Forêt</div>
+                    <div class="feed-desc">Le plan secret de récolte biologique tissé sous vos yeux en lisière des bois !</div>
+                </div>
+            </a>
+
+            <a href="#" class="feed-card">
+                <div class="feed-img">🪠</div>
+                <div class="feed-content">
+                    <div class="feed-title">Le Monstre des Canalisations</div>
+                    <div class="feed-desc">La créature cartilagineuse qui compresse son corps pour s'infiltrer chez vous la nuit.</div>
+                </div>
+                <div class="classified-stamp">Classified</div>
+            </a>
+
+            <a href="#" class="feed-card">
+                <div class="feed-img">📶</div>
+                <div class="feed-content">
+                    <div class="feed-title">Vaccin Covid & Puce 5G</div>
+                    <div class="feed-desc">J'ai mesuré la fréquence radio de mon propre deltoïde ! Analyse technique d'un électricien.</div>
+                </div>
+            </a>
+
+            <a href="#" class="feed-card">
+                <div class="feed-img">🚗</div>
+                <div class="feed-content">
+                    <div class="feed-title">Voisins du Futur</div>
+                    <div class="feed-desc">"Il a traversé le temps pour me piquer mon sans-plomb" : le troc fou à base d'uranium.</div>
+                </div>
+                <div class="classified-stamp">Classified</div>
+            </a>
+
+            <a href="#" class="feed-card">
+                <div class="feed-img">📐</div>
+                <div class="feed-content">
+                    <div class="feed-title">Témoignage : Horizon Rectiligne</div>
+                    <div class="feed-desc">J'ai posé un niveau à bulle sur mon canapé... LA TERRE EST PLATE !</div>
+                </div>
+            </a>
+
+            <a href="#" class="feed-card">
+                <div class="feed-img">🌑</div>
+                <div class="feed-content">
+                    <div class="feed-title">Hollywood sur la Lune</div>
+                    <div class="feed-desc">J'ai débusqué l'erreur de projecteur dans la vidéo d'Armstrong. Analyse d'un pro du cinéma.</div>
+                </div>
+                <div class="classified-stamp">Classified</div>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="newsletter-bar">
+        <div class="subscribe-tag">S'abonner</div>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Transmission cryptée réussie.');">
+            <input type="email" placeholder="Email email..." required>
+            <button type="submit" class="btn-submit">S'abonner</button>
+        </form>
+        <div class="social-icons">
+            <span>𝕏</span> <span>🛜</span> <span>🎯</span> <span>👁️</span>
+        </div>
+        <div class="sub-caption">REJOIGNEZ LA RÉSISTANCE ANTI-RÉEL (GRATUITEMENT !)</div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">Témoignez (Anonymement) !</a>
+            <a href="#">L'Investigateur Anonyme</a>
+            <a href="#">Mentions (Pas très) Légales</a>
+            <a href="#" style="color: var(--accent-green);">Boutique Secrète (Anti-Traçage)</a>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>
