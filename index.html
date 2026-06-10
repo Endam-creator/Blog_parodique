@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Blog des Vérités Cachées - La voix de ceux qui savent</title>
+    <meta name="description" content="Le Blog des Vérités Cachées : enquêtes apocryphes, interviews exclusives et révélations que personne ne vous demandait.">
     <style>
         :root {
             --outer-bg: #555555;
@@ -133,6 +134,18 @@
             transform: skewX(-10deg);
         }
 
+        .draft-banner {
+            background-color: var(--danger-red);
+            color: var(--text-light);
+            padding: 6px 15px;
+            font-family: 'Impact', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            align-self: flex-start;
+            margin-bottom: 15px;
+            transform: skewX(-10deg);
+        }
+
         .hero-title-area h2 {
             font-family: 'Impact', 'Arial Black', sans-serif;
             font-size: 1.8rem;
@@ -173,6 +186,12 @@
             margin: 20px 0;
         }
 
+        .interview-box h3 {
+            font-family: 'Impact', sans-serif;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
         .interview-line {
             margin-bottom: 12px;
         }
@@ -185,7 +204,15 @@
             font-weight: bold;
         }
 
-        /* INTERFACE D'ADMINISTRATION */
+        .load-error {
+            background-color: #ffe0e0;
+            border: 2px solid var(--danger-red);
+            padding: 15px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        /* STUDIO DE RÉDACTION */
         .admin-panel {
             background-color: #222;
             color: #fff;
@@ -198,8 +225,21 @@
         .admin-panel h3 {
             font-family: 'Impact', sans-serif;
             color: var(--accent-green);
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             text-transform: uppercase;
+        }
+
+        .admin-help {
+            font-size: 0.85rem;
+            color: #bbb;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .admin-help code {
+            background: #111;
+            padding: 1px 5px;
+            color: var(--accent-green);
         }
 
         .form-group {
@@ -225,6 +265,44 @@
         .form-group textarea {
             resize: vertical;
             height: 80px;
+        }
+
+        .studio-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .json-output-zone {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .json-output-zone h4 {
+            font-family: 'Impact', sans-serif;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .json-steps {
+            font-size: 0.85rem;
+            color: #ccc;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .json-output-zone textarea {
+            width: 100%;
+            height: 220px;
+            background: #111;
+            color: #9fe000;
+            border: 1px solid var(--accent-green);
+            font-family: monospace;
+            font-size: 0.8rem;
+            padding: 10px;
+            resize: vertical;
         }
 
         /* COLONNE DROITE (LISTE) */
@@ -285,6 +363,17 @@
             margin-bottom: 8px;
         }
 
+        .draft-pill {
+            display: inline-block;
+            background: var(--danger-red);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 1px 6px;
+            margin-bottom: 4px;
+            align-self: flex-start;
+        }
+
         /* VOTES */
         .vote-system {
             display: flex;
@@ -321,6 +410,8 @@
         .newsletter-form { display: flex; gap: 10px; flex-grow: 1; max-width: 500px; }
         .newsletter-form input { flex-grow: 1; padding: 10px; }
         .btn-submit { background-color: var(--accent-green); padding: 10px 25px; font-family: 'Impact', sans-serif; cursor: pointer; border: none;}
+        .btn-submit:hover { background-color: var(--accent-green-hover); }
+        .btn-secondary { background-color: #555; color: #fff; padding: 10px 25px; font-family: 'Impact', sans-serif; cursor: pointer; border: 1px solid #888;}
         .footer-caption { width: 100%; text-align: center; color: var(--accent-green); font-family: monospace; font-size: 0.85rem; }
 
         footer { background-color: #111111; padding: 15px; text-align: center; }
@@ -332,35 +423,62 @@
 <div class="container">
     <!-- HEADER -->
     <header>
-        <div class="logo-area" onclick="toggleAdminPanel()" title="Zone réservée à l'Investigateur Anonyme">
+        <div class="logo-area" onclick="toggleStudio()" title="Zone réservée à l'Investigateur Anonyme">
             <img src="logo_chat_loupe.png" alt="Logo" class="logo-img">
         </div>
         <div class="header-titles" onclick="displayHome()" title="Retourner à la page principale">
             <h1>Le Blog des Vérités Cachées</h1>
             <p>- *La voix de ceux qui savent* -</p>
-            <div class="edition-tag">Édition Nationale & Univers Connexes</div>
+            <div class="edition-tag">Édition Nationale &amp; Univers Connexes</div>
         </div>
     </header>
 
-    <!-- INTERFACE DE CRÉATION SECRÈTE (PROTÉGÉE) -->
+    <!-- STUDIO DE RÉDACTION (génère le JSON à publier) -->
     <div id="adminPanel" class="admin-panel">
-        <h3>Console de Transmission de l'Investigateur (Ajouter une Enquête)</h3>
-        <form onsubmit="createNewArticle(event)">
+        <h3>Console de Transmission de l'Investigateur (Studio de Rédaction)</h3>
+        <p class="admin-help">
+            Ce studio ne publie rien directement : il génère le bloc JSON de l'enquête, à coller dans le fichier
+            <code>articles.json</code> de votre dépôt GitHub. Utilisez « Prévisualiser » pour voir le rendu exact
+            avant publication (l'aperçu reste local, visible uniquement par vous).
+        </p>
+        <form id="studioForm" onsubmit="generateArticleJSON(event)">
             <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS"></div>
-            <div class="form-group"><label>Date de publication</label><input type="text" id="formDate" value="Dimanche 7 juin 2026"></div>
+            <div class="form-group"><label>Date de publication</label><input type="text" id="formDate"></div>
             <div class="form-group"><label>Localisation</label><input type="text" id="formLoc" placeholder="Ex: National (Enquête en Ille-et-Vilaine)"></div>
             <div class="form-group"><label>Auteur</label><input type="text" id="formAuthor" value="L'Investigateur Anonyme"></div>
-            <div class="form-group"><label>Chapô / Introduction de l'enquête</label><textarea id="formIntro" required placeholder="Description ou texte d'introduction..."></textarea></div>
-            <div class="form-group"><label>Interview Exclusive (Format clé:valeur séparé par des sauts de ligne)</label><textarea id="formInterview" style="height:120px;" placeholder="Le Blog: Votre question ?&#10;Ulf: Ma réponse."></textarea></div>
+            <div class="form-group"><label>Résumé court (affiché dans le fil d'actualités, 1-2 phrases)</label><textarea id="formDesc" required placeholder="Ex: L'avenir est écrit sur vos fesses : un médium allemand lit le destin de ses clients..."></textarea></div>
+            <div class="form-group"><label>Chapô / Introduction de l'enquête</label><textarea id="formIntro" required placeholder="Texte d'introduction complet de l'enquête..."></textarea></div>
+            <div class="form-group">
+                <label>Interview Exclusive — préfixez chaque question par Q: et chaque réponse par R: (une réponse peut tenir sur plusieurs lignes)</label>
+                <textarea id="formInterview" style="height:140px;" placeholder="Q: Le Blog : Votre question ?&#10;R: Ulf : Ma réponse, qui peut contenir des deux-points : sans problème.&#10;Q: Le Blog : Question suivante ?&#10;R: La réponse suivante."></textarea>
+            </div>
             <div class="form-group"><label>⚠️ L'AVIS DE LA RÉDACTION</label><textarea id="formNotice" placeholder="Conseils ou avertissements..."></textarea></div>
-            <div class="form-group"><label>Image d'illustration (Fichier local)</label><input type="text" id="formImg" placeholder="monstre_canalisation.png"></div>
-            <button type="submit" class="btn-submit" style="border:1px solid #fff">Diffuser l'enquête apocryphe</button>
+            <div class="form-group"><label>Image d'illustration (nom du fichier déposé dans le dossier images/ du dépôt)</label><input type="text" id="formImg" placeholder="monstre_canalisation.png"></div>
+            <div class="studio-actions">
+                <button type="button" class="btn-secondary" onclick="previewArticle()">👁 Prévisualiser (local)</button>
+                <button type="submit" class="btn-submit" style="border:1px solid #fff">📡 Générer le JSON de l'enquête</button>
+            </div>
         </form>
+
+        <div class="json-output-zone" id="jsonZone">
+            <h4>Bloc JSON prêt à diffuser</h4>
+            <p class="json-steps">
+                1. Cliquez sur « Copier le JSON ».<br>
+                2. Sur GitHub, ouvrez <code>articles.json</code> → ✏️ Modifier.<br>
+                3. Collez ce bloc juste après le <code>[</code> d'ouverture, suivi d'une virgule (le nouvel article apparaîtra en premier).<br>
+                4. Si vous avez une image, déposez-la dans le dossier <code>images/</code> du dépôt.<br>
+                5. « Commit changes » → l'enquête est en ligne en ~1 minute. 📰
+            </p>
+            <textarea id="jsonOutput" readonly></textarea>
+            <div class="studio-actions">
+                <button type="button" class="btn-submit" onclick="copyJSON()">📋 Copier le JSON</button>
+            </div>
+        </div>
     </div>
 
     <!-- MAIN GRIDS -->
     <div class="main-layout">
-        
+
         <!-- LE CONTENU CENTRAL (DYNAMIQUE) -->
         <div class="featured-story" id="articleViewer">
             <!-- Géré dynamiquement entre la Page d'accueil ou l'Article choisi -->
@@ -368,7 +486,7 @@
 
         <!-- FIL D'ACTUALITÉS DE DROITE -->
         <div class="stories-feed" id="storiesFeed">
-            <!-- Rempli dynamiquement -->
+            <!-- Rempli dynamiquement depuis articles.json -->
         </div>
     </div>
 
@@ -376,7 +494,7 @@
     <div class="newsletter-bar">
         <div class="subscribe-tag">S'abonner</div>
         <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Canal crypté configuré.');">
-            <input type="email" placeholder="Email email..." required>
+            <input type="email" placeholder="Votre email..." required>
             <button type="submit" class="btn-submit">S'abonner</button>
         </form>
         <div class="footer-caption">REJOIGNEZ LA RÉSISTANCE ANTI-RÉEL (GRATUITEMENT !)</div>
@@ -384,7 +502,7 @@
 
     <footer>
         <div class="footer-links">
-            <a href="#" onclick="toggleAdminPanel(); return false;">[Accès Cabinet Secret]</a>
+            <a href="#" onclick="toggleStudio(); return false;">[Accès Cabinet Secret]</a>
             <a href="#" onclick="displayHome(); return false;">Accueil du Blog</a>
             <a href="#">Mentions (Pas très) Légales</a>
         </div>
@@ -392,40 +510,78 @@
 </div>
 
 <script>
-// CONFIGURATION DES IDENTIFIANTS PAR DÉFAUT
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "endam2026"; // Tu pourras changer ce mot de passe à ta guise !
+// ============================================================
+// LE BLOG DES VÉRITÉS CACHÉES — moteur de publication statique
+// Les articles publiés vivent dans articles.json (dépôt GitHub).
+// Le studio de rédaction génère le JSON à coller dans ce fichier.
+// ============================================================
 
-let isAuthorized = false; // Par défaut, l'utilisateur n'est pas identifié
+let articles = [];       // Articles publiés (chargés depuis articles.json)
+let draftArticles = [];  // Aperçus locaux non publiés (session en cours)
 
-// BASE DE DONNÉES DES ARTICLES PAR DÉFAUT
-const defaultArticles = [
-    {
-        id: "art-médium",
-        title: "INVESTIGATION TRANSFRONTALIÈRE : « Oubliez les lignes de la main : la vérité sur votre avenir est écrite sur vos fessiers, selon ce médium allemand »",
-        date: "Dimanche 7 juin 2026",
-        location: "International (Enquête en Rhénanie-du-Nord-Westphalie)",
-        author: "L'Investigateur Anonyme",
-        img: "rumpologie_allemande.png",
-        desc: "L'avenir est écrit sur vos fesses : un médium allemand lit le destin de ses clients en tâtant leur anatomie.",
-        intro: "Alors que les voyants traditionnels s'épuisent à scruter des cartes de tarot ou à déchiffrer les plis de vos paumes, la science occulte vient de franchir une nouvelle frontière en Europe. Outre-Rhin, un homme a développé une méthode de divination unique au monde, basée sur la topographie musculaire et thermique de l'anatomie humaine. Pour lui, le grand livre du destin ne s'ouvre pas dans les mains, mais un peu plus bas. Nous avons traversé la frontière pour rencontrer Ulf S., 58 ans, un médium non-voyant qui redéfinit l'art de la voyance depuis son cabinet près de Cologne.",
-        interview: [
-            { q: "Le Blog : Ulf, votre spécialité, baptisée la \"Rumpologie\", suscite beaucoup de curiosité. Comment vous est venue cette intuition ?", a: "Les mains mentent. Les gens passent leur temps à travailler, à frotter, à modifier la peau de leurs doigts. Mais l'arrière du corps, lui, ne triche jamais. C'est la zone où s'accumulent toutes les tensions existentielles, les traumatismes du passé et l'énergie brute de l'avenir. Étant non-voyant, mes mains ont développé une sensibilité nerveuse hors du commun. Quand un client s'assoit sur ma table d'examen et que je pose mes paumes sur ses fessiers, je perçois des vibrations temporelles immédiates." },
-            { q: "Le Blog : Concrètement, qu'est-ce que la texture ou la forme de cette zone peut bien révéler sur le caractère d'une personne ?", a: "Tout est une question de quadrants et de polarité thermique. Par exemple, une fesse gauche plus ferme et plus chaude indique un tempérament de leader, quelqu'un qui va recevoir une promotion ou faire une rentrée d'argent majeure dans les six mois. En revanche, des micro-tensions localisées dans le muscle grand fessier droit révèlent une trahison passée non digérée ou un secret de famille enfoui. La forme générale — en pomme, en poire ou en carré — dessine les grandes lignes de la personnalité : les \"pommes\" sont des idéalistes souvent ciblés par les puces 5G, tandis que les \"carrés\" sont des esprits cartésiens piégés dans la matrice officielle." }
-        ],
-        notice: "La prochaine fois que vous passerez un entretien d'embauche ou un contrôle de sécurité, surveillez vos arrières. Si la divination fessière se démocratise en France, il faudra soigner votre posture sur votre chaise pour ne pas envoyer de mauvaises ondes à vos examinateurs."
+// --- OUTILS ---
+
+// Échappe le HTML pour éviter qu'un contenu casse la mise en page
+function esc(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+// Tronque un titre proprement (à la limite d'un mot)
+function truncateTitle(title, max = 60) {
+    if (title.length <= max) return title;
+    const cut = title.substring(0, max);
+    return cut.substring(0, cut.lastIndexOf(' ')) + '…';
+}
+
+// Date du jour formatée en français (pré-remplit le formulaire)
+function todayFR() {
+    const d = new Date();
+    const str = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function allArticles() {
+    return [...draftArticles, ...articles];
+}
+
+// --- CHARGEMENT DES ARTICLES PUBLIÉS ---
+
+async function loadArticles() {
+    try {
+        // Cache-busting léger pour voir les nouveaux articles dès leur commit
+        const resp = await fetch('articles.json?v=' + Date.now());
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        articles = await resp.json();
+    } catch (err) {
+        console.error('Impossible de charger articles.json :', err);
+        articles = [];
+        document.getElementById('storiesFeed').innerHTML = `
+            <div class="load-error">
+                ⚠️ ERREUR DE TRANSMISSION : impossible de charger <strong>articles.json</strong>.<br><br>
+                — En ligne (GitHub Pages) : vérifiez que le fichier <code>articles.json</code> est bien
+                à la racine du dépôt et que son contenu est un JSON valide.<br>
+                — En local : ouvrez le site via un petit serveur
+                (<code>python3 -m http.server</code> dans le dossier) plutôt qu'en double-cliquant
+                sur le fichier, sinon le navigateur bloque le chargement.
+            </div>`;
+        return;
     }
-];
+    renderFeed();
+}
 
-let articles = JSON.parse(localStorage.getItem('blog_articles')) || defaultArticles;
+// --- PAGE D'ACCUEIL ---
 
-// FONCTION D'ACCUEIL
 function displayHome() {
     const viewer = document.getElementById('articleViewer');
     viewer.innerHTML = `
         <div class="breaking-banner">Breaking News</div>
         <div class="hero-title-area">
-            <h2><a href="#" onclick="return false;">TÉMOIGNAGE CHOC : "Mon appartement est une zone de guerre psychique quand je fais des cauchemars !" (LIRE L'INTERVIEW EXCLUSIVE EXTRÊME)</a></h2>
+            <h2>TÉMOIGNAGE CHOC : "Mon appartement est une zone de guerre psychique quand je fais des cauchemars !" (LIRE L'INTERVIEW EXCLUSIVE EXTRÊME)</h2>
         </div>
         <div class="hero-image-container">
             <img src="photo_temoignage.jpg" alt="Zone de guerre psychique">
@@ -437,70 +593,92 @@ function displayHome() {
     `;
 }
 
-// FIL D'ACTUALITÉS
+// --- FIL D'ACTUALITÉS ---
+
 function renderFeed() {
     const feed = document.getElementById('storiesFeed');
     feed.innerHTML = "";
-    
-    articles.forEach(art => {
-        let card = document.createElement('div');
+
+    const list = allArticles();
+    if (list.length === 0) {
+        feed.innerHTML = `<div class="load-error">Aucune enquête diffusée pour le moment. Le silence des médias est assourdissant...</div>`;
+        return;
+    }
+
+    list.forEach(art => {
+        const card = document.createElement('div');
         card.className = 'feed-card';
-        card.onclick = () => displayArticle(art.id);
-        
-        let baseUp = Math.abs(art.id.length * 7) + (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
-        let baseDown = Math.abs(art.id.length % 3) + (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
-        
-        let activeUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
-        let activeDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
+        card.addEventListener('click', () => displayArticle(art.id));
+
+        const baseUp = Math.abs(art.id.length * 7) + (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
+        const baseDown = Math.abs(art.id.length % 3) + (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
+        const activeUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
+        const activeDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
+
+        const draftPill = art._draft ? `<span class="draft-pill">APERÇU LOCAL — NON PUBLIÉ</span>` : '';
 
         card.innerHTML = `
-            <div class="feed-img-area"><img src="${art.img || 'logo_chat_loupe.png'}" alt="Image"></div>
+            <div class="feed-img-area"><img src="${esc(art.img || 'logo_chat_loupe.png')}" alt="Illustration" onerror="this.src='logo_chat_loupe.png'"></div>
             <div class="feed-content">
-                <div class="feed-title">${art.title.substring(0, 45)}...</div>
-                <div class="feed-desc">${art.desc}</div>
+                ${draftPill}
+                <div class="feed-title">${esc(truncateTitle(art.title))}</div>
+                <div class="feed-desc">${esc(art.desc)}</div>
                 <div class="vote-system">
-                    <button class="vote-btn upvote ${activeUp}" onclick="registerVote(event, '${art.id}', 'up')">👍 <span class="count">${baseUp}</span></button>
-                    <button class="vote-btn downvote ${activeDown}" onclick="registerVote(event, '${art.id}', 'down')">👎 <span class="count">${baseDown}</span></button>
+                    <button class="vote-btn upvote ${activeUp}" data-vote="up">👍 <span class="count">${baseUp}</span></button>
+                    <button class="vote-btn downvote ${activeDown}" data-vote="down">👎 <span class="count">${baseDown}</span></button>
                 </div>
             </div>
         `;
+
+        // Les boutons de vote ne doivent pas déclencher l'ouverture de l'article
+        card.querySelectorAll('.vote-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                registerVote(art.id, btn.dataset.vote);
+            });
+        });
+
         feed.appendChild(card);
     });
 }
 
-// DISPLAY ARTICLE
+// --- AFFICHAGE D'UN ARTICLE ---
+
 function displayArticle(id) {
-    const art = articles.find(a => a.id === id);
+    const art = allArticles().find(a => a.id === id);
     const viewer = document.getElementById('articleViewer');
     if (!art) return;
 
     let interviewHTML = "";
-    if(art.interview && art.interview.length > 0) {
+    if (art.interview && art.interview.length > 0) {
         interviewHTML = `<div class="interview-box"><h3>L'Interview Exclusive</h3>`;
         art.interview.forEach(row => {
-            interviewHTML += `<div class="interview-line"><strong>${row.q}</strong><br>${row.a}</div>`;
+            interviewHTML += `<div class="interview-line"><strong>${esc(row.q)}</strong><br>${esc(row.a)}</div>`;
         });
         interviewHTML += `</div>`;
     }
 
-    let noticeHTML = art.notice ? `<div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : ${art.notice}</div>` : '';
+    const noticeHTML = art.notice ? `<div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : ${esc(art.notice)}</div>` : '';
+    const banner = art._draft
+        ? `<div class="draft-banner">Aperçu local — non publié</div>`
+        : `<div class="breaking-banner">Breaking News</div>`;
 
     viewer.innerHTML = `
         <div class="meta-data">
             LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>
-            Date de publication : ${art.date}<br>
-            Localisation : ${art.location}<br>
-            Auteur : ${art.author}
+            Date de publication : ${esc(art.date)}<br>
+            Localisation : ${esc(art.location)}<br>
+            Auteur : ${esc(art.author)}
         </div>
-        <div class="breaking-banner">Breaking News</div>
+        ${banner}
         <div class="hero-title-area">
-            <h2>${art.title}</h2>
+            <h2>${esc(art.title)}</h2>
         </div>
         <div class="hero-image-container">
-            <img src="${art.img || 'logo_chat_loupe.png'}" alt="Illustration">
+            <img src="${esc(art.img || 'logo_chat_loupe.png')}" alt="Illustration" onerror="this.src='logo_chat_loupe.png'">
         </div>
         <div class="article-body">
-            <p>${art.intro}</p>
+            <p>${esc(art.intro)}</p>
             ${interviewHTML}
             ${noticeHTML}
         </div>
@@ -508,56 +686,12 @@ function displayArticle(id) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// CRÉATION NOUVEL ARTICLE
-function createNewArticle(e) {
-    e.preventDefault();
-    if (!isAuthorized) {
-        alert("Action refusée. Session d'écriture non authentifiée.");
-        return;
-    }
-    
-    const title = document.getElementById('formTitle').value;
-    const id = "art-" + Date.now();
-    const date = document.getElementById('formDate').value;
-    const location = document.getElementById('formLoc').value || "National";
-    const author = document.getElementById('formAuthor').value;
-    const intro = document.getElementById('formIntro').value;
-    const notice = document.getElementById('formNotice').value;
-    const img = document.getElementById('formImg').value || "logo_chat_loupe.png";
-    
-    const rawInterview = document.getElementById('formInterview').value;
-    const interview = [];
-    if(rawInterview.trim()) {
-        const lines = rawInterview.split('\n');
-        lines.forEach(line => {
-            const parts = line.split(':');
-            if(parts.length >= 2) {
-                interview.push({ q: parts[0].trim(), a: parts.slice(1).join(':').trim() });
-            }
-        });
-    }
+// --- VOTES (locaux à chaque visiteur) ---
 
-    const newArt = {
-        id, title, date, location, author, img,
-        desc: intro.substring(0, 90) + "...",
-        intro, interview, notice
-    };
+function registerVote(articleId, type) {
+    const storageKey = 'vote_' + articleId;
+    const currentVote = localStorage.getItem(storageKey);
 
-    articles.unshift(newArt);
-    localStorage.setItem('blog_articles', JSON.stringify(articles));
-    
-    renderFeed();
-    displayArticle(id);
-    
-    document.getElementById('adminPanel').style.display = 'none';
-    e.target.reset();
-}
-
-function registerVote(event, articleId, type) {
-    event.stopPropagation();
-    let storageKey = 'vote_' + articleId;
-    let currentVote = localStorage.getItem(storageKey);
-    
     if (currentVote === type) {
         localStorage.removeItem(storageKey);
     } else {
@@ -566,38 +700,100 @@ function registerVote(event, articleId, type) {
     renderFeed();
 }
 
-// GESTION DU CLIC DU CHAT AVEC DOUBLE VÉRIFICATION DE SÉCURITÉ
-function toggleAdminPanel() {
+// --- STUDIO DE RÉDACTION ---
+
+function toggleStudio() {
     const panel = document.getElementById('adminPanel');
-    
-    // Si l'utilisateur est déjà autorisé durant cette session de navigation
-    if (isAuthorized) {
-        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-        if(panel.style.display === 'block') panel.scrollIntoView({ behavior: 'smooth' });
-        return;
-    }
-
-    // Demande d'authentification cryptée/sécurisée par invite
-    let username = prompt("Saisir l'Identifiant d'accès au serveur :");
-    if (username === null) return; // L'utilisateur a cliqué sur annuler
-
-    let password = prompt("Saisir la Clé d'authentification (Mot de passe) :");
-    if (password === null) return;
-
-    // Validation des identifiants système
-    if (username === ADMIN_USER && password === ADMIN_PASS) {
-        isAuthorized = true;
-        alert("Authentification réussie. Canal de transmission crypté ouvert.");
-        panel.style.display = 'block';
+    const visible = panel.style.display === 'block';
+    panel.style.display = visible ? 'none' : 'block';
+    if (!visible) {
+        if (!document.getElementById('formDate').value) {
+            document.getElementById('formDate').value = todayFR();
+        }
         panel.scrollIntoView({ behavior: 'smooth' });
-    } else {
-        alert("ERREUR : Accès refusé. Les coordonnées ne correspondent pas aux archives secrètes.");
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+// Lit le formulaire et construit l'objet article (même format que le modèle rumpologie)
+function buildArticleFromForm() {
+    const title = document.getElementById('formTitle').value.trim();
+    const date = document.getElementById('formDate').value.trim() || todayFR();
+    const location = document.getElementById('formLoc').value.trim() || "National";
+    const author = document.getElementById('formAuthor').value.trim() || "L'Investigateur Anonyme";
+    const desc = document.getElementById('formDesc').value.trim();
+    const intro = document.getElementById('formIntro').value.trim();
+    const notice = document.getElementById('formNotice').value.trim();
+    let img = document.getElementById('formImg').value.trim();
+    if (img && !img.includes('/')) img = 'images/' + img;
+
+    // Parsing de l'interview : lignes "Q:" et "R:" (réponses multi-lignes acceptées)
+    const interview = [];
+    const raw = document.getElementById('formInterview').value;
+    let current = null;
+    raw.split('\n').forEach(line => {
+        const trimmed = line.trim();
+        if (/^Q\s*:/i.test(trimmed)) {
+            if (current && current.q) interview.push(current);
+            current = { q: trimmed.replace(/^Q\s*:\s*/i, ''), a: '' };
+        } else if (/^R\s*:/i.test(trimmed)) {
+            if (current) current.a = trimmed.replace(/^R\s*:\s*/i, '');
+        } else if (trimmed && current) {
+            // Ligne de continuation de la réponse en cours
+            current.a = current.a ? current.a + ' ' + trimmed : trimmed;
+        }
+    });
+    if (current && current.q) interview.push(current);
+
+    return {
+        id: "art-" + Date.now(),
+        title, date, location, author,
+        img: img || "logo_chat_loupe.png",
+        desc, intro, interview, notice
+    };
+}
+
+// Aperçu local : l'article s'affiche comme s'il était publié (badge "non publié")
+function previewArticle() {
+    const form = document.getElementById('studioForm');
+    if (!form.reportValidity()) return;
+
+    const art = buildArticleFromForm();
+    art._draft = true;
+    art.id = "draft-" + Date.now();
+
+    draftArticles = [art]; // un seul brouillon à la fois
     renderFeed();
-    displayHome(); 
+    displayArticle(art.id);
+}
+
+// Génère le bloc JSON prêt à coller dans articles.json
+function generateArticleJSON(e) {
+    e.preventDefault();
+    const art = buildArticleFromForm();
+
+    const zone = document.getElementById('jsonZone');
+    const output = document.getElementById('jsonOutput');
+    output.value = JSON.stringify(art, null, 2);
+    zone.style.display = 'block';
+    output.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function copyJSON() {
+    const output = document.getElementById('jsonOutput');
+    output.select();
+    navigator.clipboard.writeText(output.value)
+        .then(() => alert("JSON copié ! Direction GitHub → articles.json pour la diffusion. 📡"))
+        .catch(() => {
+            document.execCommand('copy');
+            alert("JSON copié (méthode de secours).");
+        });
+}
+
+// --- INITIALISATION ---
+
+document.addEventListener("DOMContentLoaded", () => {
+    displayHome();
+    loadArticles();
 });
 </script>
 </body>
