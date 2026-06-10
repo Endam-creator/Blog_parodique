@@ -330,9 +330,9 @@
 <body>
 
 <div class="container">
-    <!-- HEADER (Cliquer sur les titres ramène à l'accueil) -->
+    <!-- HEADER -->
     <header>
-        <div class="logo-area" onclick="toggleAdminPanel()" title="Clic secret pour l'interface de création">
+        <div class="logo-area" onclick="toggleAdminPanel()" title="Zone réservée à l'Investigateur Anonyme">
             <img src="logo_chat_loupe.png" alt="Logo" class="logo-img">
         </div>
         <div class="header-titles" onclick="displayHome()" title="Retourner à la page principale">
@@ -342,9 +342,9 @@
         </div>
     </header>
 
-    <!-- INTERFACE DE CRÉATION SECRÈTE -->
+    <!-- INTERFACE DE CRÉATION SECRÈTE (PROTÉGÉE) -->
     <div id="adminPanel" class="admin-panel">
-        <h3>Console de Transmission de l'Investigateur (Ajouter un Enquête)</h3>
+        <h3>Console de Transmission de l'Investigateur (Ajouter une Enquête)</h3>
         <form onsubmit="createNewArticle(event)">
             <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS"></div>
             <div class="form-group"><label>Date de publication</label><input type="text" id="formDate" value="Dimanche 7 juin 2026"></div>
@@ -361,7 +361,7 @@
     <!-- MAIN GRIDS -->
     <div class="main-layout">
         
-        <!-- LE CONTENUR CENTRAL (DYNAMIQUE) -->
+        <!-- LE CONTENU CENTRAL (DYNAMIQUE) -->
         <div class="featured-story" id="articleViewer">
             <!-- Géré dynamiquement entre la Page d'accueil ou l'Article choisi -->
         </div>
@@ -392,7 +392,13 @@
 </div>
 
 <script>
-// BASE DE DONNÉES DES ARTICLES COMPLETS À DROITE
+// CONFIGURATION DES IDENTIFIANTS PAR DÉFAUT
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "endam2026"; // Tu pourras changer ce mot de passe à ta guise !
+
+let isAuthorized = false; // Par défaut, l'utilisateur n'est pas identifié
+
+// BASE DE DONNÉES DES ARTICLES PAR DÉFAUT
 const defaultArticles = [
     {
         id: "art-médium",
@@ -413,7 +419,7 @@ const defaultArticles = [
 
 let articles = JSON.parse(localStorage.getItem('blog_articles')) || defaultArticles;
 
-// FONCTION POUR REVENIR ET AFFICHER LA PAGE PRINCIPALE (MANIFESTE)
+// FONCTION D'ACCUEIL
 function displayHome() {
     const viewer = document.getElementById('articleViewer');
     viewer.innerHTML = `
@@ -431,7 +437,7 @@ function displayHome() {
     `;
 }
 
-// AFFICHAGE DU FEED LATÉRAL DROIT
+// FIL D'ACTUALITÉS
 function renderFeed() {
     const feed = document.getElementById('storiesFeed');
     feed.innerHTML = "";
@@ -462,7 +468,7 @@ function renderFeed() {
     });
 }
 
-// OUVERTURE D'UNE ENQUÊTE (ÉCRASE LA PAGE D'ACCUEIL)
+// DISPLAY ARTICLE
 function displayArticle(id) {
     const art = articles.find(a => a.id === id);
     const viewer = document.getElementById('articleViewer');
@@ -502,9 +508,13 @@ function displayArticle(id) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// SOUFFLER UN NOUVEL ARTICLE
+// CRÉATION NOUVEL ARTICLE
 function createNewArticle(e) {
     e.preventDefault();
+    if (!isAuthorized) {
+        alert("Action refusée. Session d'écriture non authentifiée.");
+        return;
+    }
     
     const title = document.getElementById('formTitle').value;
     const id = "art-" + Date.now();
@@ -556,13 +566,35 @@ function registerVote(event, articleId, type) {
     renderFeed();
 }
 
+// GESTION DU CLIC DU CHAT AVEC DOUBLE VÉRIFICATION DE SÉCURITÉ
 function toggleAdminPanel() {
     const panel = document.getElementById('adminPanel');
-    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-    if(panel.style.display === 'block') panel.scrollIntoView({ behavior: 'smooth' });
+    
+    // Si l'utilisateur est déjà autorisé durant cette session de navigation
+    if (isAuthorized) {
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        if(panel.style.display === 'block') panel.scrollIntoView({ behavior: 'smooth' });
+        return;
+    }
+
+    // Demande d'authentification cryptée/sécurisée par invite
+    let username = prompt("Saisir l'Identifiant d'accès au serveur :");
+    if (username === null) return; // L'utilisateur a cliqué sur annuler
+
+    let password = prompt("Saisir la Clé d'authentification (Mot de passe) :");
+    if (password === null) return;
+
+    // Validation des identifiants système
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
+        isAuthorized = true;
+        alert("Authentification réussie. Canal de transmission crypté ouvert.");
+        panel.style.display = 'block';
+        panel.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        alert("ERREUR : Accès refusé. Les coordonnées ne correspondent pas aux archives secrètes.");
+    }
 }
 
-// AU CHARGEMENT : ON RECRÉE LA PAGE PRINCIPALE DIRECTEMENT
 document.addEventListener("DOMContentLoaded", () => {
     renderFeed();
     displayHome(); 
