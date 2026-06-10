@@ -1,5 +1,42 @@
 [
   {
+  "id": "art-1781127623422",
+  "title": "Le gouvernement a remplacé mon mari par un clone (et le nouveau fait la vaisselle)",
+  "date": "Mercredi 10 juin 2026",
+  "location": "Achères, Île-de-France",
+  "author": "L'Investigateur Anonyme",
+  "img": "images/Clone.png",
+  "desc": "« Le gouvernement a remplacé mon mari par un clone (et le nouveau fait la vaisselle) »",
+  "intro": "À première vue, le pavillon de Véronique T., situé dans une impasse paisible d'Achères (Yvelines), ressemble à n'importe quel autre. Mais derrière les volets clos, cette mère de famille de 48 ans vit un cauchemar psychologique que les médias traditionnels refusent de couvrir. Depuis le mois dernier, Véronique en est persuadée : l'homme qui partage sa vie, qu'elle appelle « l'entité », n'est pas Jean-Marc, son mari depuis vingt-deux ans. C'est une copie gouvernementale.\n\nNous nous sommes rendus sur place pour recueillir les preuves de cette substitution d'État.",
+  "interview": [
+    {
+      "q": "Véronique, merci de nous recevoir. La situation que vous vivez est terrifiante. Quand avez-vous eu les premiers soupçons ?",
+      "a": "Tout a commencé le mardi 14 avril. J'avais préparé un hachis parmentier. Le vrai Jean-Marc aurait laissé le plat à gratin rempli d'eau dans l'évier pendant au moins quatre jours, en prétextant qu'il fallait « laisser tremper la croûte ». C'était notre routine. Mais ce soir-là, l'individu qui le remplace a pris une éponge, du liquide vaisselle, et a frotté jusqu'à ce que le plat brille. J'ai tout de suite compris qu'il y avait une faille dans la matrice."
+    },
+    {
+      "q": "Un homme qui fait la vaisselle de son plein gré... C'est vrai que statistiquement, c'est suspect. Mais n'avez-vous pas pensé qu'il essayait simplement de faire des efforts ?",
+      "a": "(Rires amers) Des efforts ? Vous ne connaissiez pas l'original. Mais le pire était à venir. Trois jours plus tard, je vais aux toilettes en pleine nuit. Et là… la lunette était rabaissée."
+    },
+    {
+      "q": "Rabaissée ? Systématiquement ?",
+      "a": "À chaque fois ! Au début, j'ai cru à un accident ischémique transitoire. J'ai observé ses pupilles, j'ai failli appeler le SAMU. Mais ses constantes étaient parfaites. Il m'a même demandé comment s'était passée ma journée au bureau. Le vrai Jean-Marc s'en fiche complètement de ma journée au bureau ! Le laboratoire clandestin qui a fabriqué ce clone a clairement bâclé le profil psychologique. Ils l'ont programmé avec trop d'empathie. C'est une erreur de débutant."
+    },
+    {
+      "q": "Quelle est, selon vous, la preuve irréfutable de cette machination ?",
+      "a": "Notre anniversaire de mariage, le week-end dernier. Le clone m'a offert un bouquet de pivoines et a réservé une table au restaurant italien. C'est là que le piège s'est refermé sur eux. L'année dernière, pour nos 21 ans de mariage, l'original m'avait offert un jeu de tournevis cruciformes et m'avait dit de commander une pizza. Ce nouveau modèle a une mémoire défectueuse, il a carrément retenu la date exacte. C'est glaçant de réalisme, mais ils m'ont sous-estimée."
+    },
+    {
+      "q": "Pourquoi les services secrets s'en prendraient-ils à un comptable d'Achères ?",
+      "a": "Jean-Marc passe beaucoup de temps avec ses jumelles à regarder par la fenêtre de notre chambre. Il dit que c'est pour surveiller les merles, mais je suis sûre qu'il a vu quelque chose qu'il n'aurait pas dû voir au-dessus de la forêt de Saint-Germain-en-Laye. Un drone ? Une réunion secrète de la mairie ? Ils l'ont escamoté pour le faire taire."
+    },
+    {
+      "q": "Quelle est votre prochaine étape, Véronique ?",
+      "a": "Je veux qu'on me rende mon vrai mari. J'ai envoyé une mise en demeure à la DGSI en recommandé avec accusé de réception, et j'ai tagué le ministère de l'Intérieur sur X (anciennement Twitter). Je suis prête à négocier. Le clone est très poli, sa brioche aux pralines maison est excellente, mais ses discussions sur « l'importance de la charge mentale » m'épuisent. Je veux retrouver l'homme qui s'endort sur le canapé à 21h15 en regardant Top Chef. C'est ça, le vrai amour."
+    }
+  ],
+  "notice": "Si vous apercevez le véritable Jean-Marc (signes distinctifs : porte un jogging délavé du PSG, sent le déodorant Ushuaïa et répond \"Hmm\" à toute question complexe), merci de contacter la rédaction. Ne l'approchez pas avec une éponge, il pourrait prendre peur."
+},
+  {
     "id": "art-medium",
     "title": "INVESTIGATION TRANSFRONTALIÈRE : « Oubliez les lignes de la main : la vérité sur votre avenir est écrite sur vos fessiers, selon ce médium allemand »",
     "date": "Dimanche 7 juin 2026",
