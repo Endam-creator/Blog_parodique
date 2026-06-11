@@ -19,12 +19,16 @@
             --tape-grey: rgba(175, 175, 175, 0.8);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', 'Helvetica Neue', sans-serif;
+        }
 
         body {
             background-color: var(--outer-bg);
             color: var(--text-dark);
-            font-family: 'Courier New', Courier, monospace;
             padding: 25px 15px;
         }
 
@@ -69,27 +73,12 @@
             padding: 14px 25px;
         }
 
-        .logo-area {
-            cursor: pointer;
-            flex-shrink: 0;
-        }
+        .logo-area { cursor: pointer; flex-shrink: 0; }
 
-        .logo-circle {
-            width: 82px;
-            height: 82px;
-            border-radius: 50%;
-            background-color: var(--accent-green);
-            border: 3px solid #ffffff;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .logo-img {
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
         }
 
         .header-titles { cursor: pointer; }
@@ -112,10 +101,10 @@
         }
 
         .edition-tag {
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: #e8e8e8;
             margin-top: 4px;
-            font-family: 'Courier New', monospace;
+            font-family: monospace;
             letter-spacing: 1px;
         }
 
@@ -142,7 +131,8 @@
         }
 
         .meta-data {
-            font-size: 0.85rem;
+            font-family: monospace;
+            font-size: 0.9rem;
             color: #555;
             margin-bottom: 10px;
             border-bottom: 1px dashed #bbb;
@@ -228,12 +218,12 @@
         }
 
         .article-body {
-            font-size: 1rem;
-            line-height: 1.55;
-            color: #1a1a1a;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #222;
         }
 
-        .article-body p { margin-bottom: 14px; }
+        .article-body p { margin-bottom: 15px; }
         .article-body strong { background: rgba(118, 185, 0, 0.25); padding: 0 2px; }
 
         .interview-box {
@@ -316,34 +306,94 @@
             font-weight: normal;
         }
 
-        .admin-help { font-size: 0.82rem; color: #bbb; margin-bottom: 15px; line-height: 1.5; }
-        .admin-help code { background: #000; padding: 1px 5px; color: var(--accent-green); }
-
-        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; }
-        .form-group label { font-size: 0.82rem; color: #aaa; margin-bottom: 4px; }
-        .form-group input, .form-group textarea {
-            padding: 8px;
-            border: 1px solid #444;
-            background-color: #0a0a0a;
-            color: #fff;
-            font-family: 'Courier New', monospace;
-        }
-        .form-group textarea { resize: vertical; height: 80px; }
-
-        .studio-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-
-        .json-output-zone { margin-top: 20px; display: none; }
-        .json-output-zone h4 {
+        .admin-panel h4 {
             font-family: 'Impact', sans-serif;
             color: var(--accent-green);
             text-transform: uppercase;
             margin-bottom: 8px;
             font-weight: normal;
         }
-        .json-steps { font-size: 0.82rem; color: #ccc; margin-bottom: 10px; line-height: 1.6; }
+
+        .admin-help { font-size: 0.85rem; color: #bbb; margin-bottom: 15px; line-height: 1.5; }
+        .admin-help code { background: #000; padding: 1px 5px; color: var(--accent-green); }
+
+        /* Liste de gestion des enquêtes */
+        .manage-list {
+            border: 1px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .manage-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-bottom: 1px solid #2a2a2a;
+            font-size: 0.85rem;
+        }
+
+        .manage-row:last-child { border-bottom: none; }
+        .manage-row:nth-child(odd) { background: #1d1d1d; }
+
+        .manage-row .row-title {
+            flex-grow: 1;
+            color: #ddd;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .manage-row .row-badge {
+            background: var(--accent-green);
+            color: #111;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 1px 6px;
+            flex-shrink: 0;
+        }
+
+        .manage-row.modified .row-title { color: #ffd966; }
+
+        .mini-btn {
+            background: #333;
+            color: #fff;
+            border: 1px solid #666;
+            padding: 3px 10px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .mini-btn:hover { border-color: var(--accent-green); color: var(--accent-green); }
+        .mini-btn.danger:hover { border-color: var(--danger-red); color: #ff6b6b; }
+
+        .editing-notice {
+            background: #3a3000;
+            border: 1px dashed #ffd966;
+            color: #ffd966;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 0.85rem; color: #aaa; margin-bottom: 4px; }
+        .form-group input, .form-group textarea {
+            padding: 8px;
+            border: 1px solid #444;
+            background-color: #0a0a0a;
+            color: #fff;
+            font-family: inherit;
+        }
+        .form-group textarea { resize: vertical; height: 80px; }
+
+        .studio-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+
+        .json-output-zone { margin-top: 20px; display: none; }
+        .json-steps { font-size: 0.85rem; color: #ccc; margin-bottom: 10px; line-height: 1.6; }
         .json-output-zone textarea {
             width: 100%;
-            height: 220px;
+            height: 240px;
             background: #0a0a0a;
             color: #9fe000;
             border: 1px solid var(--accent-green);
@@ -390,12 +440,13 @@
         .feed-content { padding: 10px 12px; display: flex; flex-direction: column; }
 
         .feed-title {
-            font-size: 0.83rem;
-            font-weight: bold;
+            font-family: 'Impact', sans-serif;
+            font-size: 0.95rem;
             color: var(--text-dark);
             text-transform: uppercase;
             margin-bottom: 5px;
-            line-height: 1.35;
+            line-height: 1.3;
+            font-weight: normal;
         }
 
         .feed-title .hl {
@@ -406,21 +457,10 @@
         }
 
         .feed-desc {
-            font-size: 0.78rem;
-            color: #3a3a3a;
+            font-size: 0.85rem;
+            color: #444;
             line-height: 1.35;
             margin-bottom: 8px;
-        }
-
-        .draft-pill {
-            display: inline-block;
-            background: var(--danger-red);
-            color: #fff;
-            font-size: 0.68rem;
-            font-weight: bold;
-            padding: 1px 6px;
-            margin-bottom: 4px;
-            align-self: flex-start;
         }
 
         /* VOTES */
@@ -429,13 +469,27 @@
             background-color: #f2f2f2;
             border: 1px solid #999;
             padding: 2px 8px;
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             font-weight: bold;
             cursor: pointer;
-            font-family: 'Courier New', monospace;
         }
         .vote-btn.active-up { background-color: var(--accent-green); color: #fff; }
         .vote-btn.active-down { background-color: var(--danger-red); color: #fff; }
+
+        /* BOUTON CHARGER PLUS */
+        .load-more-btn {
+            background: var(--header-bg);
+            color: var(--accent-green);
+            border: 2px solid var(--border-dark);
+            padding: 12px;
+            font-family: 'Impact', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .load-more-btn:hover { background: #000; color: var(--accent-green-hover); }
 
         /* ===== NEWSLETTER ===== */
         .newsletter-bar {
@@ -461,12 +515,7 @@
         }
 
         .newsletter-form { display: flex; gap: 10px; flex-grow: 1; max-width: 460px; }
-        .newsletter-form input {
-            flex-grow: 1;
-            padding: 10px;
-            font-family: 'Courier New', monospace;
-            border: none;
-        }
+        .newsletter-form input { flex-grow: 1; padding: 10px; border: none; }
 
         .btn-submit {
             background-color: var(--accent-green);
@@ -499,6 +548,7 @@
             width: 100%;
             text-align: center;
             color: var(--accent-green);
+            font-family: monospace;
             font-size: 0.88rem;
             letter-spacing: 1px;
         }
@@ -511,7 +561,7 @@
         }
 
         .footer-links a {
-            color: #cccccc;
+            color: #ccc;
             margin: 0 12px;
             font-size: 0.88rem;
             text-decoration: underline;
@@ -530,9 +580,7 @@
     <!-- HEADER -->
     <header>
         <div class="logo-area" onclick="toggleStudio()" title="Console de l'Investigateur Anonyme">
-            <div class="logo-circle">
-                <img src="logo_chat_loupe.png" alt="Logo - chat à la loupe">
-            </div>
+            <img src="logo_chat_loupe.png" alt="Logo - chat à la loupe" class="logo-img">
         </div>
         <div class="header-titles" onclick="displayHome()" title="Retour au dernier scoop">
             <h1>Le Blog des Vérités Cachées &ndash; <span class="slogan">*La voix de ceux qui savent*</span></h1>
@@ -542,13 +590,20 @@
 
     <!-- STUDIO DE RÉDACTION (accès protégé par identification SHA-256) -->
     <div id="adminPanel" class="admin-panel">
-        <h3>Console de Transmission de l'Investigateur (Studio de Rédaction)</h3>
+        <h3>Console de Transmission de l'Investigateur</h3>
         <p class="admin-help">
-            Session authentifiée. 🔓 Ce studio génère le bloc JSON de l'enquête, à coller dans le fichier
-            <code>articles.json</code> du dépôt GitHub (la publication finale reste protégée par votre compte GitHub).
-            « Prévisualiser » affiche le rendu exact en local avant publication.
+            Session authentifiée. 🔓 Gérez vos enquêtes ci-dessous (ajout, modification, suppression) :
+            chaque action met à jour une <strong>copie de travail</strong>. Quand tout est prêt, cliquez sur
+            « 📡 Générer articles.json » et remplacez le contenu du fichier sur GitHub.
+            Rien n'est publié tant que vous n'avez pas commité.
         </p>
-        <form id="studioForm" onsubmit="generateArticleJSON(event)">
+
+        <h4>📂 Enquêtes en base (copie de travail)</h4>
+        <div class="manage-list" id="manageList"></div>
+
+        <h4 id="formHeading">✍️ Nouvelle enquête</h4>
+        <div class="editing-notice" id="editingNotice"></div>
+        <form id="studioForm" onsubmit="validateArticle(event)">
             <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS D'ACHÈRES"></div>
             <div class="form-group"><label>Date de publication</label><input type="text" id="formDate"></div>
             <div class="form-group"><label>Localisation</label><input type="text" id="formLoc" placeholder="Ex: National (Enquête en Ille-et-Vilaine)"></div>
@@ -564,22 +619,26 @@
             <div class="form-group"><label>Tampon CLASSIFIED sur la carte ? (oui / non)</label><input type="text" id="formClassified" value="non" placeholder="oui ou non"></div>
             <div class="studio-actions">
                 <button type="button" class="btn-secondary" onclick="previewArticle()">👁 Prévisualiser (local)</button>
-                <button type="submit" class="btn-submit" style="border:1px solid #fff">📡 Générer le JSON de l'enquête</button>
+                <button type="submit" class="btn-submit" style="border:1px solid #fff" id="validateBtn">✅ Ajouter à la copie de travail</button>
+                <button type="button" class="btn-secondary" id="cancelEditBtn" style="display:none" onclick="cancelEdit()">✖ Annuler la modification</button>
             </div>
         </form>
 
+        <div class="studio-actions" style="margin-top:20px; border-top:1px solid #333; padding-top:15px;">
+            <button type="button" class="btn-submit" onclick="generateFullJSON()">📡 Générer articles.json (fichier complet)</button>
+        </div>
+
         <div class="json-output-zone" id="jsonZone">
-            <h4>Bloc JSON prêt à diffuser</h4>
+            <h4>Fichier articles.json prêt à diffuser</h4>
             <p class="json-steps">
-                1. Cliquez sur « Copier le JSON ».<br>
-                2. Sur GitHub, ouvrez <code>articles.json</code> → ✏️ Modifier.<br>
-                3. Collez ce bloc juste après le <code>[</code> d'ouverture, suivi d'une virgule → l'article devient le nouveau Breaking News, l'ancien bascule dans le fil de droite.<br>
-                4. Si vous avez une image, déposez-la dans le dossier <code>images/</code> du dépôt.<br>
-                5. « Commit changes » → en ligne en ~1 minute. 📰
+                1. Cliquez sur « Copier ».<br>
+                2. Sur GitHub : ouvrez <code>articles.json</code> → ✏️ Modifier → <strong>remplacez TOUT le contenu</strong> par ce qui est copié.<br>
+                3. Si de nouvelles images : déposez-les dans le dossier <code>images/</code> du dépôt.<br>
+                4. « Commit changes » → en ligne en ~1 minute. L'article en tête de liste devient le Breaking News. 📰
             </p>
             <textarea id="jsonOutput" readonly></textarea>
             <div class="studio-actions">
-                <button type="button" class="btn-submit" onclick="copyJSON()">📋 Copier le JSON</button>
+                <button type="button" class="btn-submit" onclick="copyJSON()">📋 Copier</button>
             </div>
         </div>
     </div>
@@ -615,13 +674,20 @@
 <script>
 // ============================================================
 // LE BLOG DES VÉRITÉS CACHÉES — moteur de publication statique
-// articles.json = base des enquêtes publiées (ordre: plus récent en premier).
+// articles.json = base des enquêtes publiées (plus récent en premier).
 // Le PREMIER article du JSON = Breaking News central.
-// Les suivants alimentent le fil de droite automatiquement.
+// Les suivants alimentent le fil de droite (pagination par 8).
+// Le studio gère une copie de travail (ajout/modif/suppression)
+// puis génère le fichier articles.json complet à committer.
 // ============================================================
 
-let articles = [];       // Articles publiés (chargés depuis articles.json)
-let draftArticles = [];  // Aperçus locaux non publiés (session en cours)
+const FEED_PAGE_SIZE = 8;     // nb d'enquêtes affichées par "page" dans le fil
+
+let articles = [];            // Articles publiés (chargés depuis articles.json)
+let workingArticles = null;   // Copie de travail du studio
+let draftArticles = [];       // Aperçus locaux non publiés
+let editingId = null;         // Id de l'article en cours de modification
+let feedLimit = FEED_PAGE_SIZE;
 
 // --- OUTILS ---
 
@@ -696,7 +762,7 @@ async function loadArticles() {
 // --- ACCUEIL = DERNIER ARTICLE EN BREAKING NEWS ---
 
 function displayHome() {
-    draftArticles = []; // on sort du mode aperçu
+    draftArticles = [];
     if (articles.length > 0) {
         displayArticle(articles[0].id, false);
     } else {
@@ -709,14 +775,13 @@ function displayHome() {
     renderFeed();
 }
 
-// --- FIL D'ACTUALITÉS : tous les articles SAUF le Breaking News ---
+// --- FIL D'ACTUALITÉS : articles SAUF le Breaking News, paginés ---
 
 function renderFeed() {
     const feed = document.getElementById('storiesFeed');
     feed.innerHTML = "";
 
-    // Le plus récent est en vedette au centre : le fil affiche les suivants
-    const list = articles.slice(1);
+    const list = articles.slice(1); // le plus récent est en vedette au centre
 
     if (list.length === 0) {
         feed.innerHTML = '<div class="load-error" style="background:#f4f4f4;border-color:#999;">' +
@@ -724,7 +789,9 @@ function renderFeed() {
         return;
     }
 
-    list.forEach(art => {
+    const visible = list.slice(0, feedLimit);
+
+    visible.forEach(art => {
         const card = document.createElement('div');
         card.className = 'feed-card';
         card.addEventListener('click', () => displayArticle(art.id, true));
@@ -737,7 +804,7 @@ function renderFeed() {
         const stamp = art.classified ? '<span class="classified-stamp">Classified</span>' : '';
 
         card.innerHTML =
-            '<div class="feed-img-area"><img src="' + esc(art.img || 'logo_chat_loupe.png') + '" alt="Illustration" onerror="this.src=\'logo_chat_loupe.png\'"></div>' +
+            '<div class="feed-img-area"><img src="' + esc(art.img || 'logo_chat_loupe.png') + '" alt="Illustration" loading="lazy" onerror="this.src=\'logo_chat_loupe.png\'"></div>' +
             '<div class="feed-content">' +
                 '<div class="feed-title">' + highlightTitle(art.title) + '</div>' +
                 '<div class="feed-desc">' + esc(art.desc) + '</div>' +
@@ -756,10 +823,22 @@ function renderFeed() {
 
         feed.appendChild(card);
     });
+
+    // Pagination : bouton "Afficher plus" si tout n'est pas affiché
+    const remaining = list.length - visible.length;
+    if (remaining > 0) {
+        const moreBtn = document.createElement('button');
+        moreBtn.className = 'load-more-btn';
+        moreBtn.textContent = '📁 Déclassifier plus d\'enquêtes (' + remaining + ' restante' + (remaining > 1 ? 's' : '') + ')';
+        moreBtn.addEventListener('click', () => {
+            feedLimit += FEED_PAGE_SIZE;
+            renderFeed();
+        });
+        feed.appendChild(moreBtn);
+    }
 }
 
 // --- AFFICHAGE D'UN ARTICLE ---
-// isArchive = true quand on consulte un ancien article depuis le fil
 
 function displayArticle(id, isArchive) {
     const art = allArticles().find(a => a.id === id);
@@ -822,16 +901,15 @@ function registerVote(articleId, type) {
     renderFeed();
 }
 
-// --- STUDIO DE RÉDACTION (accès protégé par identification) ---
+// --- IDENTIFICATION ---
 // Seule l'empreinte SHA-256 de "identifiant:motdepasse" est stockée ici :
 // impossible de retrouver les identifiants en lisant le code source.
 // Identifiants par défaut : admin / endam2026
-// Pour les changer : ouvrez la console du navigateur (F12) sur le site et tapez
-//   genHash("nouvelIdentifiant", "nouveauMotDePasse")
+// Pour les changer : console du navigateur (F12) → genHash("nouvelId", "nouveauMdp")
 // puis remplacez la valeur de AUTH_HASH ci-dessous par le résultat.
 const AUTH_HASH = "99262f0f6b773271fbd4b0a23eeeb960f0a541f4d744ec740077cfac09948081";
 
-let isAuthorized = false; // valable pour la session de navigation en cours
+let isAuthorized = false;
 
 async function sha256(text) {
     const data = new TextEncoder().encode(text);
@@ -839,7 +917,6 @@ async function sha256(text) {
     return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// Utilitaire pour générer un nouveau hash depuis la console (F12)
 window.genHash = async function(user, pass) {
     const h = await sha256(user + ':' + pass);
     console.log('Nouveau AUTH_HASH à coller dans index.html :\n' + h);
@@ -849,20 +926,13 @@ window.genHash = async function(user, pass) {
 async function toggleStudio() {
     const panel = document.getElementById('adminPanel');
 
-    // Déjà identifié durant cette session : simple ouverture/fermeture
     if (isAuthorized) {
         const visible = panel.style.display === 'block';
         panel.style.display = visible ? 'none' : 'block';
-        if (!visible) {
-            if (!document.getElementById('formDate').value) {
-                document.getElementById('formDate').value = todayFR();
-            }
-            panel.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (!visible) openStudioSession(panel);
         return;
     }
 
-    // Identification
     const username = prompt("Saisir l'Identifiant d'accès au serveur :");
     if (username === null) return;
     const password = prompt("Saisir la Clé d'authentification (Mot de passe) :");
@@ -880,16 +950,113 @@ async function toggleStudio() {
         isAuthorized = true;
         alert("Authentification réussie. Canal de transmission crypté ouvert. 📡");
         panel.style.display = 'block';
-        if (!document.getElementById('formDate').value) {
-            document.getElementById('formDate').value = todayFR();
-        }
-        panel.scrollIntoView({ behavior: 'smooth' });
+        openStudioSession(panel);
     } else {
         alert("ERREUR : Accès refusé. Les coordonnées ne correspondent pas aux archives secrètes.");
     }
 }
 
-function buildArticleFromForm() {
+function openStudioSession(panel) {
+    // Copie de travail initialisée depuis les articles publiés (une seule fois)
+    if (workingArticles === null) {
+        workingArticles = JSON.parse(JSON.stringify(articles));
+    }
+    if (!document.getElementById('formDate').value) {
+        document.getElementById('formDate').value = todayFR();
+    }
+    renderManageList();
+    panel.scrollIntoView({ behavior: 'smooth' });
+}
+
+// --- GESTION DES ENQUÊTES (copie de travail) ---
+
+function renderManageList() {
+    const listDiv = document.getElementById('manageList');
+    listDiv.innerHTML = "";
+
+    if (!workingArticles || workingArticles.length === 0) {
+        listDiv.innerHTML = '<div class="manage-row"><span class="row-title">Aucune enquête dans la copie de travail.</span></div>';
+        return;
+    }
+
+    workingArticles.forEach((art, index) => {
+        const row = document.createElement('div');
+        row.className = 'manage-row' + (art._modified ? ' modified' : '');
+
+        const badge = index === 0 ? '<span class="row-badge">BREAKING</span>' : '';
+        const modifiedTag = art._modified ? ' (modifié ✏️)' : '';
+
+        row.innerHTML =
+            badge +
+            '<span class="row-title" title="' + esc(art.title) + '">' + esc(truncateTitle(art.title, 70)) + modifiedTag + '</span>' +
+            '<button type="button" class="mini-btn" data-action="edit">✏️ Modifier</button>' +
+            '<button type="button" class="mini-btn danger" data-action="delete">🗑 Supprimer</button>';
+
+        row.querySelector('[data-action="edit"]').addEventListener('click', () => editArticle(art.id));
+        row.querySelector('[data-action="delete"]').addEventListener('click', () => deleteArticle(art.id));
+
+        listDiv.appendChild(row);
+    });
+}
+
+function interviewToText(interview) {
+    if (!interview || interview.length === 0) return '';
+    return interview.map(r => 'Q: ' + r.q + '\nR: ' + r.a).join('\n');
+}
+
+function editArticle(id) {
+    const art = workingArticles.find(a => a.id === id);
+    if (!art) return;
+
+    editingId = id;
+    document.getElementById('formTitle').value = art.title || '';
+    document.getElementById('formDate').value = art.date || '';
+    document.getElementById('formLoc').value = art.location || '';
+    document.getElementById('formAuthor').value = art.author || "L'Investigateur Anonyme";
+    document.getElementById('formDesc').value = art.desc || '';
+    document.getElementById('formIntro').value = art.intro || '';
+    document.getElementById('formInterview').value = interviewToText(art.interview);
+    document.getElementById('formNotice').value = art.notice || '';
+    // Retire le préfixe images/ pour l'affichage dans le champ
+    document.getElementById('formImg').value = (art.img || '').replace(/^images\//, '').replace(/^logo_chat_loupe\.png$/, '');
+    document.getElementById('formClassified').value = art.classified ? 'oui' : 'non';
+
+    document.getElementById('formHeading').textContent = '✏️ Modification de l\'enquête';
+    document.getElementById('validateBtn').textContent = '✅ Enregistrer la modification';
+    const notice = document.getElementById('editingNotice');
+    notice.style.display = 'block';
+    notice.textContent = 'Modification en cours : « ' + truncateTitle(art.title, 60) + ' »';
+    document.getElementById('cancelEditBtn').style.display = 'inline-block';
+
+    document.getElementById('studioForm').scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelEdit() {
+    editingId = null;
+    document.getElementById('studioForm').reset();
+    document.getElementById('formAuthor').value = "L'Investigateur Anonyme";
+    document.getElementById('formClassified').value = 'non';
+    document.getElementById('formDate').value = todayFR();
+    document.getElementById('formHeading').textContent = '✍️ Nouvelle enquête';
+    document.getElementById('validateBtn').textContent = '✅ Ajouter à la copie de travail';
+    document.getElementById('editingNotice').style.display = 'none';
+    document.getElementById('cancelEditBtn').style.display = 'none';
+}
+
+function deleteArticle(id) {
+    const art = workingArticles.find(a => a.id === id);
+    if (!art) return;
+    if (!confirm('Supprimer définitivement cette enquête de la copie de travail ?\n\n« ' + truncateTitle(art.title, 80) + ' »')) return;
+
+    workingArticles = workingArticles.filter(a => a.id !== id);
+    if (editingId === id) cancelEdit();
+    renderManageList();
+    refreshJSONIfVisible();
+}
+
+// --- CONSTRUCTION / VALIDATION D'UNE ENQUÊTE ---
+
+function buildArticleFromForm(keepId) {
     const title = document.getElementById('formTitle').value.trim();
     const date = document.getElementById('formDate').value.trim() || todayFR();
     const location = document.getElementById('formLoc').value.trim() || "National";
@@ -918,11 +1085,39 @@ function buildArticleFromForm() {
     if (current && current.q) interview.push(current);
 
     return {
-        id: "art-" + Date.now(),
+        id: keepId || ("art-" + Date.now()),
         title, date, location, author,
         img: img || "logo_chat_loupe.png",
         desc, intro, interview, notice, classified
     };
+}
+
+function validateArticle(e) {
+    e.preventDefault();
+
+    if (editingId) {
+        // Mise à jour en place (conserve la position dans la liste)
+        const index = workingArticles.findIndex(a => a.id === editingId);
+        if (index !== -1) {
+            const updated = buildArticleFromForm(editingId);
+            updated._modified = true;
+            workingArticles[index] = updated;
+        }
+        cancelEdit();
+        alert('Enquête mise à jour dans la copie de travail. ✏️\nPensez à générer et committer articles.json pour publier.');
+    } else {
+        // Nouvel article : ajouté en tête (futur Breaking News)
+        const art = buildArticleFromForm();
+        workingArticles.unshift(art);
+        document.getElementById('studioForm').reset();
+        document.getElementById('formAuthor').value = "L'Investigateur Anonyme";
+        document.getElementById('formClassified').value = 'non';
+        document.getElementById('formDate').value = todayFR();
+        alert('Enquête ajoutée en tête de la copie de travail. 📰\nPensez à générer et committer articles.json pour publier.');
+    }
+
+    renderManageList();
+    refreshJSONIfVisible();
 }
 
 function previewArticle() {
@@ -937,25 +1132,42 @@ function previewArticle() {
     displayArticle(art.id, false);
 }
 
-function generateArticleJSON(e) {
-    e.preventDefault();
-    const art = buildArticleFromForm();
+// --- GÉNÉRATION DU FICHIER COMPLET ---
 
+function cleanForExport(list) {
+    // Retire les champs internes (_modified) avant export
+    return list.map(a => {
+        const copy = { ...a };
+        delete copy._modified;
+        delete copy._draft;
+        return copy;
+    });
+}
+
+function generateFullJSON() {
+    if (!workingArticles) return;
     const zone = document.getElementById('jsonZone');
     const output = document.getElementById('jsonOutput');
-    output.value = JSON.stringify(art, null, 2);
+    output.value = JSON.stringify(cleanForExport(workingArticles), null, 2);
     zone.style.display = 'block';
     output.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function refreshJSONIfVisible() {
+    const zone = document.getElementById('jsonZone');
+    if (zone.style.display === 'block') {
+        document.getElementById('jsonOutput').value = JSON.stringify(cleanForExport(workingArticles), null, 2);
+    }
 }
 
 function copyJSON() {
     const output = document.getElementById('jsonOutput');
     output.select();
     navigator.clipboard.writeText(output.value)
-        .then(() => alert("JSON copié ! Direction GitHub → articles.json pour la diffusion. 📡"))
+        .then(() => alert("Fichier copié ! Direction GitHub → articles.json → remplacer tout le contenu. 📡"))
         .catch(() => {
             document.execCommand('copy');
-            alert("JSON copié (méthode de secours).");
+            alert("Fichier copié (méthode de secours).");
         });
 }
 
