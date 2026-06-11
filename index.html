@@ -4,178 +4,260 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Blog des Vérités Cachées - La voix de ceux qui savent</title>
+    <meta name="description" content="Le Blog des Vérités Cachées : enquêtes apocryphes, interviews exclusives et révélations que personne ne vous demandait.">
     <style>
         :root {
-            --outer-bg: #555555;
-            --site-bg: #f0f0f0;
-            --header-bg: #222222;
+            --outer-bg: #d6d6d6;
+            --site-bg: #ffffff;
+            --header-bg: #111111;
             --accent-green: #76b900;
             --accent-green-hover: #8ae000;
-            --card-bg: #ffffff;
-            --text-dark: #000000;
+            --text-dark: #111111;
             --text-light: #ffffff;
-            --border-dark: #222222;
-            --danger-red: #8b0000;
+            --border-dark: #111111;
+            --danger-red: #a31515;
+            --tape-grey: rgba(175, 175, 175, 0.8);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', 'Helvetica Neue', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--outer-bg);
             color: var(--text-dark);
-            padding: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 25px 15px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             background-color: var(--site-bg);
-            border: 3px solid var(--border-dark);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 2px solid var(--border-dark);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+            position: relative;
         }
 
-        /* HEADER */
+        /* ===== SCOTCH AUX COINS ===== */
+        .tape {
+            position: absolute;
+            width: 120px;
+            height: 32px;
+            background: var(--tape-grey);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+            opacity: 0.9;
+            z-index: 50;
+            pointer-events: none;
+        }
+        .tape::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, transparent 0 6px, rgba(255,255,255,0.25) 6px 8px);
+        }
+        .tape-tl { top: -10px; left: -35px; transform: rotate(-40deg); }
+        .tape-tr { top: -10px; right: -35px; transform: rotate(40deg); }
+        .tape-bl { bottom: -10px; left: -35px; transform: rotate(40deg); }
+        .tape-br { bottom: -10px; right: -35px; transform: rotate(-40deg); }
+
+        /* ===== HEADER ===== */
         header {
             display: flex;
             align-items: center;
+            gap: 20px;
             background-color: var(--header-bg);
             color: var(--text-light);
-            padding: 15px 20px;
-            border-bottom: 6px solid var(--accent-green);
+            padding: 14px 25px;
         }
 
         .logo-area {
-            margin-right: 25px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .logo-circle {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background-color: var(--accent-green);
+            border: 3px solid #ffffff;
+            overflow: hidden;
             display: flex;
             align-items: center;
-            cursor: pointer;
+            justify-content: center;
         }
 
-        .logo-img {
-            width: 85px;
-            height: 85px;
-            object-fit: contain;
-        }
-
-        .header-titles {
-            cursor: pointer;
-        }
-
-        .header-titles h1 {
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            font-size: 2.3rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            line-height: 1.1;
-        }
-
-        .header-titles p {
-            color: var(--accent-green);
-            font-style: italic;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-top: 2px;
-        }
-
-        .edition-tag {
-            font-size: 0.95rem;
-            color: #cccccc;
-            margin-top: 4px;
-            font-family: monospace;
-        }
-
-        /* MAIN LAYOUT */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        @media (min-width: 950px) {
-            .main-layout {
-                grid-template-columns: 63fr 37fr;
-            }
-        }
-
-        /* BLOC DE CONTENU (GAUCHE) */
-        .featured-story {
-            background-color: var(--card-bg);
-            border: 2px solid var(--border-dark);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .meta-data {
-            font-family: monospace;
-            font-size: 0.9rem;
-            color: #555;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 5px;
-        }
-
-        .breaking-banner {
-            background-color: var(--accent-green);
-            color: var(--text-dark);
-            padding: 6px 15px;
-            font-family: 'Impact', sans-serif;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            align-self: flex-start;
-            margin-bottom: 15px;
-            transform: skewX(-10deg);
-        }
-
-        .hero-title-area h2 {
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            font-size: 1.8rem;
-            line-height: 1.3;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .hero-image-container {
-            width: 100%;
-            height: 350px;
-            background-color: #ddd;
-            border: 2px solid var(--border-dark);
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
-
-        .hero-image-container img {
+        .logo-circle img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .article-body {
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #222;
+        .header-titles { cursor: pointer; }
+
+        .header-titles h1 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 2.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.15;
+            font-weight: normal;
         }
 
-        .article-body p {
+        .header-titles h1 .slogan {
+            color: var(--accent-green);
+            font-style: italic;
+            text-transform: none;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: bold;
+        }
+
+        .edition-tag {
+            font-size: 1.05rem;
+            color: #e8e8e8;
+            margin-top: 4px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* ===== LAYOUT ===== */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            padding: 18px;
+        }
+
+        @media (min-width: 950px) {
+            .main-layout { grid-template-columns: 64fr 36fr; }
+        }
+
+        /* ===== ARTICLE PRINCIPAL ===== */
+        .featured-story {
+            border: 2px solid var(--border-dark);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            position: relative;
+        }
+
+        .meta-data {
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #bbb;
+            padding-bottom: 6px;
+        }
+
+        .breaking-banner {
+            background-color: var(--accent-green);
+            color: var(--text-dark);
+            padding: 6px 18px;
+            font-family: 'Impact', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            align-self: flex-start;
+            margin-bottom: 12px;
+            transform: skewX(-10deg);
+            border: 2px solid var(--border-dark);
+            letter-spacing: 1px;
+        }
+
+        .archive-banner {
+            background-color: #333;
+            color: var(--text-light);
+            padding: 6px 18px;
+            font-family: 'Impact', sans-serif;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            align-self: flex-start;
+            margin-bottom: 12px;
+            transform: skewX(-10deg);
+            letter-spacing: 1px;
+        }
+
+        .draft-banner {
+            background-color: var(--danger-red);
+            color: var(--text-light);
+            padding: 6px 18px;
+            font-family: 'Impact', sans-serif;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            align-self: flex-start;
+            margin-bottom: 12px;
+            transform: skewX(-10deg);
+        }
+
+        /* Image héro avec titre en surimpression */
+        .hero-visual {
+            position: relative;
+            width: 100%;
+            min-height: 340px;
+            background-color: #2a2a2a;
+            border: 2px solid var(--border-dark);
+            overflow: hidden;
             margin-bottom: 15px;
         }
 
+        .hero-visual img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-title-overlay {
+            position: absolute;
+            left: 0;
+            bottom: 18px;
+            max-width: 78%;
+            background: #ffffff;
+            border: 2px solid var(--border-dark);
+            border-left: none;
+            padding: 12px 16px;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.55);
+        }
+
+        .hero-title-overlay h2 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 1.45rem;
+            line-height: 1.25;
+            text-transform: uppercase;
+            font-weight: normal;
+        }
+
+        .article-body {
+            font-size: 1rem;
+            line-height: 1.55;
+            color: #1a1a1a;
+        }
+
+        .article-body p { margin-bottom: 14px; }
+        .article-body strong { background: rgba(118, 185, 0, 0.25); padding: 0 2px; }
+
         .interview-box {
-            background-color: #f9f9f9;
-            border-left: 4px solid var(--accent-green);
+            background-color: #f7f7f2;
+            border-left: 5px solid var(--accent-green);
+            border-top: 1px dashed #999;
+            border-bottom: 1px dashed #999;
             padding: 15px;
             margin: 20px 0;
         }
 
-        .interview-line {
+        .interview-box h3 {
+            font-family: 'Impact', sans-serif;
+            text-transform: uppercase;
             margin-bottom: 12px;
+            font-weight: normal;
+            background: var(--text-dark);
+            color: var(--accent-green);
+            display: inline-block;
+            padding: 2px 10px;
         }
+
+        .interview-line { margin-bottom: 14px; }
+        .interview-line strong { display: block; margin-bottom: 3px; }
 
         .redac-notice {
             background-color: #fff2a3;
@@ -185,61 +267,101 @@
             font-weight: bold;
         }
 
-        /* INTERFACE D'ADMINISTRATION */
+        .load-error {
+            background-color: #ffe4e4;
+            border: 2px solid var(--danger-red);
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* ===== TAMPON CLASSIFIED ===== */
+        .classified-stamp {
+            position: absolute;
+            bottom: 8px;
+            right: 10px;
+            color: var(--danger-red);
+            border: 3px double var(--danger-red);
+            padding: 1px 8px;
+            font-family: 'Impact', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            transform: rotate(-9deg);
+            opacity: 0.85;
+            background: rgba(255,255,255,0.65);
+            pointer-events: none;
+            text-transform: uppercase;
+        }
+
+        .classified-stamp.big {
+            font-size: 1.1rem;
+            bottom: 25px;
+            right: 25px;
+        }
+
+        /* ===== STUDIO DE RÉDACTION ===== */
         .admin-panel {
-            background-color: #222;
+            background-color: #161616;
             color: #fff;
             padding: 20px;
             border: 2px solid var(--accent-green);
-            margin: 20px;
+            margin: 18px;
             display: none;
         }
 
         .admin-panel h3 {
             font-family: 'Impact', sans-serif;
             color: var(--accent-green);
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             text-transform: uppercase;
+            font-weight: normal;
         }
 
-        .form-group {
-            margin-bottom: 12px;
-            display: flex;
-            flex-direction: column;
-        }
+        .admin-help { font-size: 0.82rem; color: #bbb; margin-bottom: 15px; line-height: 1.5; }
+        .admin-help code { background: #000; padding: 1px 5px; color: var(--accent-green); }
 
-        .form-group label {
-            font-size: 0.85rem;
-            color: #aaa;
-            margin-bottom: 4px;
-        }
-
+        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 0.82rem; color: #aaa; margin-bottom: 4px; }
         .form-group input, .form-group textarea {
             padding: 8px;
             border: 1px solid #444;
-            background-color: #111;
+            background-color: #0a0a0a;
             color: #fff;
-            font-family: inherit;
+            font-family: 'Courier New', monospace;
         }
+        .form-group textarea { resize: vertical; height: 80px; }
 
-        .form-group textarea {
+        .studio-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+
+        .json-output-zone { margin-top: 20px; display: none; }
+        .json-output-zone h4 {
+            font-family: 'Impact', sans-serif;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: normal;
+        }
+        .json-steps { font-size: 0.82rem; color: #ccc; margin-bottom: 10px; line-height: 1.6; }
+        .json-output-zone textarea {
+            width: 100%;
+            height: 220px;
+            background: #0a0a0a;
+            color: #9fe000;
+            border: 1px solid var(--accent-green);
+            font-family: monospace;
+            font-size: 0.78rem;
+            padding: 10px;
             resize: vertical;
-            height: 80px;
         }
 
-        /* COLONNE DROITE (LISTE) */
-        .stories-feed {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+        /* ===== FIL D'ACTUALITÉS (DROITE) ===== */
+        .stories-feed { display: flex; flex-direction: column; gap: 14px; }
 
         .feed-card {
             display: grid;
-            grid-template-columns: 110px 1fr;
-            background-color: var(--card-bg);
+            grid-template-columns: 105px 1fr;
+            background-color: #ffffff;
             border: 2px solid var(--border-dark);
-            min-height: 105px;
+            min-height: 100px;
             position: relative;
             cursor: pointer;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -247,13 +369,13 @@
 
         .feed-card:hover {
             transform: translateY(-2px);
-            box-shadow: 4px 4px 0px var(--border-dark);
+            box-shadow: 5px 5px 0px var(--border-dark);
         }
 
         .feed-img-area {
-            width: 110px;
+            width: 105px;
             height: 100%;
-            background-color: #e5e5e5;
+            background-color: #0c1a02;
             border-right: 2px solid var(--border-dark);
             overflow: hidden;
         }
@@ -262,54 +384,65 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            filter: grayscale(1) sepia(1) hue-rotate(50deg) saturate(4) brightness(0.85) contrast(1.1);
         }
 
-        .feed-content {
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-        }
+        .feed-content { padding: 10px 12px; display: flex; flex-direction: column; }
 
         .feed-title {
-            font-family: 'Impact', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.83rem;
+            font-weight: bold;
             color: var(--text-dark);
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
+            line-height: 1.35;
+        }
+
+        .feed-title .hl {
+            background: var(--accent-green);
+            padding: 0 3px;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
         }
 
         .feed-desc {
-            font-size: 0.85rem;
-            color: #444444;
+            font-size: 0.78rem;
+            color: #3a3a3a;
             line-height: 1.35;
             margin-bottom: 8px;
         }
 
-        /* VOTES */
-        .vote-system {
-            display: flex;
-            gap: 8px;
-            margin-top: auto;
+        .draft-pill {
+            display: inline-block;
+            background: var(--danger-red);
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: bold;
+            padding: 1px 6px;
+            margin-bottom: 4px;
+            align-self: flex-start;
         }
 
+        /* VOTES */
+        .vote-system { display: flex; gap: 8px; margin-top: auto; }
         .vote-btn {
-            background-color: #f5f5f5;
-            border: 1px solid #999999;
+            background-color: #f2f2f2;
+            border: 1px solid #999;
             padding: 2px 8px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: bold;
             cursor: pointer;
+            font-family: 'Courier New', monospace;
         }
+        .vote-btn.active-up { background-color: var(--accent-green); color: #fff; }
+        .vote-btn.active-down { background-color: var(--danger-red); color: #fff; }
 
-        .vote-btn.active-up { background-color: var(--accent-green); color: white; }
-        .vote-btn.active-down { background-color: var(--danger-red); color: white; }
-
-        /* FOOTER & NEWSLETTER */
+        /* ===== NEWSLETTER ===== */
         .newsletter-bar {
             background-color: var(--header-bg);
             color: var(--text-light);
-            padding: 20px;
-            border-top: 4px solid var(--border-dark);
+            padding: 18px 25px;
+            border-top: 3px solid var(--border-dark);
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -317,59 +450,144 @@
             gap: 15px;
         }
 
-        .subscribe-tag { font-family: 'Impact', sans-serif; font-size: 1.8rem; color: var(--accent-green); }
-        .newsletter-form { display: flex; gap: 10px; flex-grow: 1; max-width: 500px; }
-        .newsletter-form input { flex-grow: 1; padding: 10px; }
-        .btn-submit { background-color: var(--accent-green); padding: 10px 25px; font-family: 'Impact', sans-serif; cursor: pointer; border: none;}
-        .footer-caption { width: 100%; text-align: center; color: var(--accent-green); font-family: monospace; font-size: 0.85rem; }
+        .subscribe-tag {
+            font-family: 'Impact', sans-serif;
+            font-size: 1.9rem;
+            color: var(--accent-green);
+            background: #000;
+            padding: 2px 14px;
+            border: 1px solid var(--accent-green);
+            font-weight: normal;
+        }
 
-        footer { background-color: #111111; padding: 15px; text-align: center; }
-        .footer-links a { color: #aaaaaa; margin: 0 10px; font-size: 0.85rem; }
+        .newsletter-form { display: flex; gap: 10px; flex-grow: 1; max-width: 460px; }
+        .newsletter-form input {
+            flex-grow: 1;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            border: none;
+        }
+
+        .btn-submit {
+            background-color: var(--accent-green);
+            color: #111;
+            padding: 10px 22px;
+            font-family: 'Impact', sans-serif;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-submit:hover { background-color: var(--accent-green-hover); }
+
+        .btn-secondary {
+            background-color: #444;
+            color: #fff;
+            padding: 10px 22px;
+            font-family: 'Impact', sans-serif;
+            cursor: pointer;
+            border: 1px solid #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-icons { display: flex; gap: 14px; font-size: 1.4rem; }
+        .social-icons span { cursor: pointer; opacity: 0.9; }
+        .social-icons span:hover { color: var(--accent-green); }
+
+        .footer-caption {
+            width: 100%;
+            text-align: center;
+            color: var(--accent-green);
+            font-size: 0.88rem;
+            letter-spacing: 1px;
+        }
+
+        footer {
+            background-color: #0a0a0a;
+            padding: 14px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .footer-links a {
+            color: #cccccc;
+            margin: 0 12px;
+            font-size: 0.88rem;
+            text-decoration: underline;
+        }
+        .footer-links a:hover { color: var(--accent-green); }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <span class="tape tape-tl"></span>
+    <span class="tape tape-tr"></span>
+    <span class="tape tape-bl"></span>
+    <span class="tape tape-br"></span>
+
     <!-- HEADER -->
     <header>
-        <div class="logo-area" onclick="toggleAdminPanel()" title="Zone réservée à l'Investigateur Anonyme">
-            <img src="logo_chat_loupe.png" alt="Logo" class="logo-img">
+        <div class="logo-area" onclick="toggleStudio()" title="Console de l'Investigateur Anonyme">
+            <div class="logo-circle">
+                <img src="logo_chat_loupe.png" alt="Logo - chat à la loupe">
+            </div>
         </div>
-        <div class="header-titles" onclick="displayHome()" title="Retourner à la page principale">
-            <h1>Le Blog des Vérités Cachées</h1>
-            <p>- *La voix de ceux qui savent* -</p>
-            <div class="edition-tag">Édition Nationale & Univers Connexes</div>
+        <div class="header-titles" onclick="displayHome()" title="Retour au dernier scoop">
+            <h1>Le Blog des Vérités Cachées &ndash; <span class="slogan">*La voix de ceux qui savent*</span></h1>
+            <div class="edition-tag">Édition Achères &amp; Univers Connexes</div>
         </div>
     </header>
 
-    <!-- INTERFACE DE CRÉATION SECRÈTE (PROTÉGÉE) -->
+    <!-- STUDIO DE RÉDACTION (accès protégé par identification SHA-256) -->
     <div id="adminPanel" class="admin-panel">
-        <h3>Console de Transmission de l'Investigateur (Ajouter une Enquête)</h3>
-        <form onsubmit="createNewArticle(event)">
-            <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS"></div>
-            <div class="form-group"><label>Date de publication</label><input type="text" id="formDate" value="Dimanche 7 juin 2026"></div>
+        <h3>Console de Transmission de l'Investigateur (Studio de Rédaction)</h3>
+        <p class="admin-help">
+            Session authentifiée. 🔓 Ce studio génère le bloc JSON de l'enquête, à coller dans le fichier
+            <code>articles.json</code> du dépôt GitHub (la publication finale reste protégée par votre compte GitHub).
+            « Prévisualiser » affiche le rendu exact en local avant publication.
+        </p>
+        <form id="studioForm" onsubmit="generateArticleJSON(event)">
+            <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS D'ACHÈRES"></div>
+            <div class="form-group"><label>Date de publication</label><input type="text" id="formDate"></div>
             <div class="form-group"><label>Localisation</label><input type="text" id="formLoc" placeholder="Ex: National (Enquête en Ille-et-Vilaine)"></div>
             <div class="form-group"><label>Auteur</label><input type="text" id="formAuthor" value="L'Investigateur Anonyme"></div>
-            <div class="form-group"><label>Chapô / Introduction de l'enquête</label><textarea id="formIntro" required placeholder="Description ou texte d'introduction..."></textarea></div>
-            <div class="form-group"><label>Interview Exclusive (Format clé:valeur séparé par des sauts de ligne)</label><textarea id="formInterview" style="height:120px;" placeholder="Le Blog: Votre question ?&#10;Ulf: Ma réponse."></textarea></div>
+            <div class="form-group"><label>Résumé court (affiché dans le fil d'actualités, 1-2 phrases)</label><textarea id="formDesc" required placeholder="Ex: La créature cartilagineuse qui compresse son corps pour vous manger pendant votre sommeil !"></textarea></div>
+            <div class="form-group"><label>Chapô / Introduction de l'enquête</label><textarea id="formIntro" required placeholder="Texte d'introduction complet de l'enquête..."></textarea></div>
+            <div class="form-group">
+                <label>Interview Exclusive — préfixez chaque question par Q: et chaque réponse par R: (une réponse peut tenir sur plusieurs lignes)</label>
+                <textarea id="formInterview" style="height:140px;" placeholder="Q: Le Blog : Votre question ?&#10;R: Ulf : Ma réponse, qui peut contenir des deux-points : sans problème.&#10;Q: Le Blog : Question suivante ?&#10;R: La réponse suivante."></textarea>
+            </div>
             <div class="form-group"><label>⚠️ L'AVIS DE LA RÉDACTION</label><textarea id="formNotice" placeholder="Conseils ou avertissements..."></textarea></div>
-            <div class="form-group"><label>Image d'illustration (Fichier local)</label><input type="text" id="formImg" placeholder="monstre_canalisation.png"></div>
-            <button type="submit" class="btn-submit" style="border:1px solid #fff">Diffuser l'enquête apocryphe</button>
+            <div class="form-group"><label>Image d'illustration (nom du fichier déposé dans le dossier images/ du dépôt)</label><input type="text" id="formImg" placeholder="monstre_canalisation.png"></div>
+            <div class="form-group"><label>Tampon CLASSIFIED sur la carte ? (oui / non)</label><input type="text" id="formClassified" value="non" placeholder="oui ou non"></div>
+            <div class="studio-actions">
+                <button type="button" class="btn-secondary" onclick="previewArticle()">👁 Prévisualiser (local)</button>
+                <button type="submit" class="btn-submit" style="border:1px solid #fff">📡 Générer le JSON de l'enquête</button>
+            </div>
         </form>
+
+        <div class="json-output-zone" id="jsonZone">
+            <h4>Bloc JSON prêt à diffuser</h4>
+            <p class="json-steps">
+                1. Cliquez sur « Copier le JSON ».<br>
+                2. Sur GitHub, ouvrez <code>articles.json</code> → ✏️ Modifier.<br>
+                3. Collez ce bloc juste après le <code>[</code> d'ouverture, suivi d'une virgule → l'article devient le nouveau Breaking News, l'ancien bascule dans le fil de droite.<br>
+                4. Si vous avez une image, déposez-la dans le dossier <code>images/</code> du dépôt.<br>
+                5. « Commit changes » → en ligne en ~1 minute. 📰
+            </p>
+            <textarea id="jsonOutput" readonly></textarea>
+            <div class="studio-actions">
+                <button type="button" class="btn-submit" onclick="copyJSON()">📋 Copier le JSON</button>
+            </div>
+        </div>
     </div>
 
-    <!-- MAIN GRIDS -->
+    <!-- MAIN -->
     <div class="main-layout">
-        
-        <!-- LE CONTENU CENTRAL (DYNAMIQUE) -->
-        <div class="featured-story" id="articleViewer">
-            <!-- Géré dynamiquement entre la Page d'accueil ou l'Article choisi -->
-        </div>
-
-        <!-- FIL D'ACTUALITÉS DE DROITE -->
-        <div class="stories-feed" id="storiesFeed">
-            <!-- Rempli dynamiquement -->
-        </div>
+        <div class="featured-story" id="articleViewer"></div>
+        <div class="stories-feed" id="storiesFeed"></div>
     </div>
 
     <!-- S'ABONNER -->
@@ -379,185 +597,223 @@
             <input type="email" placeholder="Email email..." required>
             <button type="submit" class="btn-submit">S'abonner</button>
         </form>
+        <div class="social-icons" title="Réseaux (sous surveillance)">
+            <span>𝕏</span><span>◎</span><span>👁</span>
+        </div>
         <div class="footer-caption">REJOIGNEZ LA RÉSISTANCE ANTI-RÉEL (GRATUITEMENT !)</div>
     </div>
 
     <footer>
         <div class="footer-links">
-            <a href="#" onclick="toggleAdminPanel(); return false;">[Accès Cabinet Secret]</a>
-            <a href="#" onclick="displayHome(); return false;">Accueil du Blog</a>
-            <a href="#">Mentions (Pas très) Légales</a>
+            <a href="#" onclick="toggleStudio(); return false;">Témoignez (Anonymement) !</a>
+            <a href="#" onclick="displayHome(); return false;">L'Investigateur Anonyme</a>
+            <a href="#" onclick="alert('Toute ressemblance avec la réalité serait franchement inquiétante.'); return false;">Mentions (Pas très) Légales</a>
         </div>
     </footer>
 </div>
 
 <script>
-// CONFIGURATION DES IDENTIFIANTS PAR DÉFAUT
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "endam2026"; // Tu pourras changer ce mot de passe à ta guise !
+// ============================================================
+// LE BLOG DES VÉRITÉS CACHÉES — moteur de publication statique
+// articles.json = base des enquêtes publiées (ordre: plus récent en premier).
+// Le PREMIER article du JSON = Breaking News central.
+// Les suivants alimentent le fil de droite automatiquement.
+// ============================================================
 
-let isAuthorized = false; // Par défaut, l'utilisateur n'est pas identifié
+let articles = [];       // Articles publiés (chargés depuis articles.json)
+let draftArticles = [];  // Aperçus locaux non publiés (session en cours)
 
-// BASE DE DONNÉES DES ARTICLES PAR DÉFAUT
-const defaultArticles = [
-    {
-        id: "art-médium",
-        title: "INVESTIGATION TRANSFRONTALIÈRE : « Oubliez les lignes de la main : la vérité sur votre avenir est écrite sur vos fessiers, selon ce médium allemand »",
-        date: "Dimanche 7 juin 2026",
-        location: "International (Enquête en Rhénanie-du-Nord-Westphalie)",
-        author: "L'Investigateur Anonyme",
-        img: "rumpologie_allemande.png",
-        desc: "L'avenir est écrit sur vos fesses : un médium allemand lit le destin de ses clients en tâtant leur anatomie.",
-        intro: "Alors que les voyants traditionnels s'épuisent à scruter des cartes de tarot ou à déchiffrer les plis de vos paumes, la science occulte vient de franchir une nouvelle frontière en Europe. Outre-Rhin, un homme a développé une méthode de divination unique au monde, basée sur la topographie musculaire et thermique de l'anatomie humaine. Pour lui, le grand livre du destin ne s'ouvre pas dans les mains, mais un peu plus bas. Nous avons traversé la frontière pour rencontrer Ulf S., 58 ans, un médium non-voyant qui redéfinit l'art de la voyance depuis son cabinet près de Cologne.",
-        interview: [
-            { q: "Le Blog : Ulf, votre spécialité, baptisée la \"Rumpologie\", suscite beaucoup de curiosité. Comment vous est venue cette intuition ?", a: "Les mains mentent. Les gens passent leur temps à travailler, à frotter, à modifier la peau de leurs doigts. Mais l'arrière du corps, lui, ne triche jamais. C'est la zone où s'accumulent toutes les tensions existentielles, les traumatismes du passé et l'énergie brute de l'avenir. Étant non-voyant, mes mains ont développé une sensibilité nerveuse hors du commun. Quand un client s'assoit sur ma table d'examen et que je pose mes paumes sur ses fessiers, je perçois des vibrations temporelles immédiates." },
-            { q: "Le Blog : Concrètement, qu'est-ce que la texture ou la forme de cette zone peut bien révéler sur le caractère d'une personne ?", a: "Tout est une question de quadrants et de polarité thermique. Par exemple, une fesse gauche plus ferme et plus chaude indique un tempérament de leader, quelqu'un qui va recevoir une promotion ou faire une rentrée d'argent majeure dans les six mois. En revanche, des micro-tensions localisées dans le muscle grand fessier droit révèlent une trahison passée non digérée ou un secret de famille enfoui. La forme générale — en pomme, en poire ou en carré — dessine les grandes lignes de la personnalité : les \"pommes\" sont des idéalistes souvent ciblés par les puces 5G, tandis que les \"carrés\" sont des esprits cartésiens piégés dans la matrice officielle." }
-        ],
-        notice: "La prochaine fois que vous passerez un entretien d'embauche ou un contrôle de sécurité, surveillez vos arrières. Si la divination fessière se démocratise en France, il faudra soigner votre posture sur votre chaise pour ne pas envoyer de mauvaises ondes à vos examinateurs."
-    }
-];
+// --- OUTILS ---
 
-let articles = JSON.parse(localStorage.getItem('blog_articles')) || defaultArticles;
-
-// FONCTION D'ACCUEIL
-function displayHome() {
-    const viewer = document.getElementById('articleViewer');
-    viewer.innerHTML = `
-        <div class="breaking-banner">Breaking News</div>
-        <div class="hero-title-area">
-            <h2><a href="#" onclick="return false;">TÉMOIGNAGE CHOC : "Mon appartement est une zone de guerre psychique quand je fais des cauchemars !" (LIRE L'INTERVIEW EXCLUSIVE EXTRÊME)</a></h2>
-        </div>
-        <div class="hero-image-container">
-            <img src="photo_temoignage.jpg" alt="Zone de guerre psychique">
-        </div>
-        <div class="article-body">
-            <p>Vous en avez assez des versions officielles lisses et ennuyeuses ? Vous sentez que la vérité est plus tordue, plus folle, plus... réelle ? Vous êtes au bon endroit.</p>
-            <p><strong>"Le Blog des Vérités Cachées"</strong> plonge dans le quotidien secret de vos voisins de Brest, de Menton et d'ailleurs pour révéler l'incroyable complot qui se tisse sous nos yeux. Puces 5G invisibles, mutants planqués dans la plomberie, lucioles drones biologiques... tout est là, mesuré et vérifié par l'Investigateur Anonyme ! Entrez, si vous osez remettre en question le réel.</p>
-        </div>
-    `;
+function esc(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 
-// FIL D'ACTUALITÉS
+function truncateTitle(title, max = 95) {
+    if (title.length <= max) return title;
+    const cut = title.substring(0, max);
+    return cut.substring(0, cut.lastIndexOf(' ')) + '…';
+}
+
+// Surligne en vert les premiers mots du titre (style maquette)
+function highlightTitle(title) {
+    const t = truncateTitle(title);
+    const sep = t.search(/[:!?]/);
+    let head, tail;
+    if (sep > 0 && sep < 55) {
+        head = t.substring(0, sep + 1);
+        tail = t.substring(sep + 1);
+    } else {
+        const words = t.split(' ');
+        head = words.slice(0, 4).join(' ');
+        tail = ' ' + words.slice(4).join(' ');
+    }
+    return '<span class="hl">' + esc(head) + '</span>' + esc(tail);
+}
+
+function todayFR() {
+    const d = new Date();
+    const str = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function allArticles() {
+    return [...draftArticles, ...articles];
+}
+
+function latestId() {
+    return articles.length > 0 ? articles[0].id : null;
+}
+
+// --- CHARGEMENT ---
+
+async function loadArticles() {
+    try {
+        const resp = await fetch('articles.json?v=' + Date.now());
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        articles = await resp.json();
+    } catch (err) {
+        console.error('Impossible de charger articles.json :', err);
+        articles = [];
+        document.getElementById('storiesFeed').innerHTML =
+            '<div class="load-error">⚠️ ERREUR DE TRANSMISSION : impossible de charger <strong>articles.json</strong>.<br><br>' +
+            '— En ligne : vérifiez que <code>articles.json</code> est à la racine du dépôt et que son contenu est un JSON valide.<br>' +
+            '— En local : lancez un mini-serveur (<code>python3 -m http.server</code>) au lieu d\'ouvrir le fichier directement.</div>';
+        document.getElementById('articleViewer').innerHTML =
+            '<div class="breaking-banner">Breaking News</div>' +
+            '<div class="article-body"><p>La transmission a été interceptée... Réessayez plus tard.</p></div>';
+        return;
+    }
+    displayHome();
+    renderFeed();
+}
+
+// --- ACCUEIL = DERNIER ARTICLE EN BREAKING NEWS ---
+
+function displayHome() {
+    draftArticles = []; // on sort du mode aperçu
+    if (articles.length > 0) {
+        displayArticle(articles[0].id, false);
+    } else {
+        document.getElementById('articleViewer').innerHTML =
+            '<div class="breaking-banner">Breaking News</div>' +
+            '<div class="article-body"><p><strong>"Le Blog des Vérités Cachées"</strong> prépare sa première enquête. ' +
+            'Puces 5G invisibles, mutants planqués dans la plomberie, lucioles drones biologiques... ' +
+            'Le réel n\'a qu\'à bien se tenir.</p></div>';
+    }
+    renderFeed();
+}
+
+// --- FIL D'ACTUALITÉS : tous les articles SAUF le Breaking News ---
+
 function renderFeed() {
     const feed = document.getElementById('storiesFeed');
     feed.innerHTML = "";
-    
-    articles.forEach(art => {
-        let card = document.createElement('div');
-        card.className = 'feed-card';
-        card.onclick = () => displayArticle(art.id);
-        
-        let baseUp = Math.abs(art.id.length * 7) + (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
-        let baseDown = Math.abs(art.id.length % 3) + (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
-        
-        let activeUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
-        let activeDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
 
-        card.innerHTML = `
-            <div class="feed-img-area"><img src="${art.img || 'logo_chat_loupe.png'}" alt="Image"></div>
-            <div class="feed-content">
-                <div class="feed-title">${art.title.substring(0, 45)}...</div>
-                <div class="feed-desc">${art.desc}</div>
-                <div class="vote-system">
-                    <button class="vote-btn upvote ${activeUp}" onclick="registerVote(event, '${art.id}', 'up')">👍 <span class="count">${baseUp}</span></button>
-                    <button class="vote-btn downvote ${activeDown}" onclick="registerVote(event, '${art.id}', 'down')">👎 <span class="count">${baseDown}</span></button>
-                </div>
-            </div>
-        `;
+    // Le plus récent est en vedette au centre : le fil affiche les suivants
+    const list = articles.slice(1);
+
+    if (list.length === 0) {
+        feed.innerHTML = '<div class="load-error" style="background:#f4f4f4;border-color:#999;">' +
+            'D\'autres enquêtes sont en cours d\'infiltration... Le fil se remplira à chaque nouvelle publication. 🕵️</div>';
+        return;
+    }
+
+    list.forEach(art => {
+        const card = document.createElement('div');
+        card.className = 'feed-card';
+        card.addEventListener('click', () => displayArticle(art.id, true));
+
+        const baseUp = Math.abs(art.id.length * 7) + (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
+        const baseDown = Math.abs(art.id.length % 3) + (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
+        const activeUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
+        const activeDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
+
+        const stamp = art.classified ? '<span class="classified-stamp">Classified</span>' : '';
+
+        card.innerHTML =
+            '<div class="feed-img-area"><img src="' + esc(art.img || 'logo_chat_loupe.png') + '" alt="Illustration" onerror="this.src=\'logo_chat_loupe.png\'"></div>' +
+            '<div class="feed-content">' +
+                '<div class="feed-title">' + highlightTitle(art.title) + '</div>' +
+                '<div class="feed-desc">' + esc(art.desc) + '</div>' +
+                '<div class="vote-system">' +
+                    '<button class="vote-btn upvote ' + activeUp + '" data-vote="up">👍 <span class="count">' + baseUp + '</span></button>' +
+                    '<button class="vote-btn downvote ' + activeDown + '" data-vote="down">👎 <span class="count">' + baseDown + '</span></button>' +
+                '</div>' +
+            '</div>' + stamp;
+
+        card.querySelectorAll('.vote-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                registerVote(art.id, btn.dataset.vote);
+            });
+        });
+
         feed.appendChild(card);
     });
 }
 
-// DISPLAY ARTICLE
-function displayArticle(id) {
-    const art = articles.find(a => a.id === id);
+// --- AFFICHAGE D'UN ARTICLE ---
+// isArchive = true quand on consulte un ancien article depuis le fil
+
+function displayArticle(id, isArchive) {
+    const art = allArticles().find(a => a.id === id);
     const viewer = document.getElementById('articleViewer');
     if (!art) return;
 
     let interviewHTML = "";
-    if(art.interview && art.interview.length > 0) {
-        interviewHTML = `<div class="interview-box"><h3>L'Interview Exclusive</h3>`;
+    if (art.interview && art.interview.length > 0) {
+        interviewHTML = '<div class="interview-box"><h3>L\'Interview Exclusive</h3>';
         art.interview.forEach(row => {
-            interviewHTML += `<div class="interview-line"><strong>${row.q}</strong><br>${row.a}</div>`;
+            interviewHTML += '<div class="interview-line"><strong>' + esc(row.q) + '</strong>' + esc(row.a) + '</div>';
         });
-        interviewHTML += `</div>`;
+        interviewHTML += '</div>';
     }
 
-    let noticeHTML = art.notice ? `<div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : ${art.notice}</div>` : '';
+    const noticeHTML = art.notice ? '<div class="redac-notice">⚠️ L\'AVIS DE LA RÉDACTION : ' + esc(art.notice) + '</div>' : '';
 
-    viewer.innerHTML = `
-        <div class="meta-data">
-            LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>
-            Date de publication : ${art.date}<br>
-            Localisation : ${art.location}<br>
-            Auteur : ${art.author}
-        </div>
-        <div class="breaking-banner">Breaking News</div>
-        <div class="hero-title-area">
-            <h2>${art.title}</h2>
-        </div>
-        <div class="hero-image-container">
-            <img src="${art.img || 'logo_chat_loupe.png'}" alt="Illustration">
-        </div>
-        <div class="article-body">
-            <p>${art.intro}</p>
-            ${interviewHTML}
-            ${noticeHTML}
-        </div>
-    `;
+    let banner;
+    if (art._draft) {
+        banner = '<div class="draft-banner">Aperçu local — non publié</div>';
+    } else if (isArchive && art.id !== latestId()) {
+        banner = '<div class="archive-banner">Archive déclassifiée</div>';
+    } else {
+        banner = '<div class="breaking-banner">Breaking News</div>';
+    }
+
+    const stampBig = art.classified ? '<span class="classified-stamp big">Classified</span>' : '';
+
+    viewer.innerHTML =
+        '<div class="meta-data">' +
+            'LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>' +
+            'Date de publication : ' + esc(art.date) + '<br>' +
+            'Localisation : ' + esc(art.location) + '<br>' +
+            'Auteur : ' + esc(art.author) +
+        '</div>' +
+        banner +
+        '<div class="hero-visual">' +
+            '<img src="' + esc(art.img || 'logo_chat_loupe.png') + '" alt="Illustration" onerror="this.src=\'logo_chat_loupe.png\'">' +
+            '<div class="hero-title-overlay"><h2>' + esc(art.title) + '</h2></div>' +
+        '</div>' +
+        '<div class="article-body">' +
+            '<p>' + esc(art.intro) + '</p>' +
+            interviewHTML +
+            noticeHTML +
+        '</div>' + stampBig;
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// CRÉATION NOUVEL ARTICLE
-function createNewArticle(e) {
-    e.preventDefault();
-    if (!isAuthorized) {
-        alert("Action refusée. Session d'écriture non authentifiée.");
-        return;
-    }
-    
-    const title = document.getElementById('formTitle').value;
-    const id = "art-" + Date.now();
-    const date = document.getElementById('formDate').value;
-    const location = document.getElementById('formLoc').value || "National";
-    const author = document.getElementById('formAuthor').value;
-    const intro = document.getElementById('formIntro').value;
-    const notice = document.getElementById('formNotice').value;
-    const img = document.getElementById('formImg').value || "logo_chat_loupe.png";
-    
-    const rawInterview = document.getElementById('formInterview').value;
-    const interview = [];
-    if(rawInterview.trim()) {
-        const lines = rawInterview.split('\n');
-        lines.forEach(line => {
-            const parts = line.split(':');
-            if(parts.length >= 2) {
-                interview.push({ q: parts[0].trim(), a: parts.slice(1).join(':').trim() });
-            }
-        });
-    }
+// --- VOTES (locaux à chaque visiteur) ---
 
-    const newArt = {
-        id, title, date, location, author, img,
-        desc: intro.substring(0, 90) + "...",
-        intro, interview, notice
-    };
-
-    articles.unshift(newArt);
-    localStorage.setItem('blog_articles', JSON.stringify(articles));
-    
-    renderFeed();
-    displayArticle(id);
-    
-    document.getElementById('adminPanel').style.display = 'none';
-    e.target.reset();
-}
-
-function registerVote(event, articleId, type) {
-    event.stopPropagation();
-    let storageKey = 'vote_' + articleId;
-    let currentVote = localStorage.getItem(storageKey);
-    
+function registerVote(articleId, type) {
+    const storageKey = 'vote_' + articleId;
+    const currentVote = localStorage.getItem(storageKey);
     if (currentVote === type) {
         localStorage.removeItem(storageKey);
     } else {
@@ -566,39 +822,146 @@ function registerVote(event, articleId, type) {
     renderFeed();
 }
 
-// GESTION DU CLIC DU CHAT AVEC DOUBLE VÉRIFICATION DE SÉCURITÉ
-function toggleAdminPanel() {
+// --- STUDIO DE RÉDACTION (accès protégé par identification) ---
+// Seule l'empreinte SHA-256 de "identifiant:motdepasse" est stockée ici :
+// impossible de retrouver les identifiants en lisant le code source.
+// Identifiants par défaut : admin / endam2026
+// Pour les changer : ouvrez la console du navigateur (F12) sur le site et tapez
+//   genHash("nouvelIdentifiant", "nouveauMotDePasse")
+// puis remplacez la valeur de AUTH_HASH ci-dessous par le résultat.
+const AUTH_HASH = "99262f0f6b773271fbd4b0a23eeeb960f0a541f4d744ec740077cfac09948081";
+
+let isAuthorized = false; // valable pour la session de navigation en cours
+
+async function sha256(text) {
+    const data = new TextEncoder().encode(text);
+    const buf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Utilitaire pour générer un nouveau hash depuis la console (F12)
+window.genHash = async function(user, pass) {
+    const h = await sha256(user + ':' + pass);
+    console.log('Nouveau AUTH_HASH à coller dans index.html :\n' + h);
+    return h;
+};
+
+async function toggleStudio() {
     const panel = document.getElementById('adminPanel');
-    
-    // Si l'utilisateur est déjà autorisé durant cette session de navigation
+
+    // Déjà identifié durant cette session : simple ouverture/fermeture
     if (isAuthorized) {
-        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-        if(panel.style.display === 'block') panel.scrollIntoView({ behavior: 'smooth' });
+        const visible = panel.style.display === 'block';
+        panel.style.display = visible ? 'none' : 'block';
+        if (!visible) {
+            if (!document.getElementById('formDate').value) {
+                document.getElementById('formDate').value = todayFR();
+            }
+            panel.scrollIntoView({ behavior: 'smooth' });
+        }
         return;
     }
 
-    // Demande d'authentification cryptée/sécurisée par invite
-    let username = prompt("Saisir l'Identifiant d'accès au serveur :");
-    if (username === null) return; // L'utilisateur a cliqué sur annuler
-
-    let password = prompt("Saisir la Clé d'authentification (Mot de passe) :");
+    // Identification
+    const username = prompt("Saisir l'Identifiant d'accès au serveur :");
+    if (username === null) return;
+    const password = prompt("Saisir la Clé d'authentification (Mot de passe) :");
     if (password === null) return;
 
-    // Validation des identifiants système
-    if (username === ADMIN_USER && password === ADMIN_PASS) {
+    let hash;
+    try {
+        hash = await sha256(username.trim() + ':' + password);
+    } catch (err) {
+        alert("ERREUR : le module de chiffrement nécessite une connexion sécurisée (https ou localhost).");
+        return;
+    }
+
+    if (hash === AUTH_HASH) {
         isAuthorized = true;
-        alert("Authentification réussie. Canal de transmission crypté ouvert.");
+        alert("Authentification réussie. Canal de transmission crypté ouvert. 📡");
         panel.style.display = 'block';
+        if (!document.getElementById('formDate').value) {
+            document.getElementById('formDate').value = todayFR();
+        }
         panel.scrollIntoView({ behavior: 'smooth' });
     } else {
         alert("ERREUR : Accès refusé. Les coordonnées ne correspondent pas aux archives secrètes.");
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    renderFeed();
-    displayHome(); 
-});
+function buildArticleFromForm() {
+    const title = document.getElementById('formTitle').value.trim();
+    const date = document.getElementById('formDate').value.trim() || todayFR();
+    const location = document.getElementById('formLoc').value.trim() || "National";
+    const author = document.getElementById('formAuthor').value.trim() || "L'Investigateur Anonyme";
+    const desc = document.getElementById('formDesc').value.trim();
+    const intro = document.getElementById('formIntro').value.trim();
+    const notice = document.getElementById('formNotice').value.trim();
+    const classified = /^o/i.test(document.getElementById('formClassified').value.trim());
+    let img = document.getElementById('formImg').value.trim();
+    if (img && !img.includes('/')) img = 'images/' + img;
+
+    const interview = [];
+    const raw = document.getElementById('formInterview').value;
+    let current = null;
+    raw.split('\n').forEach(line => {
+        const trimmed = line.trim();
+        if (/^Q\s*:/i.test(trimmed)) {
+            if (current && current.q) interview.push(current);
+            current = { q: trimmed.replace(/^Q\s*:\s*/i, ''), a: '' };
+        } else if (/^R\s*:/i.test(trimmed)) {
+            if (current) current.a = trimmed.replace(/^R\s*:\s*/i, '');
+        } else if (trimmed && current) {
+            current.a = current.a ? current.a + ' ' + trimmed : trimmed;
+        }
+    });
+    if (current && current.q) interview.push(current);
+
+    return {
+        id: "art-" + Date.now(),
+        title, date, location, author,
+        img: img || "logo_chat_loupe.png",
+        desc, intro, interview, notice, classified
+    };
+}
+
+function previewArticle() {
+    const form = document.getElementById('studioForm');
+    if (!form.reportValidity()) return;
+
+    const art = buildArticleFromForm();
+    art._draft = true;
+    art.id = "draft-" + Date.now();
+
+    draftArticles = [art];
+    displayArticle(art.id, false);
+}
+
+function generateArticleJSON(e) {
+    e.preventDefault();
+    const art = buildArticleFromForm();
+
+    const zone = document.getElementById('jsonZone');
+    const output = document.getElementById('jsonOutput');
+    output.value = JSON.stringify(art, null, 2);
+    zone.style.display = 'block';
+    output.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function copyJSON() {
+    const output = document.getElementById('jsonOutput');
+    output.select();
+    navigator.clipboard.writeText(output.value)
+        .then(() => alert("JSON copié ! Direction GitHub → articles.json pour la diffusion. 📡"))
+        .catch(() => {
+            document.execCommand('copy');
+            alert("JSON copié (méthode de secours).");
+        });
+}
+
+// --- INIT ---
+
+document.addEventListener("DOMContentLoaded", loadArticles);
 </script>
 </body>
 </html>
