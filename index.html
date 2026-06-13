@@ -5,6 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Blog des Vérités Cachées - La voix de ceux qui savent</title>
     <meta name="description" content="Le Blog des Vérités Cachées : enquêtes apocryphes, interviews exclusives et révélations que personne ne vous demandait.">
+
+    <!-- ===== SEO / PARTAGE (Open Graph) =====
+         ⚠️ REMPLACE https://VOTRE-DOMAINE.fr par ton vrai domaine (celui du fichier CNAME) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Le Blog des Vérités Cachées">
+    <meta property="og:title" content="Le Blog des Vérités Cachées - La voix de ceux qui savent">
+    <meta property="og:description" content="Enquêtes apocryphes, interviews exclusives et révélations que personne ne vous demandait. Entrez, si vous osez remettre en question le réel.">
+    <meta property="og:url" content="https://VOTRE-DOMAINE.fr/">
+    <meta property="og:image" content="https://VOTRE-DOMAINE.fr/logo_chat_loupe.png">
+    <meta name="twitter:card" content="summary">
+
+    <!-- Favicon (le chat à la loupe) -->
+    <link rel="icon" type="image/png" href="logo_chat_loupe.png">
+    <link rel="apple-touch-icon" href="logo_chat_loupe.png">
+
+    <!-- Flux RSS (généré automatiquement par la GitHub Action) -->
+    <link rel="alternate" type="application/rss+xml" title="Le Blog des Vérités Cachées" href="feed.xml">
+
     <style>
         :root {
             --outer-bg: #d6d6d6;
@@ -108,6 +126,70 @@
             letter-spacing: 1px;
         }
 
+        .header-nav {
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .boutique-link {
+            display: inline-block;
+            background: #000;
+            color: var(--accent-green);
+            border: 2px solid var(--accent-green);
+            padding: 8px 16px;
+            font-family: 'Impact', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transform: skewX(-6deg);
+            transition: all 0.15s ease;
+        }
+        .boutique-link:hover {
+            background: var(--accent-green);
+            color: #000;
+        }
+
+        /* ===== BANDEAU DÉFILANT "DERNIÈRE MINUTE" ===== */
+        .ticker-bar {
+            background: var(--accent-green);
+            border-bottom: 3px solid var(--border-dark);
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            display: flex;
+        }
+
+        .ticker-label {
+            background: var(--danger-red);
+            color: #fff;
+            font-family: 'Impact', sans-serif;
+            padding: 6px 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+            z-index: 2;
+            border-right: 3px solid var(--border-dark);
+        }
+
+        .ticker-track { overflow: hidden; flex-grow: 1; }
+
+        .ticker-content {
+            display: inline-block;
+            padding: 7px 0;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #111;
+            animation: ticker-scroll 40s linear infinite;
+        }
+
+        .ticker-content:hover { animation-play-state: paused; }
+
+        @keyframes ticker-scroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
         /* ===== LAYOUT ===== */
         .main-layout {
             display: grid;
@@ -178,7 +260,6 @@
             transform: skewX(-10deg);
         }
 
-        /* Image héro avec titre en surimpression */
         .hero-visual {
             position: relative;
             width: 100%;
@@ -257,6 +338,49 @@
             font-weight: bold;
         }
 
+        /* ===== BOUTONS DE PARTAGE ===== */
+        .share-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px dashed #bbb;
+            align-items: center;
+        }
+
+        .share-label {
+            font-family: 'Impact', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-right: 4px;
+        }
+
+        .share-btn {
+            background: var(--header-bg);
+            color: #fff;
+            border: 1px solid var(--border-dark);
+            padding: 5px 12px;
+            font-size: 0.82rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .share-btn:hover { background: var(--accent-green); color: #111; }
+
+        /* ===== COMMENTAIRES ===== */
+        .comments-zone { margin-top: 25px; }
+        .comments-zone h3 {
+            font-family: 'Impact', sans-serif;
+            text-transform: uppercase;
+            font-weight: normal;
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--accent-green);
+            display: inline-block;
+        }
+
         .load-error {
             background-color: #ffe4e4;
             border: 2px solid var(--danger-red);
@@ -317,11 +441,7 @@
         .admin-help { font-size: 0.85rem; color: #bbb; margin-bottom: 15px; line-height: 1.5; }
         .admin-help code { background: #000; padding: 1px 5px; color: var(--accent-green); }
 
-        /* Liste de gestion des enquêtes */
-        .manage-list {
-            border: 1px solid #333;
-            margin-bottom: 20px;
-        }
+        .manage-list { border: 1px solid #333; margin-bottom: 20px; }
 
         .manage-row {
             display: flex;
@@ -403,7 +523,51 @@
             resize: vertical;
         }
 
-        /* ===== FIL D'ACTUALITÉS (DROITE) ===== */
+        /* ===== COLONNE DROITE ===== */
+        .right-column { display: flex; flex-direction: column; gap: 18px; }
+
+        /* TOP DES ENQUÊTES */
+        .top-box {
+            border: 2px solid var(--border-dark);
+            background: #fff;
+        }
+
+        .top-box-header {
+            background: var(--header-bg);
+            color: var(--accent-green);
+            font-family: 'Impact', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 14px;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--border-dark);
+        }
+
+        .top-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            font-size: 0.88rem;
+        }
+
+        .top-row:last-child { border-bottom: none; }
+        .top-row:hover { background: rgba(118, 185, 0, 0.12); }
+
+        .top-rank {
+            font-family: 'Impact', sans-serif;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            width: 32px;
+            text-align: center;
+        }
+
+        .top-title { flex-grow: 1; font-weight: bold; line-height: 1.3; }
+        .top-score { font-family: monospace; color: #555; flex-shrink: 0; font-size: 0.8rem; }
+
+        /* FIL D'ACTUALITÉS */
         .stories-feed { display: flex; flex-direction: column; gap: 14px; }
 
         .feed-card {
@@ -463,7 +627,6 @@
             margin-bottom: 8px;
         }
 
-        /* VOTES */
         .vote-system { display: flex; gap: 8px; margin-top: auto; }
         .vote-btn {
             background-color: #f2f2f2;
@@ -476,7 +639,6 @@
         .vote-btn.active-up { background-color: var(--accent-green); color: #fff; }
         .vote-btn.active-down { background-color: var(--danger-red); color: #fff; }
 
-        /* BOUTON CHARGER PLUS */
         .load-more-btn {
             background: var(--header-bg);
             color: var(--accent-green);
@@ -544,6 +706,15 @@
         .social-icons span { cursor: pointer; opacity: 0.9; }
         .social-icons span:hover { color: var(--accent-green); }
 
+        .visit-counter {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            border: 1px dashed var(--accent-green);
+            padding: 5px 12px;
+            display: none;
+        }
+
         .footer-caption {
             width: 100%;
             text-align: center;
@@ -586,7 +757,18 @@
             <h1>Le Blog des Vérités Cachées &ndash; <span class="slogan">*La voix de ceux qui savent*</span></h1>
             <div class="edition-tag">Édition Achères &amp; Univers Connexes</div>
         </div>
+        <nav class="header-nav">
+            <a href="boutique.html" class="boutique-link">🛒 Boutique</a>
+        </nav>
     </header>
+
+    <!-- BANDEAU DÉFILANT -->
+    <div class="ticker-bar" id="tickerBar" style="display:none;">
+        <div class="ticker-label">⚡ Dernière minute</div>
+        <div class="ticker-track">
+            <div class="ticker-content" id="tickerContent"></div>
+        </div>
+    </div>
 
     <!-- STUDIO DE RÉDACTION (accès protégé par identification SHA-256) -->
     <div id="adminPanel" class="admin-panel">
@@ -605,7 +787,7 @@
         <div class="editing-notice" id="editingNotice"></div>
         <form id="studioForm" onsubmit="validateArticle(event)">
             <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS D'ACHÈRES"></div>
-            <div class="form-group"><label>Date de publication</label><input type="text" id="formDate"></div>
+            <div class="form-group"><label>Date de publication (affichée)</label><input type="text" id="formDate"></div>
             <div class="form-group"><label>Localisation</label><input type="text" id="formLoc" placeholder="Ex: National (Enquête en Ille-et-Vilaine)"></div>
             <div class="form-group"><label>Auteur</label><input type="text" id="formAuthor" value="L'Investigateur Anonyme"></div>
             <div class="form-group"><label>Résumé court (affiché dans le fil d'actualités, 1-2 phrases)</label><textarea id="formDesc" required placeholder="Ex: La créature cartilagineuse qui compresse son corps pour vous manger pendant votre sommeil !"></textarea></div>
@@ -634,7 +816,7 @@
                 1. Cliquez sur « Copier ».<br>
                 2. Sur GitHub : ouvrez <code>articles.json</code> → ✏️ Modifier → <strong>remplacez TOUT le contenu</strong> par ce qui est copié.<br>
                 3. Si de nouvelles images : déposez-les dans le dossier <code>images/</code> du dépôt.<br>
-                4. « Commit changes » → en ligne en ~1 minute. L'article en tête de liste devient le Breaking News. 📰
+                4. « Commit changes » → la GitHub Action valide le fichier et régénère le flux RSS + sitemap automatiquement. En ligne en ~1 minute. 📰
             </p>
             <textarea id="jsonOutput" readonly></textarea>
             <div class="studio-actions">
@@ -646,7 +828,13 @@
     <!-- MAIN -->
     <div class="main-layout">
         <div class="featured-story" id="articleViewer"></div>
-        <div class="stories-feed" id="storiesFeed"></div>
+        <div class="right-column">
+            <div class="top-box" id="topBox" style="display:none;">
+                <div class="top-box-header">🏆 Le Top des Éveillés</div>
+                <div id="topList"></div>
+            </div>
+            <div class="stories-feed" id="storiesFeed"></div>
+        </div>
     </div>
 
     <!-- S'ABONNER -->
@@ -659,6 +847,7 @@
         <div class="social-icons" title="Réseaux (sous surveillance)">
             <span>𝕏</span><span>◎</span><span>👁</span>
         </div>
+        <div class="visit-counter" id="visitCounter" title="Compteur GoatCounter (sans cookies)"></div>
         <div class="footer-caption">REJOIGNEZ LA RÉSISTANCE ANTI-RÉEL (GRATUITEMENT !)</div>
     </div>
 
@@ -666,6 +855,8 @@
         <div class="footer-links">
             <a href="#" onclick="toggleStudio(); return false;">Témoignez (Anonymement) !</a>
             <a href="#" onclick="displayHome(); return false;">L'Investigateur Anonyme</a>
+            <a href="boutique.html">Boutique</a>
+            <a href="feed.xml">Flux RSS</a>
             <a href="#" onclick="alert('Toute ressemblance avec la réalité serait franchement inquiétante.'); return false;">Mentions (Pas très) Légales</a>
         </div>
     </footer>
@@ -674,19 +865,32 @@
 <script>
 // ============================================================
 // LE BLOG DES VÉRITÉS CACHÉES — moteur de publication statique
-// articles.json = base des enquêtes publiées (plus récent en premier).
-// Le PREMIER article du JSON = Breaking News central.
-// Les suivants alimentent le fil de droite (pagination par 8).
-// Le studio gère une copie de travail (ajout/modif/suppression)
-// puis génère le fichier articles.json complet à committer.
 // ============================================================
 
-const FEED_PAGE_SIZE = 8;     // nb d'enquêtes affichées par "page" dans le fil
+// ---------- CONFIGURATION ----------
+// Compteur de visites GoatCounter (gratuit, sans cookies) :
+// 1. Créez un compte sur https://www.goatcounter.com (choisissez un code, ex: "veritescachees")
+// 2. Renseignez ce code ci-dessous
+// 3. Dans les paramètres GoatCounter, activez "Allow adding visitor counts on your website"
+// Pour NE PAS compter vos propres visites : visitez une fois votre site avec
+// #toggle-goatcounter à la fin de l'URL (ex: https://votre-site.fr/#toggle-goatcounter)
+// → vos visites depuis ce navigateur ne seront plus comptées. Re-visitez la même URL pour réactiver.
+const GOATCOUNTER_CODE = "";   // ex: "veritescachees"
 
-let articles = [];            // Articles publiés (chargés depuis articles.json)
-let workingArticles = null;   // Copie de travail du studio
-let draftArticles = [];       // Aperçus locaux non publiés
-let editingId = null;         // Id de l'article en cours de modification
+// Commentaires Utterances (optionnel, basé sur les Issues GitHub) :
+// 1. Le dépôt doit être PUBLIC
+// 2. Installez l'app https://github.com/apps/utterances sur le dépôt
+// 3. Renseignez "pseudo/nom-du-repo" ci-dessous (ex: "Endam-creator/blog-verites-cachees")
+const UTTERANCES_REPO = "";    // laisser vide pour désactiver les commentaires
+
+const FEED_PAGE_SIZE = 8;      // nb d'enquêtes par "page" dans le fil
+const TOP_SIZE = 3;            // nb d'enquêtes dans le Top
+// -----------------------------------
+
+let articles = [];
+let workingArticles = null;
+let draftArticles = [];
+let editingId = null;
 let feedLimit = FEED_PAGE_SIZE;
 
 // --- OUTILS ---
@@ -706,7 +910,6 @@ function truncateTitle(title, max = 95) {
     return cut.substring(0, cut.lastIndexOf(' ')) + '…';
 }
 
-// Surligne en vert les premiers mots du titre (style maquette)
 function highlightTitle(title) {
     const t = truncateTitle(title);
     const sep = t.search(/[:!?]/);
@@ -728,15 +931,20 @@ function todayFR() {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function allArticles() {
-    return [...draftArticles, ...articles];
+function allArticles() { return [...draftArticles, ...articles]; }
+function latestId() { return articles.length > 0 ? articles[0].id : null; }
+
+function voteScore(art) {
+    const baseUp = Math.abs(art.id.length * 7) + (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
+    const baseDown = Math.abs(art.id.length % 3) + (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
+    return { up: baseUp, down: baseDown, score: baseUp - baseDown };
 }
 
-function latestId() {
-    return articles.length > 0 ? articles[0].id : null;
+function articleURL(id) {
+    return window.location.origin + window.location.pathname + '?article=' + encodeURIComponent(id);
 }
 
-// --- CHARGEMENT ---
+// --- CHARGEMENT + ROUTAGE PAR URL ---
 
 async function loadArticles() {
     try {
@@ -755,14 +963,71 @@ async function loadArticles() {
             '<div class="article-body"><p>La transmission a été interceptée... Réessayez plus tard.</p></div>';
         return;
     }
-    displayHome();
+
+    // Tri automatique par date ISO "published" (plus récent en premier).
+    // Les articles sans champ published gardent leur ordre et passent après.
+    if (articles.some(a => a.published)) {
+        articles.sort((a, b) => String(b.published || '').localeCompare(String(a.published || '')));
+    }
+
+    renderTicker();
+    renderTop();
     renderFeed();
+
+    // Routage : ?article=id dans l'URL → affichage direct de l'enquête (lien partageable)
+    const params = new URLSearchParams(window.location.search);
+    const wanted = params.get('article');
+    if (wanted && articles.some(a => a.id === wanted)) {
+        displayArticle(wanted, true);
+    } else {
+        displayHome();
+    }
+}
+
+// --- BANDEAU DÉFILANT ---
+
+function renderTicker() {
+    if (articles.length === 0) return;
+    const bar = document.getElementById('tickerBar');
+    const content = document.getElementById('tickerContent');
+    const titles = articles.slice(0, 10).map(a => esc(truncateTitle(a.title, 80))).join(' &nbsp;⚡&nbsp; ');
+    // Contenu doublé pour une boucle de défilement sans coupure
+    content.innerHTML = titles + ' &nbsp;⚡&nbsp; ' + titles + ' &nbsp;⚡&nbsp; ';
+    bar.style.display = 'flex';
+}
+
+// --- TOP DES ENQUÊTES (classement par votes) ---
+
+function renderTop() {
+    const box = document.getElementById('topBox');
+    const list = document.getElementById('topList');
+    if (articles.length < 2) { box.style.display = 'none'; return; }
+
+    const medals = ['🥇', '🥈', '🥉', '4.', '5.'];
+    const ranked = [...articles]
+        .map(a => ({ art: a, ...voteScore(a) }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, TOP_SIZE);
+
+    list.innerHTML = '';
+    ranked.forEach((item, i) => {
+        const row = document.createElement('div');
+        row.className = 'top-row';
+        row.innerHTML =
+            '<span class="top-rank">' + (medals[i] || (i + 1) + '.') + '</span>' +
+            '<span class="top-title">' + esc(truncateTitle(item.art.title, 65)) + '</span>' +
+            '<span class="top-score">▲' + item.up + '</span>';
+        row.addEventListener('click', () => displayArticle(item.art.id, true));
+        list.appendChild(row);
+    });
+    box.style.display = 'block';
 }
 
 // --- ACCUEIL = DERNIER ARTICLE EN BREAKING NEWS ---
 
 function displayHome() {
     draftArticles = [];
+    history.replaceState(null, '', window.location.pathname); // URL propre
     if (articles.length > 0) {
         displayArticle(articles[0].id, false);
     } else {
@@ -775,13 +1040,13 @@ function displayHome() {
     renderFeed();
 }
 
-// --- FIL D'ACTUALITÉS : articles SAUF le Breaking News, paginés ---
+// --- FIL D'ACTUALITÉS paginé ---
 
 function renderFeed() {
     const feed = document.getElementById('storiesFeed');
     feed.innerHTML = "";
 
-    const list = articles.slice(1); // le plus récent est en vedette au centre
+    const list = articles.slice(1);
 
     if (list.length === 0) {
         feed.innerHTML = '<div class="load-error" style="background:#f4f4f4;border-color:#999;">' +
@@ -796,11 +1061,9 @@ function renderFeed() {
         card.className = 'feed-card';
         card.addEventListener('click', () => displayArticle(art.id, true));
 
-        const baseUp = Math.abs(art.id.length * 7) + (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
-        const baseDown = Math.abs(art.id.length % 3) + (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
+        const v = voteScore(art);
         const activeUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
         const activeDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
-
         const stamp = art.classified ? '<span class="classified-stamp">Classified</span>' : '';
 
         card.innerHTML =
@@ -809,8 +1072,8 @@ function renderFeed() {
                 '<div class="feed-title">' + highlightTitle(art.title) + '</div>' +
                 '<div class="feed-desc">' + esc(art.desc) + '</div>' +
                 '<div class="vote-system">' +
-                    '<button class="vote-btn upvote ' + activeUp + '" data-vote="up">👍 <span class="count">' + baseUp + '</span></button>' +
-                    '<button class="vote-btn downvote ' + activeDown + '" data-vote="down">👎 <span class="count">' + baseDown + '</span></button>' +
+                    '<button class="vote-btn upvote ' + activeUp + '" data-vote="up">👍 <span class="count">' + v.up + '</span></button>' +
+                    '<button class="vote-btn downvote ' + activeDown + '" data-vote="down">👎 <span class="count">' + v.down + '</span></button>' +
                 '</div>' +
             '</div>' + stamp;
 
@@ -824,7 +1087,6 @@ function renderFeed() {
         feed.appendChild(card);
     });
 
-    // Pagination : bouton "Afficher plus" si tout n'est pas affiché
     const remaining = list.length - visible.length;
     if (remaining > 0) {
         const moreBtn = document.createElement('button');
@@ -844,6 +1106,14 @@ function displayArticle(id, isArchive) {
     const art = allArticles().find(a => a.id === id);
     const viewer = document.getElementById('articleViewer');
     if (!art) return;
+
+    // URL partageable (sauf brouillons)
+    if (!art._draft) {
+        const newURL = art.id === latestId()
+            ? window.location.pathname
+            : window.location.pathname + '?article=' + encodeURIComponent(art.id);
+        history.replaceState(null, '', newURL);
+    }
 
     let interviewHTML = "";
     if (art.interview && art.interview.length > 0) {
@@ -867,6 +1137,21 @@ function displayArticle(id, isArchive) {
 
     const stampBig = art.classified ? '<span class="classified-stamp big">Classified</span>' : '';
 
+    // Boutons de partage (pas sur les brouillons)
+    let shareHTML = '';
+    if (!art._draft) {
+        const url = articleURL(art.id);
+        const shareText = art.title;
+        shareHTML =
+            '<div class="share-bar">' +
+                '<span class="share-label">📢 Diffuser la vérité :</span>' +
+                '<a class="share-btn" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(url) + '">𝕏</a>' +
+                '<a class="share-btn" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + url) + '">WhatsApp</a>' +
+                '<a class="share-btn" target="_blank" rel="noopener" href="https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(shareText) + '">Telegram</a>' +
+                '<button class="share-btn" onclick="copyArticleLink(\'' + esc(art.id) + '\')">🔗 Copier le lien</button>' +
+            '</div>';
+    }
+
     viewer.innerHTML =
         '<div class="meta-data">' +
             'LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>' +
@@ -883,9 +1168,34 @@ function displayArticle(id, isArchive) {
             '<p>' + esc(art.intro) + '</p>' +
             interviewHTML +
             noticeHTML +
-        '</div>' + stampBig;
+        '</div>' +
+        shareHTML +
+        '<div class="comments-zone" id="commentsZone"></div>' +
+        stampBig;
+
+    // Commentaires Utterances (si configurés, hors brouillons)
+    if (UTTERANCES_REPO && !art._draft) {
+        const zone = document.getElementById('commentsZone');
+        zone.innerHTML = '<h3>💬 Témoignages des Éveillés</h3>';
+        const s = document.createElement('script');
+        s.src = 'https://utteranc.es/client.js';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        s.setAttribute('repo', UTTERANCES_REPO);
+        s.setAttribute('issue-term', art.id);
+        s.setAttribute('label', 'commentaires');
+        s.setAttribute('theme', 'github-light');
+        zone.appendChild(s);
+    }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyArticleLink(id) {
+    const url = articleURL(id);
+    navigator.clipboard.writeText(url)
+        .then(() => alert('Lien copié ! Diffusez la vérité. 📡\n' + url))
+        .catch(() => prompt('Copiez le lien manuellement :', url));
 }
 
 // --- VOTES (locaux à chaque visiteur) ---
@@ -899,14 +1209,53 @@ function registerVote(articleId, type) {
         localStorage.setItem(storageKey, type);
     }
     renderFeed();
+    renderTop();
+}
+
+// --- COMPTEUR DE VISITES (GoatCounter) ---
+
+function initVisitCounter() {
+    if (!GOATCOUNTER_CODE) return;
+
+    // Bascule "ne pas me compter" : visitez votre site avec #toggle-goatcounter
+    if (window.location.hash === '#toggle-goatcounter') {
+        if (localStorage.getItem('skipgc') === 't') {
+            localStorage.removeItem('skipgc');
+            alert('👁 Vos visites sont à nouveau COMPTÉES sur ce navigateur.');
+        } else {
+            localStorage.setItem('skipgc', 't');
+            alert('🕵️ Vos visites ne sont PLUS comptées sur ce navigateur (mode Investigateur).');
+        }
+    }
+
+    // Comptage de la visite (sauf si exclu)
+    if (localStorage.getItem('skipgc') !== 't') {
+        window.goatcounter = { path: '/' }; // tout est compté sur la page d'accueil (site mono-page)
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://gc.zgo.at/count.js';
+        s.setAttribute('data-goatcounter', 'https://' + GOATCOUNTER_CODE + '.goatcounter.com/count');
+        document.body.appendChild(s);
+    }
+
+    // Affichage du total (nécessite d'activer "visitor counts" dans les réglages GoatCounter)
+    fetch('https://' + GOATCOUNTER_CODE + '.goatcounter.com/counter/' + encodeURIComponent('/') + '.json')
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+            if (data && data.count) {
+                const el = document.getElementById('visitCounter');
+                el.textContent = '👁 ' + String(data.count).trim() + ' esprits éveillés ont consulté ce site';
+                el.style.display = 'block';
+            }
+        })
+        .catch(() => {});
 }
 
 // --- IDENTIFICATION ---
-// Seule l'empreinte SHA-256 de "identifiant:motdepasse" est stockée ici :
-// impossible de retrouver les identifiants en lisant le code source.
+// Seule l'empreinte SHA-256 de "identifiant:motdepasse" est stockée ici.
 // Identifiants par défaut : admin / endam2026
-// Pour les changer : console du navigateur (F12) → genHash("nouvelId", "nouveauMdp")
-// puis remplacez la valeur de AUTH_HASH ci-dessous par le résultat.
+// Pour changer : console du navigateur (F12) → genHash("nouvelId", "nouveauMdp")
+// puis remplacez AUTH_HASH ci-dessous.
 const AUTH_HASH = "99262f0f6b773271fbd4b0a23eeeb960f0a541f4d744ec740077cfac09948081";
 
 let isAuthorized = false;
@@ -957,7 +1306,6 @@ async function toggleStudio() {
 }
 
 function openStudioSession(panel) {
-    // Copie de travail initialisée depuis les articles publiés (une seule fois)
     if (workingArticles === null) {
         workingArticles = JSON.parse(JSON.stringify(articles));
     }
@@ -1017,7 +1365,6 @@ function editArticle(id) {
     document.getElementById('formIntro').value = art.intro || '';
     document.getElementById('formInterview').value = interviewToText(art.interview);
     document.getElementById('formNotice').value = art.notice || '';
-    // Retire le préfixe images/ pour l'affichage dans le champ
     document.getElementById('formImg').value = (art.img || '').replace(/^images\//, '').replace(/^logo_chat_loupe\.png$/, '');
     document.getElementById('formClassified').value = art.classified ? 'oui' : 'non';
 
@@ -1056,7 +1403,7 @@ function deleteArticle(id) {
 
 // --- CONSTRUCTION / VALIDATION D'UNE ENQUÊTE ---
 
-function buildArticleFromForm(keepId) {
+function buildArticleFromForm(keepId, keepPublished) {
     const title = document.getElementById('formTitle').value.trim();
     const date = document.getElementById('formDate').value.trim() || todayFR();
     const location = document.getElementById('formLoc').value.trim() || "National";
@@ -1088,7 +1435,9 @@ function buildArticleFromForm(keepId) {
         id: keepId || ("art-" + Date.now()),
         title, date, location, author,
         img: img || "logo_chat_loupe.png",
-        desc, intro, interview, notice, classified
+        desc, intro, interview, notice, classified,
+        // Date ISO pour le tri automatique et le flux RSS
+        published: keepPublished || new Date().toISOString().slice(0, 10)
     };
 }
 
@@ -1096,17 +1445,16 @@ function validateArticle(e) {
     e.preventDefault();
 
     if (editingId) {
-        // Mise à jour en place (conserve la position dans la liste)
         const index = workingArticles.findIndex(a => a.id === editingId);
         if (index !== -1) {
-            const updated = buildArticleFromForm(editingId);
+            const old = workingArticles[index];
+            const updated = buildArticleFromForm(editingId, old.published);
             updated._modified = true;
             workingArticles[index] = updated;
         }
         cancelEdit();
         alert('Enquête mise à jour dans la copie de travail. ✏️\nPensez à générer et committer articles.json pour publier.');
     } else {
-        // Nouvel article : ajouté en tête (futur Breaking News)
         const art = buildArticleFromForm();
         workingArticles.unshift(art);
         document.getElementById('studioForm').reset();
@@ -1135,7 +1483,6 @@ function previewArticle() {
 // --- GÉNÉRATION DU FICHIER COMPLET ---
 
 function cleanForExport(list) {
-    // Retire les champs internes (_modified) avant export
     return list.map(a => {
         const copy = { ...a };
         delete copy._modified;
@@ -1173,7 +1520,10 @@ function copyJSON() {
 
 // --- INIT ---
 
-document.addEventListener("DOMContentLoaded", loadArticles);
+document.addEventListener("DOMContentLoaded", () => {
+    loadArticles();
+    initVisitCounter();
+});
 </script>
 </body>
 </html>
