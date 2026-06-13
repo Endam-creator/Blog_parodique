@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Censurée | Le Blog des Vérités Cachées</title>
+    <link rel="icon" type="image/png" href="/logo_chat_loupe.png">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
+        body {
+            background: #111;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+        }
+        .censored-box {
+            max-width: 650px;
+            text-align: center;
+            border: 2px dashed #76b900;
+            padding: 50px 35px;
+            position: relative;
+        }
+        .code {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 6rem;
+            color: #76b900;
+            line-height: 1;
+            font-weight: normal;
+        }
+        h1 {
+            font-family: 'Impact', sans-serif;
+            text-transform: uppercase;
+            font-size: 1.6rem;
+            margin: 15px 0;
+            font-weight: normal;
+        }
+        .redacted {
+            background: #fff;
+            color: #fff;
+            padding: 0 6px;
+            user-select: none;
+        }
+        p { line-height: 1.7; color: #ccc; margin-bottom: 12px; font-family: monospace; }
+        .stamp {
+            display: inline-block;
+            color: #ff4444;
+            border: 3px double #ff4444;
+            padding: 4px 16px;
+            font-family: 'Impact', sans-serif;
+            letter-spacing: 3px;
+            transform: rotate(-7deg);
+            margin: 18px 0;
+            text-transform: uppercase;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            background: #76b900;
+            color: #111;
+            text-decoration: none;
+            font-family: 'Impact', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 26px;
+        }
+        .back-link:hover { background: #8ae000; }
+    </style>
+</head>
+<body>
+    <div class="censored-box">
+        <div class="code">404</div>
+        <h1>Cette page a été censurée</h1>
+        <div class="stamp">Classified</div>
+        <p>La page que vous cherchez a été <span class="redacted">supprimée par le</span> gouvernement.
+        Ou alors elle n'a jamais existé. Ou alors elle existe mais ILS ne veulent pas que vous la voyiez.</p>
+        <p>Coïncidence ? <strong style="color:#76b900;">Nous ne croyons pas.</strong></p>
+        <a href="/" class="back-link">← Rejoindre la Résistance</a>
+    </div>
+</body>
+</html>

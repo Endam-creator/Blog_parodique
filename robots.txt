@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /boutique.html
+
+# ⚠️ Remplace VOTRE-DOMAINE.fr par ton vrai domaine (celui du fichier CNAME)
+Sitemap: https://VOTRE-DOMAINE.fr/sitemap.xml
