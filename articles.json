@@ -1,5 +1,77 @@
 [
   {
+    "id": "art-1781392895334",
+    "title": "Le gouvernement a remplacé mon mari par un clone (et le nouveau fait la vaisselle)",
+    "date": "Dimanche 14 juin 2026",
+    "location": "Achères, Île-de-France",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/Clone.png",
+    "desc": "Le gouvernement a remplacé mon mari par un clone (et le nouveau fait la vaisselle)",
+    "intro": "À première vue, le pavillon de Véronique T., situé dans une impasse paisible d'Achères (Yvelines), ressemble à n'importe quel autre. Mais derrière les volets clos, cette mère de famille de 48 ans vit un cauchemar psychologique que les médias traditionnels refusent de couvrir. Depuis le mois dernier, Véronique en est persuadée : l'homme qui partage sa vie, qu'elle appelle « l'entité », n'est pas Jean-Marc, son mari depuis vingt-deux ans. C'est une copie gouvernementale.",
+    "interview": [
+      {
+        "q": "Véronique, merci de nous recevoir. La situation que vous vivez est terrifiante. Quand avez-vous eu les premiers soupçons ?",
+        "a": "Tout a commencé le mardi 14 avril. J'avais préparé un hachis parmentier. Le vrai Jean-Marc aurait laissé le plat à gratin rempli d'eau dans l'évier pendant au moins quatre jours, en prétextant qu'il fallait « laisser tremper la croûte ». C'était notre routine. Mais ce soir-là, l'individu qui le remplace a pris une éponge, du liquide vaisselle, et a frotté jusqu'à ce que le plat brille. J'ai tout de suite compris qu'il y avait une faille dans la matrice."
+      },
+      {
+        "q": "Un homme qui fait la vaisselle de son plein gré... C'est vrai que statistiquement, c'est suspect. Mais n'avez-vous pas pensé qu'il essayait simplement de faire des efforts ?",
+        "a": "(Rires amers) Des efforts ? Vous ne connaissiez pas l'original. Mais le pire était à venir. Trois jours plus tard, je vais aux toilettes en pleine nuit. Et là... la lunette était rabaissée."
+      },
+      {
+        "q": "Rabaissée ? Systématiquement ?",
+        "a": "À chaque fois ! Au début, j'ai cru qu'il était malade. J'ai observé ses pupilles, j'ai failli appeler le SAMU. Mais ses constantes étaient parfaites. Il m'a même demandé comment s'était passée ma journée au bureau. Le vrai Jean-Marc s'en fout complètement de ma journée au bureau ! Le laboratoire clandestin qui a fabriqué ce clone a clairement bâclé le profil psychologique. Ils l'ont programmé avec trop d'empathie. C'est une erreur de débutant."
+      },
+      {
+        "q": "Quelle est, selon vous, la preuve irréfutable de cette machination ?",
+        "a": "Notre anniversaire de mariage, le week-end dernier. Le clone m'a offert un bouquet de pivoines et a réservé une table au restaurant italien. C'est là que le piège s'est refermé sur eux. L'année dernière, pour nos 21 ans de mariage, l'original m'avait offert un jeu de tournevis cruciformes et m'avait dit de commander une pizza. Ce nouveau modèle a une mémoire défectueuse, il a carrément retenu la date exacte. C'est glaçant de réalisme, mais ils m'ont sous-estimée."
+      },
+      {
+        "q": "Pourquoi les services secrets s'en prendraient-ils à un comptable d'Achères ?",
+        "a": "Jean-Marc passe beaucoup de temps avec ses jumelles à regarder par la fenêtre de notre chambre. Il dit que c'est pour surveiller les merles, mais je suis sûre qu'il a vu quelque chose qu'il n'aurait pas dû voir au-dessus de la forêt de Saint-Germain-en-Laye. Un drone ? Une réunion secrète de la mairie ? Ils l'ont escamoté pour le faire taire."
+      },
+      {
+        "q": "Quelle est votre prochaine étape, Véronique ?",
+        "a": "Je veux qu'on me rende mon vrai mari. J'ai envoyé une mise en demeure à la DGSI en recommandé avec accusé de réception, et j'ai tagué le ministère de l'Intérieur sur X (anciennement Twitter). Je suis prête à négocier. Le clone est très poli, sa brioche aux pralines maison est excellente, mais ses discussions sur « l'importance de la charge mentale » m'épuisent. Je veux retrouver l'homme qui s'endort sur le canapé à 21h15 en regardant Top Chef. C'est ça, le vrai amour."
+      }
+    ],
+    "notice": "Si vous apercevez le véritable Jean-Marc (signes distinctifs : porte un jogging délavé du PSG, sent le déodorant Ushuaïa et répond \"Hmm\" à toute question complexe), merci de contacter la rédaction. Ne l'approchez pas avec une éponge, il pourrait prendre peur.",
+    "classified": true,
+    "published": "2026-06-13"
+  },
+  {
+    "id": "art-medium",
+    "title": "INVESTIGATION TRANSFRONTALIÈRE : « Oubliez les lignes de la main : la vérité sur votre avenir est écrite sur vos fessiers, selon ce médium allemand »",
+    "date": "Dimanche 7 juin 2026",
+    "location": "International (Enquête en Rhénanie-du-Nord-Westphalie)",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/medium.png",
+    "desc": "L'avenir est écrit sur vos fesses : un médium allemand lit le destin de ses clients en tâtant leur anatomie.",
+    "intro": "Alors que les voyants traditionnels s'épuisent à scruter des cartes de tarot ou à déchiffrer les plis de vos paumes, la science occulte vient de franchir une nouvelle frontière en Europe. Outre-Rhin, un homme a développé une méthode de divination unique au monde, basée sur la topographie musculaire et thermique de l'anatomie humaine. Pour lui, le grand livre du destin ne s'ouvre pas dans les mains, mais un peu plus bas. Nous avons traversé la frontière pour rencontrer Ulf S., 58 ans, un médium non-voyant qui redéfinit l'art de la voyance depuis son cabinet près de Cologne.",
+    "interview": [
+      {
+        "q": "Ulf, votre spécialité, baptisée la \"Rumpologie\", suscite beaucoup de curiosité. Comment vous est venue cette intuition ?",
+        "a": "Les mains mentent. Les gens passent leur temps à travailler, à frotter, à modifier la peau de leurs doigts. Mais l'arrière du corps, lui, ne triche jamais. C'est la zone où s'accumulent toutes les tensions existentielles, les traumatismes du passé et l'énergie brute de l'avenir. Étant non-voyant, mes mains ont développé une sensibilité nerveuse hors du commun. Quand un client s'assoit sur ma table d'examen et que je pose mes paumes sur ses fessiers, je perçois des vibrations temporelles immédiates."
+      },
+      {
+        "q": "Concrètement, qu'est-ce que la texture ou la forme de cette zone peut bien révéler sur le caractère d'une personne ?",
+        "a": "Tout est une question de quadrants et de polarité thermique. Par exemple, une fesse gauche plus ferme et plus chaude indique un tempérament de leader, quelqu'un qui va recevoir une promotion ou faire une rentrée d'argent majeure dans les six mois. En revanche, des micro-tensions localisées dans le muscle grand fessier droit révèlent une trahison passée non digérée ou un secret de famille enfoui. La forme générale — en pomme, en poire ou en carré — dessine les grandes lignes de la personnalité : les \"pommes\" sont des idéalistes souvent ciblés par les puces 5G, tandis que les \"carrés\" sont des esprits cartésiens piégés dans la matrice officielle."
+      },
+      {
+        "q": "Votre méthode est très physique. Comment réagissent les clients qui franchissent la porte de votre cabinet ?",
+        "a": "Au début, les Allemands sont très réservés, c'est dans leur nature. Mais quand je leur annonce, après seulement trois secondes de palpation, le montant exact de leur livret d'épargne ou l'année de disparition de leur grand-oncle, toute la gêne s'évapore. J'ai des hommes d'affaires, des politiciens et même des agents de la fonction publique qui viennent me voir incognito avant de prendre des décisions géopolitiques majeures. Ils savent que ma méthode est infaillible."
+      },
+      {
+        "q": "Les sceptiques de la science officielle crient évidemment à la supercherie ou à l'excentricité...",
+        "a": "Laissez les scientifiques en blouse blanche s'agiter avec leurs statistiques. Pendant qu'ils analysent des données biaisées par des algorithmes, moi je touche la réalité du squelette et de l'énergie humaine. La vérité est ancrée dans la matière. Le corps humain est une carte routière cosmique ; il suffit de savoir où poser les mains pour lire les panneaux de signalisation."
+      }
+    ],
+    "notice": "La prochaine fois que vous passerez un entretien d'embauche ou un contrôle de sécurité, surveillez vos arrières. Si la divination fessière se démocratise en France, il faudra soigner votre posture sur votre chaise pour ne pas envoyer de mauvaises ondes à vos examinateurs.",
+    "classified": false,
+    "published": "2026-06-07"
+  },
+
+  
+  {
     "id": "art-medium",
     "title": "INVESTIGATION TRANSFRONTALIÈRE : « Oubliez les lignes de la main : la vérité sur votre avenir est écrite sur vos fessiers, selon ce médium allemand »",
     "date": "Dimanche 7 juin 2026",
