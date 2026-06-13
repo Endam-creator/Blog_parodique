@@ -1,0 +1,60 @@
+name: Validation et génération du site
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'articles.json'
+      - '.github/scripts/generate_feed.mjs'
+      - '.github/workflows/site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération du dépôt
+        uses: actions/checkout@v4
+
+      - name: Installation de Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ÉTAPE 1 : validation de articles.json
+      # Si le JSON est invalide (virgule en trop, guillemet oublié...),
+      # l'action échoue → email d'alerte GitHub, et on sait immédiatement quoi corriger.
+      - name: Validation de articles.json
+        run: |
+          node -e "
+            const data = JSON.parse(require('fs').readFileSync('articles.json', 'utf8'));
+            if (!Array.isArray(data)) throw new Error('articles.json doit contenir un tableau []');
+            data.forEach((a, i) => {
+              for (const champ of ['id', 'title', 'desc', 'intro']) {
+                if (!a[champ]) throw new Error('Article #' + (i+1) + ' : champ manquant ou vide -> ' + champ);
+              }
+            });
+            const ids = data.map(a => a.id);
+            if (new Set(ids).size !== ids.length) throw new Error('Des articles ont le même id !');
+            console.log('✅ articles.json valide (' + data.length + ' article(s))');
+          "
+
+      # ÉTAPE 2 : génération du flux RSS et du sitemap
+      - name: Génération de feed.xml et sitemap.xml
+        run: node .github/scripts/generate_feed.mjs
+
+      # ÉTAPE 3 : commit automatique des fichiers générés
+      - name: Commit des fichiers générés
+        run: |
+          git config user.name "L'Investigateur Automatique"
+          git config user.email "actions@github.com"
+          git add feed.xml sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Rien à committer."
+          else
+            git commit -m "🤖 Régénération automatique du flux RSS et du sitemap"
+            git push
+          fi
