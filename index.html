@@ -875,13 +875,15 @@
 // Pour NE PAS compter vos propres visites : visitez une fois votre site avec
 // #toggle-goatcounter à la fin de l'URL (ex: https://votre-site.fr/#toggle-goatcounter)
 // → vos visites depuis ce navigateur ne seront plus comptées. Re-visitez la même URL pour réactiver.
-const GOATCOUNTER_CODE = "endam-digital";   // ex: "veritescachees"
+const GOATCOUNTER_CODE = "";   // ex: "veritescachees"
 
-// Commentaires Utterances (optionnel, basé sur les Issues GitHub) :
-// 1. Le dépôt doit être PUBLIC
-// 2. Installez l'app https://github.com/apps/utterances sur le dépôt
-// 3. Renseignez "pseudo/nom-du-repo" ci-dessous (ex: "Endam-creator/blog-verites-cachees")
-const UTTERANCES_REPO = "";    // laisser vide pour désactiver les commentaires
+// Commentaires Cusdis (gratuit, sans inscription des visiteurs, sans compte GitHub) :
+// 1. Créez un compte gratuit sur https://cusdis.com
+// 2. Ajoutez un site ("Add new website") → Cusdis vous donne un "App ID" (un UUID)
+// 3. Collez cet App ID ci-dessous. Laissez vide pour désactiver les commentaires.
+// Les visiteurs commentent avec un simple pseudo. Vous validez/supprimez les
+// commentaires depuis votre tableau de bord Cusdis (et par email).
+const CUSDIS_APP_ID = "";   // ex: "a1b2c3d4-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
 const FEED_PAGE_SIZE = 8;      // nb d'enquêtes par "page" dans le fil
 const TOP_SIZE = 3;            // nb d'enquêtes dans le Top
@@ -934,10 +936,32 @@ function todayFR() {
 function allArticles() { return [...draftArticles, ...articles]; }
 function latestId() { return articles.length > 0 ? articles[0].id : null; }
 
+// Cascade de chargement d'image : essaie le chemin tel quel, puis images/<nom>,
+// puis <nom> à la racine, et enfin le logo. Tolère les erreurs de dossier/chemin.
+function imgCandidates(raw) {
+    const fallback = 'logo_chat_loupe.png';
+    if (!raw) return [fallback];
+    const base = raw.split('/').pop();              // nom de fichier seul
+    const list = [raw, 'images/' + base, base, fallback];
+    // déduplique en gardant l'ordre
+    return list.filter((v, i) => list.indexOf(v) === i);
+}
+
+// Construit l'attribut onerror qui passe au candidat suivant à chaque échec
+function imgTag(raw, attrs) {
+    const cands = imgCandidates(raw);
+    const json = JSON.stringify(cands).replace(/"/g, '&quot;');
+    const onerr = "(function(el){var c=" + json + ";el.__i=(el.__i==null?0:el.__i+1);" +
+                  "if(el.__i<c.length){el.src=c[el.__i];}})(this)";
+    return '<img src="' + esc(cands[0]) + '" onerror="' + onerr + '" ' + (attrs || '') + '>';
+}
+
 function voteScore(art) {
-    const baseUp = Math.abs(art.id.length * 7) + (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
-    const baseDown = Math.abs(art.id.length % 3) + (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
-    return { up: baseUp, down: baseDown, score: baseUp - baseDown };
+    // Vrais compteurs partant de 0. Le vote du visiteur est stocké localement.
+    // (Sans backend, chaque visiteur ne voit que son propre vote ajouté au total.)
+    const up = (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
+    const down = (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
+    return { up: up, down: down, score: up - down };
 }
 
 function articleURL(id) {
@@ -1067,7 +1091,7 @@ function renderFeed() {
         const stamp = art.classified ? '<span class="classified-stamp">Classified</span>' : '';
 
         card.innerHTML =
-            '<div class="feed-img-area"><img src="' + esc(art.img || 'logo_chat_loupe.png') + '" alt="Illustration" loading="lazy" onerror="this.src=\'logo_chat_loupe.png\'"></div>' +
+            '<div class="feed-img-area">' + imgTag(art.img, 'alt="Illustration" loading="lazy"') + '</div>' +
             '<div class="feed-content">' +
                 '<div class="feed-title">' + highlightTitle(art.title) + '</div>' +
                 '<div class="feed-desc">' + esc(art.desc) + '</div>' +
@@ -1161,7 +1185,7 @@ function displayArticle(id, isArchive) {
         '</div>' +
         banner +
         '<div class="hero-visual">' +
-            '<img src="' + esc(art.img || 'logo_chat_loupe.png') + '" alt="Illustration" onerror="this.src=\'logo_chat_loupe.png\'">' +
+            imgTag(art.img, 'alt="Illustration"') +
             '<div class="hero-title-overlay"><h2>' + esc(art.title) + '</h2></div>' +
         '</div>' +
         '<div class="article-body">' +
@@ -1173,19 +1197,26 @@ function displayArticle(id, isArchive) {
         '<div class="comments-zone" id="commentsZone"></div>' +
         stampBig;
 
-    // Commentaires Utterances (si configurés, hors brouillons)
-    if (UTTERANCES_REPO && !art._draft) {
+    // Commentaires Cusdis (si configurés, hors brouillons)
+    if (CUSDIS_APP_ID && !art._draft) {
         const zone = document.getElementById('commentsZone');
-        zone.innerHTML = '<h3>💬 Témoignages des Éveillés</h3>';
-        const s = document.createElement('script');
-        s.src = 'https://utteranc.es/client.js';
-        s.async = true;
-        s.crossOrigin = 'anonymous';
-        s.setAttribute('repo', UTTERANCES_REPO);
-        s.setAttribute('issue-term', art.id);
-        s.setAttribute('label', 'commentaires');
-        s.setAttribute('theme', 'github-light');
-        zone.appendChild(s);
+        zone.innerHTML = '<h3>💬 Témoignages des Éveillés</h3>' +
+            '<div id="cusdis_thread" ' +
+                'data-host="https://cusdis.com" ' +
+                'data-app-id="' + esc(CUSDIS_APP_ID) + '" ' +
+                'data-page-id="' + esc(art.id) + '" ' +
+                'data-page-url="' + esc(articleURL(art.id)) + '" ' +
+                'data-page-title="' + esc(art.title) + '"></div>';
+        // (Re)charge le script Cusdis et force le rendu du fil courant
+        if (window.CUSDIS && typeof window.CUSDIS.initial === 'function') {
+            window.CUSDIS.initial();
+        } else {
+            const s = document.createElement('script');
+            s.async = true;
+            s.defer = true;
+            s.src = 'https://cusdis.com/js/cusdis.es.js';
+            document.body.appendChild(s);
+        }
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
