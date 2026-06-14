@@ -12,8 +12,8 @@
     <meta property="og:site_name" content="Le Blog des Vérités Cachées">
     <meta property="og:title" content="Le Blog des Vérités Cachées - La voix de ceux qui savent">
     <meta property="og:description" content="Enquêtes apocryphes, interviews exclusives et révélations que personne ne vous demandait. Entrez, si vous osez remettre en question le réel.">
-    <meta property="og:url" content="https://les-verites-cachees.endam-digital.com/">
-    <meta property="og:image" content="https://les-verites-cachees.endam-digital.com/logo_chat_loupe.png">
+    <meta property="og:url" content="https://VOTRE-DOMAINE.fr/">
+    <meta property="og:image" content="https://VOTRE-DOMAINE.fr/logo_chat_loupe.png">
     <meta name="twitter:card" content="summary">
 
     <!-- Favicon (le chat à la loupe) -->
@@ -57,6 +57,7 @@
             border: 2px solid var(--border-dark);
             box-shadow: 0 12px 35px rgba(0,0,0,0.45);
             position: relative;
+            overflow-x: hidden;
         }
 
         /* ===== SCOTCH AUX COINS ===== */
@@ -407,9 +408,13 @@
         }
 
         .classified-stamp.big {
-            font-size: 1.1rem;
-            bottom: 25px;
-            right: 25px;
+            font-size: 1.4rem;
+            top: 18px;
+            right: 18px;
+            bottom: auto;
+            transform: rotate(-12deg);
+            padding: 3px 14px;
+            z-index: 5;
         }
 
         /* ===== STUDIO DE RÉDACTION ===== */
@@ -738,6 +743,107 @@
             text-decoration: underline;
         }
         .footer-links a:hover { color: var(--accent-green); }
+
+        /* ============================================================
+           RESPONSIVE — TABLETTE & MOBILE
+           ============================================================ */
+
+        /* Tablette et en dessous : header qui s'empile proprement */
+        @media (max-width: 949px) {
+            body { padding: 12px 8px; }
+
+            header {
+                flex-wrap: wrap;
+                gap: 14px;
+                padding: 14px 16px;
+            }
+
+            .logo-area { order: 1; }
+
+            /* Bouton boutique : passe à côté du logo, ne déborde plus */
+            .header-nav {
+                order: 2;
+                margin-left: auto;
+            }
+
+            .boutique-link {
+                transform: none;
+                padding: 7px 13px;
+                font-size: 0.9rem;
+            }
+
+            /* Titre : pleine largeur sous le logo, taille réduite */
+            .header-titles {
+                order: 3;
+                flex-basis: 100%;
+            }
+
+            .header-titles h1 { font-size: 1.5rem; }
+            .header-titles h1 .slogan { font-size: 1.3rem; }
+            .edition-tag { font-size: 0.85rem; }
+        }
+
+        /* Mobile : ajustements fins */
+        @media (max-width: 600px) {
+            .header-titles h1 { font-size: 1.3rem; line-height: 1.2; }
+            .header-titles h1 .slogan { font-size: 1.15rem; }
+
+            .logo-img { width: 64px; height: 64px; }
+
+            /* Bandeau défilant : label plus compact */
+            .ticker-label { padding: 6px 9px; font-size: 0.8rem; }
+            .ticker-content { font-size: 0.82rem; }
+
+            .main-layout { padding: 12px; gap: 14px; }
+            .featured-story { padding: 12px; }
+
+            /* Article : titre en surimpression repassé en pleine largeur */
+            .hero-visual { min-height: 220px; }
+            .hero-title-overlay {
+                position: static;
+                max-width: 100%;
+                box-shadow: none;
+                border: none;
+                border-top: 3px solid var(--accent-green);
+                padding: 10px 4px 0;
+            }
+            .hero-title-overlay h2 { font-size: 1.15rem; }
+
+            .breaking-banner { font-size: 1rem; padding: 5px 12px; }
+            .article-body { font-size: 1rem; }
+            .meta-data { font-size: 0.8rem; }
+
+            /* Cartes du fil : image un peu plus petite */
+            .feed-card { grid-template-columns: 85px 1fr; }
+            .feed-img-area { width: 85px; }
+            .feed-title { font-size: 0.88rem; }
+
+            /* Boutons de partage : reste sur une ligne souple */
+            .share-bar { gap: 6px; }
+            .share-btn { padding: 5px 10px; font-size: 0.78rem; }
+
+            /* Newsletter : empilée et centrée */
+            .newsletter-bar { padding: 16px; justify-content: center; text-align: center; }
+            .subscribe-tag { font-size: 1.5rem; }
+            .newsletter-form { max-width: 100%; }
+
+            /* Top des enquêtes : un peu plus compact */
+            .top-row { padding: 8px 10px; font-size: 0.85rem; }
+            .top-rank { font-size: 1.1rem; width: 26px; }
+
+            /* Studio : marges réduites pour gagner de la place */
+            .admin-panel { margin: 12px; padding: 14px; }
+
+            /* Tampon CLASSIFIED un cran plus petit */
+            .classified-stamp.big { font-size: 1.1rem; top: 12px; right: 12px; }
+        }
+
+        /* Très petits écrans : éviter que le titre déborde */
+        @media (max-width: 380px) {
+            .header-titles h1 { font-size: 1.12rem; }
+            .header-titles h1 .slogan { font-size: 1rem; }
+            .boutique-link { font-size: 0.82rem; padding: 6px 10px; }
+        }
     </style>
 </head>
 <body>
@@ -883,7 +989,7 @@ const GOATCOUNTER_CODE = "";   // ex: "veritescachees"
 // 3. Collez cet App ID ci-dessous. Laissez vide pour désactiver les commentaires.
 // Les visiteurs commentent avec un simple pseudo. Vous validez/supprimez les
 // commentaires depuis votre tableau de bord Cusdis (et par email).
-const CUSDIS_APP_ID = "804824ac-4fc7-4325-9f8c-7f7666f90117";   // ex: "a1b2c3d4-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+const CUSDIS_APP_ID = "";   // ex: "a1b2c3d4-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
 const FEED_PAGE_SIZE = 8;      // nb d'enquêtes par "page" dans le fil
 const TOP_SIZE = 3;            // nb d'enquêtes dans le Top
@@ -1187,6 +1293,7 @@ function displayArticle(id, isArchive) {
         '<div class="hero-visual">' +
             imgTag(art.img, 'alt="Illustration"') +
             '<div class="hero-title-overlay"><h2>' + esc(art.title) + '</h2></div>' +
+            stampBig +
         '</div>' +
         '<div class="article-body">' +
             '<p>' + esc(art.intro) + '</p>' +
@@ -1194,8 +1301,7 @@ function displayArticle(id, isArchive) {
             noticeHTML +
         '</div>' +
         shareHTML +
-        '<div class="comments-zone" id="commentsZone"></div>' +
-        stampBig;
+        '<div class="comments-zone" id="commentsZone"></div>';
 
     // Commentaires Cusdis (si configurés, hors brouillons)
     if (CUSDIS_APP_ID && !art._draft) {
