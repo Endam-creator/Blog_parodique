@@ -1,5 +1,40 @@
 [
   {
+    "id": "art-1781557971041",
+    "title": "« Je suis télépathe, mais je ne capte que les pensées des gens qui s'ennuient dans le métro »",
+    "date": "Lundi 15 juin 2026",
+    "location": "Paris, Ligne 7 du metro",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/medium.png",
+    "desc": "« Je suis télépathe, mais je ne capte que les pensées des gens qui s'ennuient dans le métro »",
+    "intro": "Dans la culture populaire, la télépathie est un don fascinant. Les X-Men s'en servent pour sauver le monde, et les espions pour déjouer des complots internationaux. Mais la réalité est beaucoup moins glamour. Damien V., 34 ans, graphiste résidant à Paris, a vu son gène mutant s'activer il y a six mois. Depuis, sa vie est un enfer. Non pas parce qu'il est traqué par une organisation secrète, mais parce qu'il est condamné à subir le vide intersidéral de la charge mentale des usagers de la RATP.\n\nNous l'avons rencontré sur un banc de la station Miromesnil, loin des heures de pointe.",
+    "interview": [
+      {
+        "q": "Damien, c'est un honneur de rencontrer un véritable mutant. Racontez-nous, comment avez-vous découvert votre don ?",
+        "a": "C'était un mardi, sur la ligne 4. Soudain, j'ai entendu une voix claire dans ma tête dire : \"Pâtes au pesto ou pâtes au beurre ? Si je fais pesto, il faut racheter du parmesan. Flemme. Va pour le beurre.\" J'ai cru que je devenais fou. Puis j'ai croisé le regard de l'étudiant en face de moi. Il m'a fixé, et j'ai entendu : \"Pourquoi il me regarde ce mec ? J'ai un truc sur le nez ?\" J'ai compris à ce moment-là que j'avais percé la barrière de l'esprit humain."
+      },
+      {
+        "q": "Sur le moment, vous avez dû vous sentir surpuissant. Avez-vous envisagé de contacter les services secrets ou de monter une équipe de super-héros ?",
+        "a": "Évidemment ! Pendant les deux premières semaines, j'ai pris le métro tous les jours en espérant entendre un terroriste planifier un braquage ou un politicien avouer un scandale d'État. Je me voyais déjà décoré par le Président. Mais la triste réalité, c'est que les gens n'ont aucun secret palpitant. Ils s'ennuient profondément. Mon crâne est devenu un supermarché mental. J'entends des listes de courses à longueur de journée. Vous n'imaginez pas le nombre de personnes qui oublient d'acheter du papier toilette."
+      },
+      {
+        "q": "Quelle est la chose la plus difficile à supporter au quotidien ?",
+        "a": "Les musiques résiduelles. Ce qu'on appelle les \"vers d'oreille\". Quand vous êtes physiquement coincé dans un wagon bondé entre Saint-Lazare et Invalides, et que le cadre sup en costume à côté de vous chante la pub Carglass dans sa tête, en boucle, pendant dix stations... c'est de la torture psychologique. Le pire, c'est quand les gens se trompent dans les paroles et cherchent la suite mentalement. J'ai parfois envie de hurler : \"C'EST 0800 800 200, MONSIEUR !\" juste pour qu'il passe à autre chose."
+      },
+      {
+        "q": "Ne pouvez-vous pas bloquer ces pensées ? Porter un casque à réduction de bruit, par exemple ?",
+        "a": "L'investigateur, le bruit est dans ma tête. Mon casque Sony à 300 euros ne peut rien contre la détresse d'une dame qui essaie de faire un calcul mental pour savoir si la promo 2+1 gratuit sur le liquide vaisselle Paic Citron est vraiment rentable. Mon seul moyen de bloquer, c'est de chanter très fort dans ma propre tête l'hymne de la Ligue des Champions pour couvrir leurs pensées. Mais ça m'épuise."
+      },
+      {
+        "q": "Comment voyez-vous votre avenir ?",
+        "a": "J'ai négocié un 100% télétravail avec mon patron. Et quand je dois sortir, je prends le Vélib'. L'effort physique concentre l'esprit des gens sur la route, ils pensent juste à ne pas mourir écrasés par un bus, c'est beaucoup moins bavard et bien plus reposant pour moi."
+      }
+    ],
+    "notice": "Si vous prenez les transports en commun parisiens, ayez pitié des télépathes de proximité. Essayez de penser à des choses structurées : résolvez un théorème mathématique, récitez des poèmes de Baudelaire ou imaginez des intrigues de films d'espionnage. Épargnez-leur vos angoisses sur le lisseur mal éteint.",
+    "classified": false,
+    "published": "2026-06-15"
+  },
+  {
     "id": "art-1781392895334",
     "title": "Le gouvernement a remplacé mon mari par un clone (et le nouveau fait la vaisselle)",
     "date": "Dimanche 14 juin 2026",
