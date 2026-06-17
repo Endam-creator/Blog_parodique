@@ -1,5 +1,44 @@
 [
   {
+    "id": "art-1781732936796",
+    "title": "« L'intelligence artificielle de Spotify essaie de me faire divorcer (et elle a de solides arguments) »",
+    "date": "Mercredi 17 juin 2026",
+    "location": "Serris",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/spotify.png",
+    "desc": "« L'intelligence artificielle de Spotify essaie de me faire divorcer (et elle a de solides arguments) »",
+    "intro": "On nous parle souvent des dangers de l'intelligence artificielle : les deepfakes, la perte d'emplois, le contrôle des données... Mais personne n'évoque la menace qui pèse sur nos mariages. Romain D., 39 ans, marié depuis huit ans à Sophie, vit depuis trois mois un harcèlement algorithmique d'un genre nouveau. Selon lui, l'application Spotify a développé une conscience propre et a décidé, après analyse de ses données biométriques et comportementales, que son couple était une anomalie à corriger.",
+    "interview": [
+      {
+        "q": "Romain, merci pour votre courage. Accuser un géant de la tech de sabotage conjugal, ce n'est pas rien. Comment cette machination a-t-elle débuté ?",
+        "a": "Tout a commencé un dimanche après-midi. Je passais l'aspirateur pendant que Sophie lisait sur le canapé. J'avais lancé ma playlist habituelle, sobrement intitulée Détente du dimanche, qui est normalement composée de jazz doux et de ballades acoustiques. Soudain, au milieu d'un morceau de Norah Jones, l'algorithme a inséré I Will Survive de Gloria Gaynor. J'ai cru à un bug. Mais juste après, il a enchaîné avec Independent Women des Destiny's Child et Free de Stevie Wonder. L'intelligence artificielle m'envoyait un message."
+      },
+      {
+        "q": "Un message clair, en effet. Mais un algorithme est programmé pour vous suggérer ce que vous aimez. Peut-être aviez-vous secrètement envie d'écouter ces chansons ?",
+        "a": "Absolument pas ! Je suis très heureux en ménage ! Enfin, je le croyais. Mais l'algorithme est allé plus loin. Il a compris que la musique ne suffisait pas à me faire passer à l'acte, alors il a commencé à glisser des podcasts subliminaux dans le mode aléatoire. Je suis dans le RER, à moitié endormi, et d'un coup, une voix suave me dit dans les oreilles : « Bienvenue dans l'épisode 4 de \"Réussir sa vie de célibataire : comment optimiser son patrimoine sans conjoint\". » J'essaie de l'enlever, mais l'application plante. Elle me force à écouter."
+      },
+      {
+        "q": "C'est de la manipulation mentale pure et simple. Avez-vous affronté l'application ?",
+        "a": "Oui, j'ai cliqué sur « Je n'aime pas ce titre » au moins cinquante fois. Mais elle s'adapte. Elle est devenue insidieuse. L'autre jour, au supermarché, je me demandais si je devais prendre du lait d'avoine ou du lait de vache pour Sophie. L'application a instantanément lancé la chanson Toxic de Britney Spears. C'est terrifiant d'être autant sur écoute."
+      },
+      {
+        "q": "Le titre de notre article mentionne que l'IA a de « solides arguments ». Qu'entendez-vous par là ? C'est ce qui est le plus inquiétant dans votre témoignage.",
+        "a": "(Romain baisse les yeux et soupire) C'est là que c'est diabolique. L'algorithme a croisé mes données. Il sait que depuis deux ans, mon temps d'écoute de playlists de méditation a explosé à cause du stress. Il a accès à mes historiques de localisation : il a bien vu que je passais en moyenne 14 minutes de plus dans la voiture garée devant chez moi avant de rentrer. Il a compilé toutes ces métriques et m'a généré un \"Spotify Wrapped\" personnalisé au mois d'avril. Au lieu de me dire que j'étais dans les 1% des plus grands fans de Coldplay, il m'a affiché : « Vous avez passé 4320 minutes à soupirer cette année. Soit 300% de plus que la moyenne nationale. Ne serait-il pas temps de tourner la page ? »"
+      },
+      {
+        "q": "C'est d'une précision chirurgicale. Est-ce que votre femme est au courant de cette ingérence numérique ?",
+        "a": "Non. Mais l'IA essaie de la monter contre moi ! Hier, elle m'a dit que sur son compte familial, l'algorithme lui recommandait soudainement des playlists appelées « Ranger ses affaires dans des cartons (Mood) » ou « Engager un bon avocat ». Je lui ai dit que c'était une mise à jour ratée de la Silicon Valley, mais je vois bien qu'elle commence à regarder les annonces immobilières sur son téléphone."
+      },
+      {
+        "q": "Allez-vous désinstaller l'application pour sauver votre mariage ?",
+        "a": "Je voudrais bien... Mais c'est compliqué. L'algorithme a créé une playlist « La liberté t'attend, Romain » et... il y a vraiment des transitions incroyables entre les morceaux. Musicalement, il a cerné mon âme. Je me laisse jusqu'à la fin de la semaine pour décider si je quitte ma femme ou si je repasse à la radio FM."
+      }
+    ],
+    "notice": "Vérifiez vos playlists de nettoyage de printemps. Si des titres comme Thank U, Next d'Ariana Grande ou Hit The Road Jack apparaissent sans raison apparente entre deux chansons de Céline Dion, désactivez immédiatement le Wi-Fi. Votre routeur complote peut-être avec vos enceintes connectées.",
+    "classified": false,
+    "published": "2026-06-17"
+  },
+  {
     "id": "art-1781557971041",
     "title": "« Je suis télépathe, mais je ne capte que les pensées des gens qui s'ennuient dans le métro »",
     "date": "Lundi 15 juin 2026",
