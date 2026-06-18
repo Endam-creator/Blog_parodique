@@ -41,8 +41,8 @@ function pubDate(art) {
 // --- feed.xml (RSS 2.0) ---
 const items = articles.slice(0, 20).map(art => `    <item>
       <title>${escXML(art.title)}</title>
-      <link>${SITE}/?article=${encodeURIComponent(art.id)}</link>
-      <guid isPermaLink="true">${SITE}/?article=${encodeURIComponent(art.id)}</guid>
+      <link>${SITE}/articles/${encodeURIComponent(art.id)}.html</link>
+      <guid isPermaLink="true">${SITE}/articles/${encodeURIComponent(art.id)}.html</guid>
       <pubDate>${pubDate(art)}</pubDate>
       <description>${escXML(art.desc || art.intro || '')}</description>
     </item>`).join('\n');
@@ -69,7 +69,7 @@ const urls = [
     `  <url><loc>${SITE}/</loc><lastmod>${today}</lastmod></url>`,
     `  <url><loc>${SITE}/boutique.html</loc></url>`,
     ...articles.map(art =>
-        `  <url><loc>${SITE}/?article=${encodeURIComponent(art.id)}</loc>` +
+        `  <url><loc>${SITE}/articles/${encodeURIComponent(art.id)}.html</loc>` +
         (art.published ? `<lastmod>${escXML(art.published)}</lastmod>` : '') +
         `</url>`)
 ].join('\n');
