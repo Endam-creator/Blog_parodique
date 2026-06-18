@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Réinitialisation des votes — Console Investigateur</title>
+<link rel="icon" type="image/png" href="logo_chat_loupe.png">
+<style>
+    :root { --accent-green: #76b900; --danger-red: #a31515; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #161616; color: #eee; padding: 25px 18px; max-width: 760px; margin: 0 auto; }
+    h1 { font-family: 'Impact', sans-serif; color: var(--accent-green); text-transform: uppercase; margin-bottom: 6px; }
+    .warn { background: #3a0000; border: 1px solid var(--danger-red); padding: 12px; font-size: .9rem; margin: 14px 0; line-height: 1.5; }
+    .row {
+        display: flex; align-items: center; gap: 12px;
+        border: 1px solid #333; padding: 12px; margin-bottom: 10px; background: #1d1d1d;
+    }
+    .row .title { flex-grow: 1; font-size: .9rem; line-height: 1.3; }
+    .row .scores { font-family: monospace; font-size: .85rem; color: var(--accent-green); white-space: nowrap; }
+    button {
+        background: #333; color: #fff; border: 1px solid #666; padding: 8px 14px;
+        cursor: pointer; font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 1px;
+        font-size: .82rem; flex-shrink: 0;
+    }
+    button:hover { border-color: var(--accent-green); color: var(--accent-green); }
+    button.danger:hover { border-color: var(--danger-red); color: #ff6b6b; }
+    .actions-all { margin: 18px 0; display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-big { background: var(--danger-red); border-color: var(--danger-red); padding: 12px 20px; }
+    .btn-big:hover { background: #c81818; color: #fff; border-color: #fff; }
+    .btn-reload { background: var(--accent-green); color: #111; border-color: var(--accent-green); }
+    .log { margin-top: 18px; font-family: monospace; font-size: .8rem; color: #9fe000; white-space: pre-wrap;
+           background: #0a0a0a; border: 1px solid #333; padding: 12px; min-height: 40px; }
+    a.back { color: var(--accent-green); display: inline-block; margin-top: 20px; }
+    .loading { color: #888; font-style: italic; }
+</style>
+</head>
+<body>
+    <h1>🔧 Réinitialisation des votes</h1>
+    <p>Console privée de l'Investigateur — remet les compteurs de votes à zéro.</p>
+
+    <div class="warn">
+        ⚠️ Cette page est réservée à ton usage. Elle agit directement sur les compteurs
+        en ligne partagés (CountAPI). Une remise à zéro est <strong>définitive</strong>.
+        Pense aussi à vider ton propre vote local : bouton « Réinitialiser MON vote local » ci-dessous.
+    </div>
+
+    <div class="actions-all">
+        <button class="btn-big" onclick="resetAll()">💥 Tout remettre à 0 (tous les articles)</button>
+        <button class="btn-reload btn-big" onclick="loadAll()">🔄 Rafraîchir les compteurs</button>
+        <button onclick="clearLocal()">🧹 Réinitialiser MON vote local</button>
+    </div>
+
+    <div id="list"><p class="loading">Chargement des articles…</p></div>
+
+    <div class="log" id="log">Prêt.</div>
+
+    <a class="back" href="index.html">← Retour au Blog</a>
+
+<script>
+const VOTE_API = "https://countapi.mileshilliard.com/api/v1";
+const VOTE_PREFIX = "lvc_endam_";   // DOIT être identique à celui de index.html
+
+let articles = [];
+
+function log(msg) {
+    document.getElementById('log').textContent = msg;
+}
+
+function voteKey(id, type) { return VOTE_PREFIX + id + '_' + type; }
+
+async function getCount(id, type) {
+    try {
+        const r = await fetch(VOTE_API + '/get/' + encodeURIComponent(voteKey(id, type)));
+        if (!r.ok) return 0;
+        const d = await r.json();
+        return parseInt(d.value, 10) || 0;
+    } catch (e) { return 0; }
+}
+
+async function setZero(id, type) {
+    const r = await fetch(VOTE_API + '/set/' + encodeURIComponent(voteKey(id, type)) + '?value=0');
+    return r.ok;
+}
+
+async function loadAll() {
+    log('Chargement des compteurs en ligne…');
+    try {
+        const resp = await fetch('articles.json?v=' + Date.now());
+        articles = await resp.json();
+    } catch (e) {
+        document.getElementById('list').innerHTML = '<p style="color:#ff6b6b">Impossible de charger articles.json</p>';
+        return;
+    }
+
+    const listDiv = document.getElementById('list');
+    listDiv.innerHTML = '';
+    for (const art of articles) {
+        const up = await getCount(art.id, 'up');
+        const down = await getCount(art.id, 'down');
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML =
+            '<span class="title">' + (art.title || art.id).substring(0, 60) + '</span>' +
+            '<span class="scores">👍 ' + up + ' &nbsp; 👎 ' + down + '</span>' +
+            '<button class="danger">Remettre à 0</button>';
+        row.querySelector('button').addEventListener('click', () => resetOne(art.id, art.title));
+        listDiv.appendChild(row);
+    }
+    log('Compteurs chargés. ' + articles.length + ' article(s).');
+}
+
+async function resetOne(id, title) {
+    if (!confirm('Remettre à 0 les votes de :\n\n« ' + (title || id).substring(0, 70) + ' » ?')) return;
+    log('Réinitialisation de ' + id + '…');
+    const ok1 = await setZero(id, 'up');
+    const ok2 = await setZero(id, 'down');
+    log((ok1 && ok2) ? '✅ Votes remis à 0 pour cet article.' : '⚠️ Erreur réseau, réessaie.');
+    loadAll();
+}
+
+async function resetAll() {
+    if (!confirm('⚠️ Remettre à 0 les votes de TOUS les articles ?\nCette action est définitive.')) return;
+    log('Réinitialisation globale en cours…');
+    let done = 0;
+    for (const art of articles) {
+        await setZero(art.id, 'up');
+        await setZero(art.id, 'down');
+        done++;
+        log('Réinitialisé ' + done + '/' + articles.length + '…');
+    }
+    log('✅ Tous les compteurs ont été remis à 0.');
+    loadAll();
+}
+
+function clearLocal() {
+    // Supprime uniquement les marques de vote locales (clés vote_*)
+    let n = 0;
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('vote_')) { localStorage.removeItem(k); n++; }
+    }
+    log('🧹 ' + n + ' vote(s) local(aux) effacé(s). Tu peux revoter comme un nouveau visiteur.');
+}
+
+loadAll();
+</script>
+</body>
+</html>
