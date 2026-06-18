@@ -1,5 +1,44 @@
 [
   {
+    "id": "art-1781820756657",
+    "title": "J'ai acheté un t-shirt maudit sur Vinted, depuis je perds systématiquement à Pierre-Feuille-Ciseaux",
+    "date": "Jeudi 18 juin 2026",
+    "location": "Boulogne-sur-Mer, Pas-de-Calais",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/tshirt.png",
+    "desc": "J'ai acheté un t-shirt maudit sur Vinted, depuis je perds systématiquement à Pierre-Feuille-Ciseaux",
+    "intro": "Lorsqu'on évoque les objets maudits, l'inconscient collectif imagine des poupées en porcelaine possédées, des miroirs anciens briseurs d'âmes ou des amulettes égyptiennes déclenchant des fléaux. La réalité est souvent moins cinématographique, mais tout aussi cruelle. Maxime B., 27 ans, développeur web, n'a pas vu sa maison brûler ni ses récoltes périr. Pourtant, depuis trois mois, sa vie sociale est un véritable calvaire logistique : il est frappé par une micro-malédiction d'une précision diabolique.\n\nNous l'avons retrouvé devant les poubelles de son immeuble, les bras chargés de cartons de pizza, pour recueillir son témoignage bouleversant.",
+    "interview": [
+      {
+        "q": "Maxime, merci de prendre le temps de nous parler. Avant toute chose, posez ces poubelles. Racontez-nous l'origine de ce maléfice.",
+        "a": "Tout a commencé fin février. Je cherchais des vêtements de seconde main pour réduire mon empreinte carbone. J'ai flashé sur un t-shirt gris chiné avec le logo délavé de la Coupe du Monde 98. Trois euros, \"très bon état\", vendu par un profil nommé Dark_Chaman_77. Il n'avait aucune évaluation, mais pour trois euros, je me suis dit que je ne risquais pas grand-chose. Dès le premier essayage, j'ai senti une légère odeur d'encens froid et de défaite cuisante, mais je l'ai mise sur le compte du transport par Mondial Relay."
+      },
+      {
+        "q": "Quand avez-vous compris que ce t-shirt altérait les lois de la probabilité ?",
+        "a": "Le soir même. J'avais invité des amis. Il a fallu décider qui allait descendre chercher la commande Uber Eats sous la pluie. J'ai proposé un classique Pierre-Feuille-Ciseaux. J'ai fait Pierre, mon pote Thomas a fait Feuille. Une défaite normale. Mais trente minutes plus tard, il a fallu décider qui allait nettoyer la tache de sauce samouraï sur le tapis. Je sors Ciseaux, il sort Pierre. Je me dis \"pas de chance\". Mais depuis ce jour-là, l'investigateur, je n'ai jamais gagné un seul tirage au sort. J'en suis à 247 défaites consécutives."
+      },
+      {
+        "q": "247 défaites ? Statisquement, c'est impossible. N'avez-vous pas essayé d'élaborer des stratégies mentales pour tromper l'univers ?",
+        "a": "Évidemment ! J'ai lu des thèses de psychologie sur le biais cognitif du Chifoumi. J'ai appris que les gens ont tendance à jouer Pierre en premier, donc je jouais Feuille. Mais soudainement, en face de moi, mes adversaires sont frappés par une intuition mystique et jouent Ciseaux. C'est comme si le t-shirt murmurait ma stratégie dans leur esprit. Même quand je préviens à l'avance : \"Attention, je vais jouer Puits\" – ce qui est déjà une hérésie – mon adversaire joue Feuille sans même réfléchir. Le cosmos s'acharne."
+      },
+      {
+        "q": "Quel est l'impact réel de cette malédiction sur votre quotidien ?",
+        "a": "C'est un enfer social. Je suis devenu l'esclave logistique de mon groupe d'amis et de mes collègues de bureau. \"Qui va chercher les cafés ? On fait un Chifoumi !\" Boom, c'est pour moi. \"Qui appelle le service client de SFR qui a 45 minutes d'attente ?\" C'est moi. Mes amis ne prennent même plus la peine de feindre le suspense. L'autre jour, mon colocataire a fait ses valises pour le week-end, il m'a regardé, a joué \"Feuille\" tout seul dans le vide, et m'a dit : \"Tu as fait Pierre par télépathie, tu nettoieras la litière du chat.\" Je n'ai même pas pu contester, je savais qu'il avait raison."
+      },
+      {
+        "q": "Mais Maxime, la solution semble évidente. Pourquoi ne pas simplement jeter ce t-shirt, ou le brûler ?",
+        "a": "(Maxime caresse la manche du t-shirt) C'est là toute la perversité du sortilège. Le coton est d'une douceur exceptionnelle. Il a une coupe légèrement oversize qui tombe parfaitement sur mes épaules, et il me fait un teint radieux. C'est le vêtement le plus confortable que j'aie jamais possédé. Je suis pris au piège. Je préfère passer ma vie à aller chercher les commandes de sushis sous la grêle plutôt que de renoncer à ce confort thermique. Et puis, impossible de le remettre sur Vinted : à chaque fois que j'essaie de le prendre en photo, l'application crashe."
+      },
+      {
+        "q": "Un dernier mot pour nos lecteurs ?",
+        "a": "Arrêtez de résoudre vos conflits par le hasard. Revenez à des méthodes justes, comme le débat rationnel ou la lutte gréco-romaine. Et fuyez les profils sans photo de profil qui vendent des reliques des années 90."
+      }
+    ],
+    "notice": "Si vous sentez que votre vie sociale s'effondre après l'achat d'un vêtement de seconde main, faites le test de la \"courte paille\". Si vous tirez la petite paille trois fois de suite, enfermez le vêtement dans un sac de congélation avec du gros sel marin, et supprimez vos applications de livraison de repas.",
+    "classified": false,
+    "published": "2026-06-18"
+  },
+  {
     "id": "art-1781732936796",
     "title": "« L'intelligence artificielle de Spotify essaie de me faire divorcer (et elle a de solides arguments) »",
     "date": "Mercredi 17 juin 2026",
