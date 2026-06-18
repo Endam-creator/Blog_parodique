@@ -6,6 +6,7 @@ on:
     paths:
       - 'articles.json'
       - '.github/scripts/generate_feed.mjs'
+      - '.github/scripts/generate_pages.mjs'
       - '.github/workflows/site.yml'
   workflow_dispatch:
 
@@ -42,19 +43,22 @@ jobs:
             console.log('✅ articles.json valide (' + data.length + ' article(s))');
           "
 
-      # ÉTAPE 2 : génération du flux RSS et du sitemap
+      # ÉTAPE 2 : génération du flux RSS, du sitemap et des pages d'articles
       - name: Génération de feed.xml et sitemap.xml
         run: node .github/scripts/generate_feed.mjs
+
+      - name: Génération des pages HTML d'articles
+        run: node .github/scripts/generate_pages.mjs
 
       # ÉTAPE 3 : commit automatique des fichiers générés
       - name: Commit des fichiers générés
         run: |
           git config user.name "L'Investigateur Automatique"
           git config user.email "actions@github.com"
-          git add feed.xml sitemap.xml
+          git add feed.xml sitemap.xml articles/
           if git diff --cached --quiet; then
             echo "Rien à committer."
           else
-            git commit -m "🤖 Régénération automatique du flux RSS et du sitemap"
+            git commit -m "🤖 Régénération auto : RSS, sitemap et pages d'articles"
             git push
           fi
