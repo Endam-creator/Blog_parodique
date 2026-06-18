@@ -7,7 +7,7 @@
     <meta name="description" content="Le Blog des Vérités Cachées : enquêtes apocryphes, interviews exclusives et révélations que personne ne vous demandait.">
 
     <!-- ===== SEO / PARTAGE (Open Graph) =====
-         ⚠️ REMPLACE https://VOTRE-DOMAINE.fr par ton vrai domaine (celui du fichier CNAME) -->
+         ⚠️ REMPLACE https://les-verites-cachees.endam-digital.com par ton vrai domaine (celui du fichier CNAME) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Le Blog des Vérités Cachées">
     <meta property="og:title" content="Le Blog des Vérités Cachées - La voix de ceux qui savent">
@@ -638,6 +638,20 @@
 
         .feed-content { padding: 10px 12px; display: flex; flex-direction: column; }
 
+        .feed-une-badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #111;
+            font-family: 'Impact', sans-serif;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1px 7px;
+            margin-bottom: 5px;
+            align-self: flex-start;
+        }
+        .feed-card.is-une { box-shadow: inset 0 0 0 2px var(--accent-green); }
+
         .feed-title {
             font-family: 'Impact', sans-serif;
             font-size: 0.95rem;
@@ -1034,7 +1048,16 @@ const CUSDIS_APP_ID = "804824ac-4fc7-4325-9f8c-7f7666f90117";   // ex: "a1b2c3d4
 
 const FEED_PAGE_SIZE = 8;      // nb d'enquêtes par "page" dans le fil
 const TOP_SIZE = 3;            // nb d'enquêtes dans le Top
+
+// Votes partagés entre tous les visiteurs (CountAPI de Miles Hilliard, gratuit, sans clé).
+// Le préfixe doit être UNIQUE à ton site pour ne pas entrer en collision avec d'autres.
+// Ne le change plus après la mise en ligne, sinon les compteurs repartent de zéro.
+const VOTE_API = "https://countapi.mileshilliard.com/api/v1";
+const VOTE_PREFIX = "lvc_endam_";   // lvc = Le blog des Vérités Cachées
 // -----------------------------------
+
+// Cache mémoire des totaux de votes chargés depuis l'API : { id: {up, down} }
+let voteTotals = {};
 
 let articles = [];
 let workingArticles = null;
@@ -1104,15 +1127,76 @@ function imgTag(raw, attrs) {
 }
 
 function voteScore(art) {
-    // Vrais compteurs partant de 0. Le vote du visiteur est stocké localement.
-    // (Sans backend, chaque visiteur ne voit que son propre vote ajouté au total.)
-    const up = (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
-    const down = (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
-    return { up: up, down: down, score: up - down };
+    // Totaux partagés chargés depuis l'API (cache mémoire), + le vote local non encore
+    // reflété n'est pas nécessaire ici car l'API renvoie déjà le total à jour après un hit.
+    const t = voteTotals[art.id] || { up: 0, down: 0 };
+    return { up: t.up || 0, down: t.down || 0, score: (t.up || 0) - (t.down || 0) };
+}
+
+// Clé unique d'un compteur pour un article donné
+function voteKey(id, type) {
+    return VOTE_PREFIX + id + '_' + type;
+}
+
+// Lit un compteur en ligne sans l'incrémenter (renvoie 0 si la clé n'existe pas encore)
+async function fetchCount(id, type) {
+    try {
+        const r = await fetch(VOTE_API + '/get/' + encodeURIComponent(voteKey(id, type)));
+        if (!r.ok) return 0;
+        const d = await r.json();
+        return parseInt(d.value, 10) || 0;
+    } catch (e) {
+        return 0;
+    }
+}
+
+// Incrémente un compteur de +1 et renvoie la nouvelle valeur
+async function hitCount(id, type) {
+    try {
+        const r = await fetch(VOTE_API + '/hit/' + encodeURIComponent(voteKey(id, type)));
+        if (!r.ok) return null;
+        const d = await r.json();
+        return parseInt(d.value, 10);
+    } catch (e) {
+        return null;
+    }
+}
+
+// Charge les totaux up/down de tous les articles affichés et rafraîchit l'UI
+async function loadVoteTotals() {
+    await Promise.all(articles.map(async (art) => {
+        const [up, down] = await Promise.all([
+            fetchCount(art.id, 'up'),
+            fetchCount(art.id, 'down')
+        ]);
+        voteTotals[art.id] = { up, down };
+    }));
+    renderFeed();
+    renderTop();
+    // Met à jour les compteurs de l'article actuellement affiché, le cas échéant
+    refreshOpenArticleVotes();
+}
+
+// Met à jour les nombres de votes affichés sur l'article ouvert (sans tout re-render)
+function refreshOpenArticleVotes() {
+    const bar = document.querySelector('.article-vote-bar');
+    if (!bar || !bar.dataset.articleId) return;
+    const t = voteTotals[bar.dataset.articleId] || { up: 0, down: 0 };
+    const ups = bar.querySelector('[data-avote="up"] span');
+    const downs = bar.querySelector('[data-avote="down"] span');
+    if (ups) ups.textContent = t.up || 0;
+    if (downs) downs.textContent = t.down || 0;
 }
 
 function articleURL(id) {
     return window.location.origin + window.location.pathname + '?article=' + encodeURIComponent(id);
+}
+
+// URL de PARTAGE : pointe vers la vraie page HTML (/articles/<id>.html),
+// pour que les aperçus sociaux (image + titre de l'enquête) soient corrects.
+function articleShareURL(id) {
+    const base = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+    return base + 'articles/' + encodeURIComponent(id) + '.html';
 }
 
 // --- CHARGEMENT + ROUTAGE PAR URL ---
@@ -1144,6 +1228,7 @@ async function loadArticles() {
     renderTicker();
     renderTop();
     renderFeed();
+    loadVoteTotals(); // charge les vrais totaux partagés depuis l'API (asynchrone)
 
     // Routage : ?article=id dans l'URL → affichage direct de l'enquête (lien partageable)
     const params = new URLSearchParams(window.location.search);
@@ -1217,7 +1302,7 @@ function renderFeed() {
     const feed = document.getElementById('storiesFeed');
     feed.innerHTML = "";
 
-    const list = articles.slice(1);
+    const list = articles; // tous les articles, y compris le Breaking News en tête
 
     if (list.length === 0) {
         feed.innerHTML = '<div class="load-error" style="background:#f4f4f4;border-color:#999;">' +
@@ -1227,19 +1312,22 @@ function renderFeed() {
 
     const visible = list.slice(0, feedLimit);
 
-    visible.forEach(art => {
+    visible.forEach((art, idx) => {
+        const isUne = (art.id === latestId());
         const card = document.createElement('div');
-        card.className = 'feed-card';
+        card.className = 'feed-card' + (isUne ? ' is-une' : '');
         card.addEventListener('click', () => displayArticle(art.id, true));
 
         const v = voteScore(art);
         const activeUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
         const activeDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
         const stamp = art.classified ? '<span class="classified-stamp">Classified</span>' : '';
+        const uneBadge = isUne ? '<span class="feed-une-badge">★ À la une</span>' : '';
 
         card.innerHTML =
             '<div class="feed-img-area">' + imgTag(art.img, 'alt="Illustration" loading="lazy"') + '</div>' +
             '<div class="feed-content">' +
+                uneBadge +
                 '<div class="feed-title">' + highlightTitle(art.title) + '</div>' +
                 '<div class="feed-desc">' + esc(art.desc) + '</div>' +
                 '<div class="vote-system">' +
@@ -1312,7 +1400,7 @@ function displayArticle(id, isArchive) {
     let shareHTML = '';
     let voteHTML = '';
     if (!art._draft) {
-        const url = articleURL(art.id);
+        const url = articleShareURL(art.id);
         const shareText = art.title;
 
         // Votes sur l'article principal
@@ -1320,7 +1408,7 @@ function displayArticle(id, isArchive) {
         const aUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
         const aDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
         voteHTML =
-            '<div class="article-vote-bar">' +
+            '<div class="article-vote-bar" data-article-id="' + esc(art.id) + '">' +
                 '<span class="article-vote-label">Cette enquête vous a-t-elle éveillé ?</span>' +
                 '<button class="article-vote-btn ' + aUp + '" data-avote="up">👍 <span>' + v.up + '</span></button>' +
                 '<button class="article-vote-btn ' + aDown + '" data-avote="down">👎 <span>' + v.down + '</span></button>' +
@@ -1360,9 +1448,12 @@ function displayArticle(id, isArchive) {
 
     // Brancher les votes de l'article principal
     viewer.querySelectorAll('.article-vote-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            registerVote(art.id, btn.dataset.avote);
-            displayArticle(art.id, isArchive); // re-render pour mettre à jour l'état actif
+        btn.addEventListener('click', async () => {
+            const already = localStorage.getItem('vote_' + art.id);
+            if (already) return; // déjà voté : on ne fait rien (vote unique)
+            await registerVote(art.id, btn.dataset.avote);
+            // Marque visuellement le bouton choisi
+            btn.classList.add(btn.dataset.avote === 'up' ? 'active-up' : 'active-down');
         });
     });
 
@@ -1392,7 +1483,7 @@ function displayArticle(id, isArchive) {
 }
 
 function copyArticleLink(id) {
-    const url = articleURL(id);
+    const url = articleShareURL(id);
     navigator.clipboard.writeText(url)
         .then(() => alert('Lien copié ! Diffusez la vérité. 📡\n' + url))
         .catch(() => prompt('Copiez le lien manuellement :', url));
@@ -1405,18 +1496,39 @@ function copyRssLink() {
         .catch(() => prompt('Copiez le lien du flux manuellement :', url));
 }
 
-// --- VOTES (locaux à chaque visiteur) ---
+// --- VOTES PARTAGÉS (compteurs en ligne, communs à tous les visiteurs) ---
+// Le localStorage ne sert qu'à mémoriser CE QUE ce visiteur a déjà voté
+// (pour éviter les votes multiples et afficher le bouton actif).
 
-function registerVote(articleId, type) {
+async function registerVote(articleId, type) {
     const storageKey = 'vote_' + articleId;
     const currentVote = localStorage.getItem(storageKey);
+
+    // Empêche le spam : on ne traite pas un re-clic identique en rafale
     if (currentVote === type) {
-        localStorage.removeItem(storageKey);
-    } else {
-        localStorage.setItem(storageKey, type);
+        // L'utilisateur retire son vote : on décrémente via un "hit" inverse impossible,
+        // donc on se contente de retirer la marque locale (le total en ligne reste).
+        // Pour rester simple et fiable, un vote est définitif côté total partagé.
+        return;
     }
+
+    // S'assurer que le cache existe
+    if (!voteTotals[articleId]) voteTotals[articleId] = { up: 0, down: 0 };
+
+    // Incrémente le nouveau choix en ligne
+    const newVal = await hitCount(articleId, type);
+    if (newVal !== null) {
+        voteTotals[articleId][type] = newVal;
+    } else {
+        // En cas d'échec réseau, on incrémente localement pour le retour visuel
+        voteTotals[articleId][type] = (voteTotals[articleId][type] || 0) + 1;
+    }
+
+    localStorage.setItem(storageKey, type);
+
     renderFeed();
     renderTop();
+    refreshOpenArticleVotes();
 }
 
 // --- COMPTEUR DE VISITES (GoatCounter) ---
