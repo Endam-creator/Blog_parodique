@@ -13,11 +13,18 @@
     h1 { font-family: 'Impact', sans-serif; color: var(--accent-green); text-transform: uppercase; margin-bottom: 6px; }
     .warn { background: #3a0000; border: 1px solid var(--danger-red); padding: 12px; font-size: .9rem; margin: 14px 0; line-height: 1.5; }
     .row {
-        display: flex; align-items: center; gap: 12px;
+        display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
         border: 1px solid #333; padding: 12px; margin-bottom: 10px; background: #1d1d1d;
     }
-    .row .title { flex-grow: 1; font-size: .9rem; line-height: 1.3; }
+    .row .title { flex-grow: 1; font-size: .9rem; line-height: 1.3; min-width: 160px; }
     .row .scores { font-family: monospace; font-size: .85rem; color: var(--accent-green); white-space: nowrap; }
+    .set-fields { display: flex; align-items: center; gap: 6px; font-size: .85rem; white-space: nowrap; }
+    .set-fields input {
+        background: #0a0a0a; color: var(--accent-green); border: 1px solid #555;
+        padding: 5px; font-family: monospace; text-align: center;
+    }
+    .set-btn { background: #2a4d00; border-color: var(--accent-green); }
+    .set-btn:hover { background: var(--accent-green); color: #111; }
     button {
         background: #333; color: #fff; border: 1px solid #666; padding: 8px 14px;
         cursor: pointer; font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 1px;
@@ -40,9 +47,9 @@
     <p>Console privée de l'Investigateur — remet les compteurs de votes à zéro.</p>
 
     <div class="warn">
-        ⚠️ Cette page est réservée à ton usage. Elle agit directement sur les compteurs
-        en ligne partagés (CountAPI). Une remise à zéro est <strong>définitive</strong>.
-        Pense aussi à vider ton propre vote local : bouton « Réinitialiser MON vote local » ci-dessous.
+        ⚠️ Console réservée à ton usage. Agit directement sur les compteurs en ligne (CountAPI).<br>
+        • <strong>↺ 0</strong> : remet l'article à zéro. • <strong>Définir</strong> : fixe toi-même le nombre de 👍 et 👎 (pratique pour pré-remplir ou corriger).<br>
+        • <strong>🧹 Réinitialiser MON vote local</strong> : efface ta propre marque de vote dans CE navigateur, pour pouvoir revoter toi-même après une remise à zéro.
     </div>
 
     <div class="actions-all">
@@ -78,6 +85,25 @@ async function getCount(id, type) {
     } catch (e) { return 0; }
 }
 
+async function setOne(id, type, value) {
+    const v = Math.max(0, parseInt(value, 10) || 0);
+    const r = await fetch(VOTE_API + '/set/' + encodeURIComponent(voteKey(id, type)) + '?value=' + v);
+    return r.ok;
+}
+
+async function setValues(id, title, up, down) {
+    if (isNaN(up) || isNaN(down) || up < 0 || down < 0) {
+        log('⚠️ Saisis des nombres valides (≥ 0).');
+        return;
+    }
+    if (!confirm('Définir les votes de :\n\n« ' + (title || id).substring(0, 60) + ' »\n\n👍 ' + up + '   👎 ' + down + ' ?')) return;
+    log('Application des valeurs sur ' + id + '…');
+    const ok1 = await setOne(id, 'up', up);
+    const ok2 = await setOne(id, 'down', down);
+    log((ok1 && ok2) ? '✅ Valeurs définies (👍 ' + up + ' / 👎 ' + down + ').' : '⚠️ Erreur réseau, réessaie.');
+    loadAll();
+}
+
 async function setZero(id, type) {
     const r = await fetch(VOTE_API + '/set/' + encodeURIComponent(voteKey(id, type)) + '?value=0');
     return r.ok;
@@ -101,10 +127,20 @@ async function loadAll() {
         const row = document.createElement('div');
         row.className = 'row';
         row.innerHTML =
-            '<span class="title">' + (art.title || art.id).substring(0, 60) + '</span>' +
+            '<span class="title">' + (art.title || art.id).substring(0, 50) + '</span>' +
             '<span class="scores">👍 ' + up + ' &nbsp; 👎 ' + down + '</span>' +
-            '<button class="danger">Remettre à 0</button>';
-        row.querySelector('button').addEventListener('click', () => resetOne(art.id, art.title));
+            '<span class="set-fields">' +
+                '👍 <input type="number" min="0" class="val-up" value="' + up + '" style="width:60px">' +
+                '👎 <input type="number" min="0" class="val-down" value="' + down + '" style="width:60px">' +
+                '<button class="set-btn">Définir</button>' +
+            '</span>' +
+            '<button class="danger reset-btn">↺ 0</button>';
+        row.querySelector('.reset-btn').addEventListener('click', () => resetOne(art.id, art.title));
+        row.querySelector('.set-btn').addEventListener('click', () => {
+            const u = parseInt(row.querySelector('.val-up').value, 10);
+            const d = parseInt(row.querySelector('.val-down').value, 10);
+            setValues(art.id, art.title, u, d);
+        });
         listDiv.appendChild(row);
     }
     log('Compteurs chargés. ' + articles.length + ' article(s).');
@@ -115,7 +151,7 @@ async function resetOne(id, title) {
     log('Réinitialisation de ' + id + '…');
     const ok1 = await setZero(id, 'up');
     const ok2 = await setZero(id, 'down');
-    log((ok1 && ok2) ? '✅ Votes remis à 0 pour cet article.' : '⚠️ Erreur réseau, réessaie.');
+    log((ok1 && ok2) ? '✅ Votes remis à 0. Pense à "Réinitialiser MON vote local" si tu veux revoter toi-même.' : '⚠️ Erreur réseau, réessaie.');
     loadAll();
 }
 
