@@ -16,12 +16,25 @@
     <meta property="og:image" content="https://les-verites-cachees.endam-digital.com/logo_chat_loupe.png">
     <meta name="twitter:card" content="summary">
 
-    <!-- Favicon (le chat à la loupe) -->
-    <link rel="icon" type="image/png" href="logo_chat_loupe.png">
-    <link rel="apple-touch-icon" href="logo_chat_loupe.png">
+    <!-- Favicon carré (le chat à la loupe) - Google exige un favicon carré, multiple de 48px -->
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+    <link rel="apple-touch-icon" href="favicon-192.png">
+    <link rel="shortcut icon" href="favicon-96.png">
 
     <!-- Flux RSS (généré automatiquement par la GitHub Action) -->
     <link rel="alternate" type="application/rss+xml" title="Le Blog des Vérités Cachées" href="feed.xml">
+
+    <!-- Donnée structurée : indique à Google le nom du site (pour le fil d'Ariane des résultats) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Le Blog des Vérités Cachées",
+      "alternateName": "Vérités Cachées",
+      "url": "https://les-verites-cachees.endam-digital.com/"
+    }
+    </script>
 
     <style>
         :root {
