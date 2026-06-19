@@ -401,6 +401,12 @@
         .article-vote-btn.active-up { background-color: var(--accent-green); color: #fff; border-color: var(--accent-green); }
         .article-vote-btn.active-down { background-color: var(--danger-red); color: #fff; border-color: var(--danger-red); }
 
+        /* État "déjà voté" : boutons verrouillés (un seul vote par navigateur/article) */
+        .article-vote-bar.voted .article-vote-btn:not(.active-up):not(.active-down) { opacity: 0.4; cursor: not-allowed; }
+        .article-vote-bar.voted .article-vote-btn { cursor: default; }
+        .vote-system.voted .vote-btn:not(.active-up):not(.active-down) { opacity: 0.4; cursor: not-allowed; }
+        .vote-system.voted .vote-btn { cursor: default; }
+
         /* ===== COMMENTAIRES ===== */
         .comments-zone { margin-top: 25px; }
         .comments-zone h3 {
@@ -844,17 +850,14 @@
             .main-layout { padding: 12px; gap: 14px; }
             .featured-story { padding: 12px; }
 
-            /* Article : titre en surimpression repassé en pleine largeur */
-            .hero-visual { min-height: 220px; }
+            /* Article : titre en surimpression sur l'image (comme desktop) */
+            .hero-visual { min-height: 240px; }
             .hero-title-overlay {
-                position: static;
-                max-width: 100%;
-                box-shadow: none;
-                border: none;
-                border-top: 3px solid var(--accent-green);
-                padding: 10px 4px 0;
+                max-width: 92%;
+                bottom: 10px;
+                padding: 9px 12px;
             }
-            .hero-title-overlay h2 { font-size: 1.15rem; }
+            .hero-title-overlay h2 { font-size: 1.05rem; }
 
             .breaking-banner { font-size: 1rem; padding: 5px 12px; }
             .article-body { font-size: 1rem; }
@@ -1319,8 +1322,10 @@ function renderFeed() {
         card.addEventListener('click', () => displayArticle(art.id, true));
 
         const v = voteScore(art);
+        const hasVoted = !!localStorage.getItem('vote_' + art.id);
         const activeUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
         const activeDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
+        const votedCls = hasVoted ? ' voted' : '';
         const stamp = art.classified ? '<span class="classified-stamp">Classified</span>' : '';
         const uneBadge = isUne ? '<span class="feed-une-badge">★ À la une</span>' : '';
 
@@ -1330,7 +1335,7 @@ function renderFeed() {
                 uneBadge +
                 '<div class="feed-title">' + highlightTitle(art.title) + '</div>' +
                 '<div class="feed-desc">' + esc(art.desc) + '</div>' +
-                '<div class="vote-system">' +
+                '<div class="vote-system' + votedCls + '">' +
                     '<button class="vote-btn upvote ' + activeUp + '" data-vote="up">👍 <span class="count">' + v.up + '</span></button>' +
                     '<button class="vote-btn downvote ' + activeDown + '" data-vote="down">👎 <span class="count">' + v.down + '</span></button>' +
                 '</div>' +
@@ -1339,6 +1344,7 @@ function renderFeed() {
         card.querySelectorAll('.vote-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
+                if (localStorage.getItem('vote_' + art.id)) return; // déjà voté
                 registerVote(art.id, btn.dataset.vote);
             });
         });
@@ -1405,11 +1411,13 @@ function displayArticle(id, isArchive) {
 
         // Votes sur l'article principal
         const v = voteScore(art);
+        const hasVoted = !!localStorage.getItem('vote_' + art.id);
         const aUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
         const aDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
+        const voteLabel = hasVoted ? 'Merci, votre voix est enregistrée !' : 'Cette enquête vous a-t-elle éveillé ?';
         voteHTML =
-            '<div class="article-vote-bar" data-article-id="' + esc(art.id) + '">' +
-                '<span class="article-vote-label">Cette enquête vous a-t-elle éveillé ?</span>' +
+            '<div class="article-vote-bar' + (hasVoted ? ' voted' : '') + '" data-article-id="' + esc(art.id) + '">' +
+                '<span class="article-vote-label">' + voteLabel + '</span>' +
                 '<button class="article-vote-btn ' + aUp + '" data-avote="up">👍 <span>' + v.up + '</span></button>' +
                 '<button class="article-vote-btn ' + aDown + '" data-avote="down">👎 <span>' + v.down + '</span></button>' +
             '</div>';
@@ -1449,10 +1457,15 @@ function displayArticle(id, isArchive) {
     // Brancher les votes de l'article principal
     viewer.querySelectorAll('.article-vote-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
-            const already = localStorage.getItem('vote_' + art.id);
-            if (already) return; // déjà voté : on ne fait rien (vote unique)
+            if (localStorage.getItem('vote_' + art.id)) return; // déjà voté
             await registerVote(art.id, btn.dataset.avote);
-            // Marque visuellement le bouton choisi
+            // Marque visuellement et verrouille la barre
+            const bar = btn.closest('.article-vote-bar');
+            if (bar) {
+                bar.classList.add('voted');
+                const label = bar.querySelector('.article-vote-label');
+                if (label) label.textContent = 'Merci, votre voix est enregistrée !';
+            }
             btn.classList.add(btn.dataset.avote === 'up' ? 'active-up' : 'active-down');
         });
     });
@@ -1504,18 +1517,19 @@ async function registerVote(articleId, type) {
     const storageKey = 'vote_' + articleId;
     const currentVote = localStorage.getItem(storageKey);
 
-    // Empêche le spam : on ne traite pas un re-clic identique en rafale
-    if (currentVote === type) {
-        // L'utilisateur retire son vote : on décrémente via un "hit" inverse impossible,
-        // donc on se contente de retirer la marque locale (le total en ligne reste).
-        // Pour rester simple et fiable, un vote est définitif côté total partagé.
+    // PROTECTION ANTI-REVOTE : ce navigateur a déjà voté pour cet article → on bloque.
+    // Couvre les boutons du fil ET ceux de l'article (un seul vote par navigateur/article).
+    if (currentVote) {
         return;
     }
 
     // S'assurer que le cache existe
     if (!voteTotals[articleId]) voteTotals[articleId] = { up: 0, down: 0 };
 
-    // Incrémente le nouveau choix en ligne
+    // Marque le vote AVANT l'appel réseau, pour bloquer les clics rapides répétés
+    localStorage.setItem(storageKey, type);
+
+    // Incrémente le choix en ligne
     const newVal = await hitCount(articleId, type);
     if (newVal !== null) {
         voteTotals[articleId][type] = newVal;
@@ -1523,8 +1537,6 @@ async function registerVote(articleId, type) {
         // En cas d'échec réseau, on incrémente localement pour le retour visuel
         voteTotals[articleId][type] = (voteTotals[articleId][type] || 0) + 1;
     }
-
-    localStorage.setItem(storageKey, type);
 
     renderFeed();
     renderTop();
