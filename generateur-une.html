@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Générateur de Une — Console Investigateur</title>
+<link rel="icon" type="image/png" href="favicon-96.png">
+<style>
+    :root {
+        --accent-green: #76b900;
+        --accent-green-bright: #9CFC54;
+        --header-bg: #222;
+        --danger-red: #a31515;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, 'Helvetica Neue', sans-serif; }
+    body { background: #2a2a2a; color: #eee; padding: 20px 14px; max-width: 920px; margin: 0 auto; }
+    h1 { font-family: 'Impact', sans-serif; color: var(--accent-green); text-transform: uppercase; letter-spacing: 1px; }
+    .intro { color: #bbb; font-size: .9rem; margin: 8px 0 20px; line-height: 1.5; }
+
+    .controls { background: #1a1a1a; border: 1px solid #444; padding: 16px; margin-bottom: 20px; }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: .82rem; color: #aaa; margin-bottom: 5px; }
+    .field select, .field input[type=text], .field textarea {
+        width: 100%; padding: 9px; background: #0a0a0a; color: #fff; border: 1px solid #555; font-family: inherit;
+    }
+    .field textarea { resize: vertical; min-height: 56px; }
+    .row2 { display: flex; gap: 14px; flex-wrap: wrap; }
+    .row2 .field { flex: 1; min-width: 180px; }
+    .checkrow { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; font-size: .85rem; }
+    .checkrow label { display: flex; align-items: center; gap: 6px; color: #ddd; cursor: pointer; }
+
+    .format-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .format-btns button {
+        background: #333; color: #fff; border: 1px solid #666; padding: 7px 14px; cursor: pointer; font-size: .82rem;
+    }
+    .format-btns button.active { background: var(--accent-green); color: #111; border-color: var(--accent-green); font-weight: bold; }
+
+    .preview-wrap { text-align: center; margin: 20px 0; }
+    canvas { max-width: 100%; height: auto; border: 2px solid #555; background: #111; }
+
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 14px; }
+    .btn {
+        background: var(--accent-green); color: #111; border: none; padding: 12px 22px;
+        font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; font-size: 1rem;
+    }
+    .btn:hover { background: var(--accent-green-bright); }
+    .btn.sec { background: #444; color: #fff; }
+
+    .tip { background: #1a2a0a; border-left: 4px solid var(--accent-green); padding: 12px; font-size: .85rem; color: #cde; margin-top: 18px; line-height: 1.5; }
+    a.back { color: var(--accent-green); display: inline-block; margin-top: 18px; }
+</style>
+</head>
+<body>
+    <h1>📰 Générateur de Une</h1>
+    <p class="intro">Transforme une enquête en visuel prêt à poster sur Instagram, X ou TikTok. Choisis l'enquête, ajuste, télécharge.</p>
+
+    <div class="controls">
+        <div class="field">
+            <label>Enquête (chargée depuis articles.json)</label>
+            <select id="selArticle"><option>Chargement…</option></select>
+        </div>
+
+        <div class="field">
+            <label>Titre affiché (modifiable)</label>
+            <textarea id="inTitle"></textarea>
+        </div>
+
+        <div class="row2">
+            <div class="field">
+                <label>Bandeau du haut</label>
+                <input type="text" id="inBanner" value="BREAKING NEWS">
+            </div>
+            <div class="field">
+                <label>Accroche du bas (optionnelle)</label>
+                <input type="text" id="inKicker" value="les-verites-cachees.endam-digital.com">
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Image de l'enquête (upload — sinon fond à motif)</label>
+            <input type="file" id="inImg" accept="image/*">
+        </div>
+
+        <div class="field">
+            <label>Format</label>
+            <div class="format-btns" id="formatBtns">
+                <button data-w="1080" data-h="1080" class="active">Carré 1:1 (Insta/X)</button>
+                <button data-w="1080" data-h="1350">Portrait 4:5 (Insta)</button>
+                <button data-w="1080" data-h="1920">Story/TikTok 9:16</button>
+            </div>
+        </div>
+
+        <div class="checkrow">
+            <label><input type="checkbox" id="ckClassified"> Tampon CLASSIFIED</label>
+            <label><input type="checkbox" id="ckTape" checked> Coins scotchés</label>
+            <label><input type="checkbox" id="ckLogo" checked> Logo en filigrane</label>
+        </div>
+    </div>
+
+    <div class="preview-wrap">
+        <canvas id="canvas" width="1080" height="1080"></canvas>
+    </div>
+
+    <div class="actions">
+        <button class="btn" onclick="download()">⬇️ Télécharger l'image</button>
+        <button class="btn sec" onclick="render()">🔄 Rafraîchir l'aperçu</button>
+    </div>
+
+    <div class="tip">
+        <strong>💡 Conseils de diffusion :</strong><br>
+        • <strong>Instagram</strong> : poste l'image carrée ou portrait, mets le lien en bio, et écris "lien en bio 🔗" dans la légende.<br>
+        • <strong>X (Twitter)</strong> : poste l'image carrée AVEC le lien de l'enquête dans le tweet (X affiche les liens, lui).<br>
+        • <strong>TikTok</strong> : utilise le format 9:16 comme image de fond d'une vidéo, ajoute une voix off dramatique.<br>
+        • Le format 9:16 sert aussi pour les <strong>Stories</strong> Instagram (avec sticker lien).
+    </div>
+
+    <a class="back" href="index.html">← Retour au Blog</a>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let articles = [];
+let uploadedImg = null;
+let logoImg = new Image();
+logoImg.src = 'favicon-192.png';
+let logoReady = false;
+logoImg.onload = () => { logoReady = true; render(); };
+
+let format = { w: 1080, h: 1080 };
+
+// Palette du blog
+const C = {
+    green: '#76b900',
+    greenBright: '#9CFC54',
+    dark: '#1a1a1a',
+    black: '#111111',
+    white: '#ffffff',
+    red: '#a31515',
+    tape: 'rgba(200,200,200,0.55)'
+};
+
+// --- Chargement des articles ---
+async function loadArticles() {
+    try {
+        const r = await fetch('articles.json?v=' + Date.now());
+        articles = await r.json();
+    } catch (e) {
+        articles = [];
+    }
+    const sel = document.getElementById('selArticle');
+    sel.innerHTML = '';
+    if (articles.length === 0) {
+        sel.innerHTML = '<option>Aucun article trouvé</option>';
+        return;
+    }
+    articles.forEach((a, i) => {
+        const o = document.createElement('option');
+        o.value = i;
+        o.textContent = (a.title || a.id).substring(0, 60);
+        sel.appendChild(o);
+    });
+    sel.addEventListener('change', () => fillFromArticle(parseInt(sel.value, 10)));
+    fillFromArticle(0);
+}
+
+function fillFromArticle(i) {
+    const a = articles[i];
+    if (!a) return;
+    document.getElementById('inTitle').value = a.title || '';
+    document.getElementById('ckClassified').checked = !!a.classified;
+    uploadedImg = null; // l'image locale ne peut pas être chargée en cross-origin, on laisse l'upload
+    render();
+}
+
+// --- Wrap de texte sur le canvas ---
+function wrapText(text, x, y, maxWidth, lineHeight, maxLines) {
+    const words = text.split(' ');
+    let line = '';
+    const lines = [];
+    for (const w of words) {
+        const test = line ? line + ' ' + w : w;
+        if (ctx.measureText(test).width > maxWidth && line) {
+            lines.push(line);
+            line = w;
+        } else {
+            line = test;
+        }
+    }
+    if (line) lines.push(line);
+    const shown = maxLines ? lines.slice(0, maxLines) : lines;
+    shown.forEach((l, idx) => ctx.fillText(l, x, y + idx * lineHeight));
+    return shown.length * lineHeight;
+}
+
+// --- Rendu principal ---
+function render() {
+    const W = format.w, H = format.h;
+    canvas.width = W; canvas.height = H;
+
+    // Fond
+    ctx.fillStyle = C.dark;
+    ctx.fillRect(0, 0, W, H);
+
+    // Zone image (haut ~58%)
+    const imgH = Math.round(H * 0.58);
+    if (uploadedImg) {
+        // cover
+        const r = Math.max(W / uploadedImg.width, imgH / uploadedImg.height);
+        const iw = uploadedImg.width * r, ih = uploadedImg.height * r;
+        ctx.drawImage(uploadedImg, (W - iw) / 2, (imgH - ih) / 2, iw, ih);
+    } else {
+        // Fond à motif vert/noir
+        ctx.fillStyle = C.black;
+        ctx.fillRect(0, 0, W, imgH);
+        ctx.fillStyle = 'rgba(118,185,0,0.12)';
+        for (let i = -H; i < W; i += 46) {
+            ctx.save(); ctx.translate(i, 0); ctx.rotate(0.6);
+            ctx.fillRect(0, 0, 18, H * 2); ctx.restore();
+        }
+        ctx.fillStyle = '#555';
+        ctx.font = 'bold 34px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('📷 Ajoute une image', W / 2, imgH / 2);
+        ctx.textAlign = 'left';
+    }
+
+    // Voile sombre en bas de l'image pour lisibilité
+    const grad = ctx.createLinearGradient(0, imgH - 200, 0, imgH);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(1, 'rgba(0,0,0,0.55)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, imgH - 200, W, 200);
+
+    // Bandeau "BREAKING NEWS" en haut
+    const banner = document.getElementById('inBanner').value.trim();
+    if (banner) {
+        ctx.save();
+        ctx.translate(40, 60);
+        ctx.transform(1, 0, -0.18, 1, 0, 0); // skew
+        ctx.font = 'bold 44px Impact, Arial';
+        const bw = ctx.measureText(banner).width;
+        ctx.fillStyle = C.green;
+        ctx.fillRect(0, -44, bw + 40, 60);
+        ctx.fillStyle = C.black;
+        ctx.fillRect(0, -44, bw + 40, 60);
+        ctx.fillStyle = C.greenBright;
+        ctx.fillText(banner.toUpperCase(), 20, 0);
+        ctx.restore();
+    }
+
+    // Bandeau noir bas + titre
+    ctx.fillStyle = C.black;
+    ctx.fillRect(0, imgH, W, H - imgH);
+    // liseré vert
+    ctx.fillStyle = C.green;
+    ctx.fillRect(0, imgH, W, 8);
+
+    const title = document.getElementById('inTitle').value.trim().toUpperCase();
+    ctx.fillStyle = C.white;
+    const titleSize = H >= 1900 ? 62 : (H >= 1300 ? 54 : 52);
+    ctx.font = 'bold ' + titleSize + 'px Impact, "Arial Black", Arial';
+    ctx.textAlign = 'left';
+    const pad = 50;
+    const used = wrapText(title, pad, imgH + 80, W - pad * 2, titleSize + 8, 5);
+
+    // Accroche du bas
+    const kicker = document.getElementById('inKicker').value.trim();
+    if (kicker) {
+        ctx.fillStyle = C.green;
+        ctx.font = 'bold 30px "Courier New", monospace';
+        ctx.fillText('▸ ' + kicker, pad, H - 45);
+    }
+
+    // Tampon CLASSIFIED
+    if (document.getElementById('ckClassified').checked) {
+        ctx.save();
+        ctx.translate(W - 230, 150);
+        ctx.rotate(-0.20);
+        ctx.strokeStyle = C.red; ctx.lineWidth = 6;
+        ctx.strokeRect(0, 0, 200, 64);
+        ctx.strokeRect(10, 10, 180, 44);
+        ctx.fillStyle = 'rgba(163,21,21,0.85)';
+        ctx.font = 'bold 40px Impact, Arial';
+        ctx.fillText('CLASSIFIED', 18, 46);
+        ctx.restore();
+    }
+
+    // Coins scotchés
+    if (document.getElementById('ckTape').checked) {
+        drawTape(60, 20, -0.7);
+        drawTape(W - 180, 20, 0.7);
+    }
+
+    // Logo filigrane
+    if (document.getElementById('ckLogo').checked && logoReady) {
+        const ls = 120;
+        ctx.globalAlpha = 0.9;
+        ctx.drawImage(logoImg, W - ls - 30, imgH - ls - 20, ls, ls);
+        ctx.globalAlpha = 1;
+    }
+}
+
+function drawTape(x, y, rot) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+    ctx.fillStyle = C.tape;
+    ctx.fillRect(0, 0, 150, 40);
+    ctx.restore();
+}
+
+// --- Upload image ---
+document.getElementById('inImg').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        uploadedImg = new Image();
+        uploadedImg.onload = render;
+        uploadedImg.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+});
+
+// --- Format ---
+document.querySelectorAll('#formatBtns button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('#formatBtns button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        format = { w: parseInt(btn.dataset.w, 10), h: parseInt(btn.dataset.h, 10) };
+        render();
+    });
+});
+
+// Champs qui rafraîchissent l'aperçu
+['inTitle', 'inBanner', 'inKicker', 'ckClassified', 'ckTape', 'ckLogo'].forEach(id => {
+    document.getElementById(id).addEventListener('input', render);
+});
+
+function download() {
+    const link = document.createElement('a');
+    const sel = document.getElementById('selArticle');
+    const name = (articles[sel.value] && articles[sel.value].id) || 'une';
+    link.download = 'une-' + name + '-' + format.w + 'x' + format.h + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
+
+loadArticles();
+</script>
+</body>
+</html>
