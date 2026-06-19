@@ -57,10 +57,17 @@
             font-family: 'Arial', 'Helvetica Neue', sans-serif;
         }
 
+        html {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
         body {
             background-color: var(--outer-bg);
             color: var(--text-dark);
             padding: 25px 15px;
+            overflow-x: hidden;
+            max-width: 100%;
         }
 
         .container {
@@ -186,7 +193,7 @@
             border-right: 3px solid var(--border-dark);
         }
 
-        .ticker-track { overflow: hidden; flex-grow: 1; }
+        .ticker-track { overflow: hidden; flex-grow: 1; min-width: 0; }
 
         .ticker-content {
             display: inline-block;
