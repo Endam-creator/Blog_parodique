@@ -66,8 +66,6 @@
             background-color: var(--outer-bg);
             color: var(--text-dark);
             padding: 25px 15px;
-            overflow-x: hidden;
-            max-width: 100%;
         }
 
         .container {
@@ -479,6 +477,7 @@
             padding: 20px;
             border: 2px solid var(--accent-green);
             margin: 18px;
+            margin-bottom: 80px;
             display: none;
         }
 
@@ -1663,7 +1662,8 @@ function openStudioSession(panel) {
         document.getElementById('formDate').value = todayFR();
     }
     renderManageList();
-    panel.scrollIntoView({ behavior: 'smooth' });
+    const y = panel.getBoundingClientRect().top + window.pageYOffset - 20;
+    window.scrollTo(0, y);
 }
 
 // --- GESTION DES ENQUÊTES (copie de travail) ---
@@ -1725,7 +1725,13 @@ function editArticle(id) {
     notice.textContent = 'Modification en cours : « ' + truncateTitle(art.title, 60) + ' »';
     document.getElementById('cancelEditBtn').style.display = 'inline-block';
 
-    document.getElementById('studioForm').scrollIntoView({ behavior: 'smooth' });
+    // Positionne la vue sur le titre du formulaire (sans 'smooth' qui bugue sur Safari,
+    // et sans bloquer le défilement vers le bas du formulaire)
+    const heading = document.getElementById('formHeading');
+    if (heading) {
+        const y = heading.getBoundingClientRect().top + window.pageYOffset - 20;
+        window.scrollTo(0, y);
+    }
 }
 
 function cancelEdit() {
