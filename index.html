@@ -7,7 +7,7 @@
     <meta name="description" content="Le Blog des Vérités Cachées : enquêtes apocryphes, interviews exclusives et révélations que personne ne vous demandait.">
 
     <!-- ===== SEO / PARTAGE (Open Graph) =====
-         ⚠️ REMPLACE https://les-verites-cachees.endam-digital.com par ton vrai domaine (celui du fichier CNAME) -->
+         ⚠️ REMPLACE https://VOTRE-DOMAINE.fr par ton vrai domaine (celui du fichier CNAME) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Le Blog des Vérités Cachées">
     <meta property="og:title" content="Le Blog des Vérités Cachées - La voix de ceux qui savent">
@@ -16,25 +16,12 @@
     <meta property="og:image" content="https://les-verites-cachees.endam-digital.com/logo_chat_loupe.png">
     <meta name="twitter:card" content="summary">
 
-    <!-- Favicon carré (le chat à la loupe) - Google exige un favicon carré, multiple de 48px -->
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
-    <link rel="apple-touch-icon" href="favicon-192.png">
-    <link rel="shortcut icon" href="favicon-96.png">
+    <!-- Favicon (le chat à la loupe) -->
+    <link rel="icon" type="image/png" href="logo_chat_loupe.png">
+    <link rel="apple-touch-icon" href="logo_chat_loupe.png">
 
     <!-- Flux RSS (généré automatiquement par la GitHub Action) -->
     <link rel="alternate" type="application/rss+xml" title="Le Blog des Vérités Cachées" href="feed.xml">
-
-    <!-- Donnée structurée : indique à Google le nom du site (pour le fil d'Ariane des résultats) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Le Blog des Vérités Cachées",
-      "alternateName": "Vérités Cachées",
-      "url": "https://les-verites-cachees.endam-digital.com/"
-    }
-    </script>
 
     <style>
         :root {
@@ -57,17 +44,10 @@
             font-family: 'Arial', 'Helvetica Neue', sans-serif;
         }
 
-        html {
-            overflow-x: hidden;
-            max-width: 100%;
-        }
-
         body {
             background-color: var(--outer-bg);
             color: var(--text-dark);
             padding: 25px 15px;
-            overflow-x: hidden;
-            max-width: 100%;
         }
 
         .container {
@@ -97,10 +77,10 @@
             inset: 0;
             background: repeating-linear-gradient(90deg, transparent 0 6px, rgba(255,255,255,0.25) 6px 8px);
         }
-        .tape-tl { top: -10px; left: -15px; transform: rotate(-40deg); }
-        .tape-tr { top: -10px; right: -15px; transform: rotate(40deg); }
-        .tape-bl { bottom: -10px; left: -15px; transform: rotate(40deg); }
-        .tape-br { bottom: -10px; right: -15px; transform: rotate(-40deg); }
+        .tape-tl { top: -10px; left: -35px; transform: rotate(-40deg); }
+        .tape-tr { top: -10px; right: -35px; transform: rotate(40deg); }
+        .tape-bl { bottom: -10px; left: -35px; transform: rotate(40deg); }
+        .tape-br { bottom: -10px; right: -35px; transform: rotate(-40deg); }
 
         /* ===== HEADER ===== */
         header {
@@ -193,7 +173,7 @@
             border-right: 3px solid var(--border-dark);
         }
 
-        .ticker-track { overflow: hidden; flex-grow: 1; min-width: 0; }
+        .ticker-track { overflow: hidden; flex-grow: 1; }
 
         .ticker-content {
             display: inline-block;
@@ -420,12 +400,6 @@
         .article-vote-btn:hover { border-color: #555; }
         .article-vote-btn.active-up { background-color: var(--accent-green); color: #fff; border-color: var(--accent-green); }
         .article-vote-btn.active-down { background-color: var(--danger-red); color: #fff; border-color: var(--danger-red); }
-
-        /* État "déjà voté" : boutons verrouillés (un seul vote par navigateur/article) */
-        .article-vote-bar.voted .article-vote-btn:not(.active-up):not(.active-down) { opacity: 0.4; cursor: not-allowed; }
-        .article-vote-bar.voted .article-vote-btn { cursor: default; }
-        .vote-system.voted .vote-btn:not(.active-up):not(.active-down) { opacity: 0.4; cursor: not-allowed; }
-        .vote-system.voted .vote-btn { cursor: default; }
 
         /* ===== COMMENTAIRES ===== */
         .comments-zone { margin-top: 25px; }
@@ -664,20 +638,6 @@
 
         .feed-content { padding: 10px 12px; display: flex; flex-direction: column; }
 
-        .feed-une-badge {
-            display: inline-block;
-            background: var(--accent-green);
-            color: #111;
-            font-family: 'Impact', sans-serif;
-            font-size: 0.68rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 1px 7px;
-            margin-bottom: 5px;
-            align-self: flex-start;
-        }
-        .feed-card.is-une { box-shadow: inset 0 0 0 2px var(--accent-green); }
-
         .feed-title {
             font-family: 'Impact', sans-serif;
             font-size: 0.95rem;
@@ -870,14 +830,17 @@
             .main-layout { padding: 12px; gap: 14px; }
             .featured-story { padding: 12px; }
 
-            /* Article : titre en surimpression sur l'image (comme desktop) */
-            .hero-visual { min-height: 240px; }
+            /* Article : titre en surimpression repassé en pleine largeur */
+            .hero-visual { min-height: 220px; }
             .hero-title-overlay {
-                max-width: 92%;
-                bottom: 10px;
-                padding: 9px 12px;
+                position: static;
+                max-width: 100%;
+                box-shadow: none;
+                border: none;
+                border-top: 3px solid var(--accent-green);
+                padding: 10px 4px 0;
             }
-            .hero-title-overlay h2 { font-size: 1.05rem; }
+            .hero-title-overlay h2 { font-size: 1.15rem; }
 
             .breaking-banner { font-size: 1rem; padding: 5px 12px; }
             .article-body { font-size: 1rem; }
@@ -1071,16 +1034,7 @@ const CUSDIS_APP_ID = "804824ac-4fc7-4325-9f8c-7f7666f90117";   // ex: "a1b2c3d4
 
 const FEED_PAGE_SIZE = 8;      // nb d'enquêtes par "page" dans le fil
 const TOP_SIZE = 3;            // nb d'enquêtes dans le Top
-
-// Votes partagés entre tous les visiteurs (CountAPI de Miles Hilliard, gratuit, sans clé).
-// Le préfixe doit être UNIQUE à ton site pour ne pas entrer en collision avec d'autres.
-// Ne le change plus après la mise en ligne, sinon les compteurs repartent de zéro.
-const VOTE_API = "https://countapi.mileshilliard.com/api/v1";
-const VOTE_PREFIX = "lvc_endam_";   // lvc = Le blog des Vérités Cachées
 // -----------------------------------
-
-// Cache mémoire des totaux de votes chargés depuis l'API : { id: {up, down} }
-let voteTotals = {};
 
 let articles = [];
 let workingArticles = null;
@@ -1150,76 +1104,15 @@ function imgTag(raw, attrs) {
 }
 
 function voteScore(art) {
-    // Totaux partagés chargés depuis l'API (cache mémoire), + le vote local non encore
-    // reflété n'est pas nécessaire ici car l'API renvoie déjà le total à jour après un hit.
-    const t = voteTotals[art.id] || { up: 0, down: 0 };
-    return { up: t.up || 0, down: t.down || 0, score: (t.up || 0) - (t.down || 0) };
-}
-
-// Clé unique d'un compteur pour un article donné
-function voteKey(id, type) {
-    return VOTE_PREFIX + id + '_' + type;
-}
-
-// Lit un compteur en ligne sans l'incrémenter (renvoie 0 si la clé n'existe pas encore)
-async function fetchCount(id, type) {
-    try {
-        const r = await fetch(VOTE_API + '/get/' + encodeURIComponent(voteKey(id, type)));
-        if (!r.ok) return 0;
-        const d = await r.json();
-        return parseInt(d.value, 10) || 0;
-    } catch (e) {
-        return 0;
-    }
-}
-
-// Incrémente un compteur de +1 et renvoie la nouvelle valeur
-async function hitCount(id, type) {
-    try {
-        const r = await fetch(VOTE_API + '/hit/' + encodeURIComponent(voteKey(id, type)));
-        if (!r.ok) return null;
-        const d = await r.json();
-        return parseInt(d.value, 10);
-    } catch (e) {
-        return null;
-    }
-}
-
-// Charge les totaux up/down de tous les articles affichés et rafraîchit l'UI
-async function loadVoteTotals() {
-    await Promise.all(articles.map(async (art) => {
-        const [up, down] = await Promise.all([
-            fetchCount(art.id, 'up'),
-            fetchCount(art.id, 'down')
-        ]);
-        voteTotals[art.id] = { up, down };
-    }));
-    renderFeed();
-    renderTop();
-    // Met à jour les compteurs de l'article actuellement affiché, le cas échéant
-    refreshOpenArticleVotes();
-}
-
-// Met à jour les nombres de votes affichés sur l'article ouvert (sans tout re-render)
-function refreshOpenArticleVotes() {
-    const bar = document.querySelector('.article-vote-bar');
-    if (!bar || !bar.dataset.articleId) return;
-    const t = voteTotals[bar.dataset.articleId] || { up: 0, down: 0 };
-    const ups = bar.querySelector('[data-avote="up"] span');
-    const downs = bar.querySelector('[data-avote="down"] span');
-    if (ups) ups.textContent = t.up || 0;
-    if (downs) downs.textContent = t.down || 0;
+    // Vrais compteurs partant de 0. Le vote du visiteur est stocké localement.
+    // (Sans backend, chaque visiteur ne voit que son propre vote ajouté au total.)
+    const up = (localStorage.getItem('vote_' + art.id) === 'up' ? 1 : 0);
+    const down = (localStorage.getItem('vote_' + art.id) === 'down' ? 1 : 0);
+    return { up: up, down: down, score: up - down };
 }
 
 function articleURL(id) {
     return window.location.origin + window.location.pathname + '?article=' + encodeURIComponent(id);
-}
-
-// URL de PARTAGE : pointe vers la vraie page HTML (/articles/<id>.html),
-// pour que les aperçus sociaux (image + titre de l'enquête) soient corrects.
-function articleShareURL(id) {
-    const base = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
-    return base + 'articles/' + encodeURIComponent(id) + '.html';
 }
 
 // --- CHARGEMENT + ROUTAGE PAR URL ---
@@ -1251,7 +1144,6 @@ async function loadArticles() {
     renderTicker();
     renderTop();
     renderFeed();
-    loadVoteTotals(); // charge les vrais totaux partagés depuis l'API (asynchrone)
 
     // Routage : ?article=id dans l'URL → affichage direct de l'enquête (lien partageable)
     const params = new URLSearchParams(window.location.search);
@@ -1325,7 +1217,7 @@ function renderFeed() {
     const feed = document.getElementById('storiesFeed');
     feed.innerHTML = "";
 
-    const list = articles; // tous les articles, y compris le Breaking News en tête
+    const list = articles.slice(1);
 
     if (list.length === 0) {
         feed.innerHTML = '<div class="load-error" style="background:#f4f4f4;border-color:#999;">' +
@@ -1335,27 +1227,22 @@ function renderFeed() {
 
     const visible = list.slice(0, feedLimit);
 
-    visible.forEach((art, idx) => {
-        const isUne = (art.id === latestId());
+    visible.forEach(art => {
         const card = document.createElement('div');
-        card.className = 'feed-card' + (isUne ? ' is-une' : '');
+        card.className = 'feed-card';
         card.addEventListener('click', () => displayArticle(art.id, true));
 
         const v = voteScore(art);
-        const hasVoted = !!localStorage.getItem('vote_' + art.id);
         const activeUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
         const activeDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
-        const votedCls = hasVoted ? ' voted' : '';
         const stamp = art.classified ? '<span class="classified-stamp">Classified</span>' : '';
-        const uneBadge = isUne ? '<span class="feed-une-badge">★ À la une</span>' : '';
 
         card.innerHTML =
             '<div class="feed-img-area">' + imgTag(art.img, 'alt="Illustration" loading="lazy"') + '</div>' +
             '<div class="feed-content">' +
-                uneBadge +
                 '<div class="feed-title">' + highlightTitle(art.title) + '</div>' +
                 '<div class="feed-desc">' + esc(art.desc) + '</div>' +
-                '<div class="vote-system' + votedCls + '">' +
+                '<div class="vote-system">' +
                     '<button class="vote-btn upvote ' + activeUp + '" data-vote="up">👍 <span class="count">' + v.up + '</span></button>' +
                     '<button class="vote-btn downvote ' + activeDown + '" data-vote="down">👎 <span class="count">' + v.down + '</span></button>' +
                 '</div>' +
@@ -1364,7 +1251,6 @@ function renderFeed() {
         card.querySelectorAll('.vote-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (localStorage.getItem('vote_' + art.id)) return; // déjà voté
                 registerVote(art.id, btn.dataset.vote);
             });
         });
@@ -1426,18 +1312,16 @@ function displayArticle(id, isArchive) {
     let shareHTML = '';
     let voteHTML = '';
     if (!art._draft) {
-        const url = articleShareURL(art.id);
+        const url = articleURL(art.id);
         const shareText = art.title;
 
         // Votes sur l'article principal
         const v = voteScore(art);
-        const hasVoted = !!localStorage.getItem('vote_' + art.id);
         const aUp = localStorage.getItem('vote_' + art.id) === 'up' ? 'active-up' : '';
         const aDown = localStorage.getItem('vote_' + art.id) === 'down' ? 'active-down' : '';
-        const voteLabel = hasVoted ? 'Merci, votre voix est enregistrée !' : 'Cette enquête vous a-t-elle éveillé ?';
         voteHTML =
-            '<div class="article-vote-bar' + (hasVoted ? ' voted' : '') + '" data-article-id="' + esc(art.id) + '">' +
-                '<span class="article-vote-label">' + voteLabel + '</span>' +
+            '<div class="article-vote-bar">' +
+                '<span class="article-vote-label">Cette enquête vous a-t-elle éveillé ?</span>' +
                 '<button class="article-vote-btn ' + aUp + '" data-avote="up">👍 <span>' + v.up + '</span></button>' +
                 '<button class="article-vote-btn ' + aDown + '" data-avote="down">👎 <span>' + v.down + '</span></button>' +
             '</div>';
@@ -1476,17 +1360,9 @@ function displayArticle(id, isArchive) {
 
     // Brancher les votes de l'article principal
     viewer.querySelectorAll('.article-vote-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-            if (localStorage.getItem('vote_' + art.id)) return; // déjà voté
-            await registerVote(art.id, btn.dataset.avote);
-            // Marque visuellement et verrouille la barre
-            const bar = btn.closest('.article-vote-bar');
-            if (bar) {
-                bar.classList.add('voted');
-                const label = bar.querySelector('.article-vote-label');
-                if (label) label.textContent = 'Merci, votre voix est enregistrée !';
-            }
-            btn.classList.add(btn.dataset.avote === 'up' ? 'active-up' : 'active-down');
+        btn.addEventListener('click', () => {
+            registerVote(art.id, btn.dataset.avote);
+            displayArticle(art.id, isArchive); // re-render pour mettre à jour l'état actif
         });
     });
 
@@ -1516,7 +1392,7 @@ function displayArticle(id, isArchive) {
 }
 
 function copyArticleLink(id) {
-    const url = articleShareURL(id);
+    const url = articleURL(id);
     navigator.clipboard.writeText(url)
         .then(() => alert('Lien copié ! Diffusez la vérité. 📡\n' + url))
         .catch(() => prompt('Copiez le lien manuellement :', url));
@@ -1529,38 +1405,18 @@ function copyRssLink() {
         .catch(() => prompt('Copiez le lien du flux manuellement :', url));
 }
 
-// --- VOTES PARTAGÉS (compteurs en ligne, communs à tous les visiteurs) ---
-// Le localStorage ne sert qu'à mémoriser CE QUE ce visiteur a déjà voté
-// (pour éviter les votes multiples et afficher le bouton actif).
+// --- VOTES (locaux à chaque visiteur) ---
 
-async function registerVote(articleId, type) {
+function registerVote(articleId, type) {
     const storageKey = 'vote_' + articleId;
     const currentVote = localStorage.getItem(storageKey);
-
-    // PROTECTION ANTI-REVOTE : ce navigateur a déjà voté pour cet article → on bloque.
-    // Couvre les boutons du fil ET ceux de l'article (un seul vote par navigateur/article).
-    if (currentVote) {
-        return;
-    }
-
-    // S'assurer que le cache existe
-    if (!voteTotals[articleId]) voteTotals[articleId] = { up: 0, down: 0 };
-
-    // Marque le vote AVANT l'appel réseau, pour bloquer les clics rapides répétés
-    localStorage.setItem(storageKey, type);
-
-    // Incrémente le choix en ligne
-    const newVal = await hitCount(articleId, type);
-    if (newVal !== null) {
-        voteTotals[articleId][type] = newVal;
+    if (currentVote === type) {
+        localStorage.removeItem(storageKey);
     } else {
-        // En cas d'échec réseau, on incrémente localement pour le retour visuel
-        voteTotals[articleId][type] = (voteTotals[articleId][type] || 0) + 1;
+        localStorage.setItem(storageKey, type);
     }
-
     renderFeed();
     renderTop();
-    refreshOpenArticleVotes();
 }
 
 // --- COMPTEUR DE VISITES (GoatCounter) ---
