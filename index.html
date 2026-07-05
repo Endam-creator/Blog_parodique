@@ -810,19 +810,33 @@
         .vote-btn.active-up { background-color: var(--accent-green); color: #fff; }
         .vote-btn.active-down { background-color: var(--danger-red); color: #fff; }
 
-        .load-more-btn {
-            background: var(--header-bg);
-            color: var(--accent-green);
+        .feed-pager {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .pager-btn {
+            background: #fff;
+            color: var(--text-dark);
             border: 2px solid var(--border-dark);
-            padding: 12px;
+            min-width: 38px;
+            padding: 8px 10px;
             font-family: 'Impact', sans-serif;
             font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             cursor: pointer;
-            transition: background 0.15s ease;
+            transition: all 0.12s ease;
         }
-        .load-more-btn:hover { background: #000; color: var(--accent-green-hover); }
+        .pager-btn:hover:not(:disabled):not(.active) { background: var(--accent-green); color: #111; }
+        .pager-btn.active {
+            background: var(--header-bg);
+            color: var(--accent-green);
+            border-color: var(--header-bg);
+            cursor: default;
+        }
+        .pager-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
         /* ===== NEWSLETTER ===== */
         .newsletter-bar {
@@ -1186,7 +1200,7 @@ let articles = [];
 let workingArticles = null;
 let draftArticles = [];
 let editingId = null;
-let feedLimit = FEED_PAGE_SIZE;
+let feedPage = 1;
 
 // --- OUTILS ---
 
@@ -1433,9 +1447,9 @@ function displayHome() {
             '<p>Vous en avez assez des versions officielles lisses et ennuyeuses ? Vous sentez que la vérité ' +
             'est plus tordue, plus folle, plus... réelle ? Vous êtes au bon endroit.</p>' +
             '<p><strong>"Le Blog des Vérités Cachées"</strong> plonge dans le quotidien secret de vos voisins ' +
-            'pour révéler l\'incroyable complot qui se tisse sous nos yeux. Puces 5G dans l\'épaule, mutants ' +
-            'cannibales dans la plomberie, lucioles drones biologiques... tout est là, mesuré et vérifié par ' +
-            'l\'Investigateur Anonyme ! <strong>Entrez, si vous osez remettre en question le réel.</strong></p>' +
+            'pour révéler l\'incroyable complot qui se tisse sous nos yeux. Objets maudits, technologies ' +
+            'suspectes, phénomènes inexpliqués et témoignages impossibles à ignorer... tout est là, mesuré ' +
+            'et vérifié par l\'Investigateur Anonyme ! <strong>Entrez, si vous osez remettre en question le réel.</strong></p>' +
         '</div>' +
         '<div class="studio-actions" style="margin-top:14px;">' +
             '<button type="button" class="btn-submit" id="homeReadBtn">📰 Lire la dernière enquête</button>' +
@@ -1474,7 +1488,11 @@ function renderFeed() {
         return;
     }
 
-    const visible = list.slice(0, feedLimit);
+    const totalPages = Math.ceil(list.length / FEED_PAGE_SIZE);
+    if (feedPage > totalPages) feedPage = totalPages;
+    if (feedPage < 1) feedPage = 1;
+    const start = (feedPage - 1) * FEED_PAGE_SIZE;
+    const visible = list.slice(start, start + FEED_PAGE_SIZE);
 
     visible.forEach((art, idx) => {
         const isUne = (art.id === latestId());
@@ -1513,16 +1531,33 @@ function renderFeed() {
         feed.appendChild(card);
     });
 
-    const remaining = list.length - visible.length;
-    if (remaining > 0) {
-        const moreBtn = document.createElement('button');
-        moreBtn.className = 'load-more-btn';
-        moreBtn.textContent = '📁 Déclassifier plus d\'enquêtes (' + remaining + ' restante' + (remaining > 1 ? 's' : '') + ')';
-        moreBtn.addEventListener('click', () => {
-            feedLimit += FEED_PAGE_SIZE;
-            renderFeed();
-        });
-        feed.appendChild(moreBtn);
+    // Pagination numérotée : ‹ 1 2 3 › (remplace le contenu, la page ne s'allonge pas)
+    if (totalPages > 1) {
+        const pager = document.createElement('div');
+        pager.className = 'feed-pager';
+
+        const mkBtn = (label, page, disabled, active) => {
+            const b = document.createElement('button');
+            b.className = 'pager-btn' + (active ? ' active' : '');
+            b.textContent = label;
+            b.disabled = !!disabled;
+            if (!disabled && !active) {
+                b.addEventListener('click', () => {
+                    feedPage = page;
+                    renderFeed();
+                    document.getElementById('storiesFeed').scrollIntoView({ block: 'start' });
+                });
+            }
+            return b;
+        };
+
+        pager.appendChild(mkBtn('‹', feedPage - 1, feedPage === 1, false));
+        for (let p = 1; p <= totalPages; p++) {
+            pager.appendChild(mkBtn(String(p), p, false, p === feedPage));
+        }
+        pager.appendChild(mkBtn('›', feedPage + 1, feedPage === totalPages, false));
+
+        feed.appendChild(pager);
     }
 }
 
