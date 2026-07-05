@@ -349,6 +349,71 @@
             white-space: nowrap;
         }
 
+        /* Page d'intro : stats parodiques */
+        .home-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .stat-box {
+            border: 2px solid var(--border-dark);
+            background: #f7f7f2;
+            padding: 16px 10px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Impact', sans-serif;
+            font-size: 2.1rem;
+            color: var(--accent-green);
+            background: var(--text-dark);
+            display: inline-block;
+            padding: 0 12px;
+            transform: skewX(-6deg);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            line-height: 1.35;
+            color: #333;
+        }
+
+        /* Page d'intro : témoignages */
+        .home-quotes {
+            margin-top: 24px;
+            border-top: 1px dashed #bbb;
+            padding-top: 16px;
+        }
+
+        .home-quotes h3 {
+            font-family: 'Impact', sans-serif;
+            text-transform: uppercase;
+            font-weight: normal;
+            margin-bottom: 12px;
+            border-bottom: 3px solid var(--accent-green);
+            display: inline-block;
+        }
+
+        blockquote.temoin {
+            border-left: 4px solid var(--accent-green);
+            background: #fafaf5;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        blockquote.temoin cite {
+            display: block;
+            font-style: normal;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
         .article-body {
             font-size: 1.05rem;
             line-height: 1.6;
@@ -916,6 +981,9 @@
 
             /* Cartes du fil : image un peu plus petite */
             .feed-card { grid-template-columns: 85px 1fr; }
+
+            /* Stats de la page d'intro : empilées sur mobile */
+            .home-stats { grid-template-columns: 1fr; }
             .feed-img-area { width: 85px; }
             .feed-title { font-size: 0.88rem; }
 
@@ -966,7 +1034,7 @@
             <div class="edition-tag">Édition Nationale &amp; Univers Connexes</div>
         </div>
         <nav class="header-nav">
-            <a href="https://les-verites-cachees-endam-digital-com.translate.goog/?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en" class="lang-link" target="_blank" rel="noopener" title="Read The Hidden Truths Blog in English">🇬🇧 EN</a>
+            <a href="https://les--verites--cachees-endam--digital-com.translate.goog/?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en" class="lang-link" target="_blank" rel="noopener" title="Read The Hidden Truths Blog in English">🇬🇧 EN</a>
             <a href="boutique.html" class="boutique-link">🛒 Boutique</a>
         </nav>
     </header>
@@ -1371,6 +1439,17 @@ function displayHome() {
         '</div>' +
         '<div class="studio-actions" style="margin-top:14px;">' +
             '<button type="button" class="btn-submit" id="homeReadBtn">📰 Lire la dernière enquête</button>' +
+        '</div>' +
+        '<div class="home-stats">' +
+            '<div class="stat-box"><div class="stat-num">97,3%</div><div class="stat-label">de vérités vérifiées par nous-mêmes</div></div>' +
+            '<div class="stat-box"><div class="stat-num">' + articles.length + '</div><div class="stat-label">enquête' + (articles.length > 1 ? 's' : '') + ' déclassifiée' + (articles.length > 1 ? 's' : '') + ' à ce jour</div></div>' +
+            '<div class="stat-box"><div class="stat-num">0</div><div class="stat-label">fait validé par les médias officiels (ils sont compromis)</div></div>' +
+        '</div>' +
+        '<div class="home-quotes">' +
+            '<h3>💬 Ils témoignent (anonymement)</h3>' +
+            '<blockquote class="temoin">« Depuis que je lis ce blog, je comprends enfin pourquoi mon grille-pain me juge. »<cite>— R., 43 ans, éveillé</cite></blockquote>' +
+            '<blockquote class="temoin">« Enfin un média qui ose dire tout haut ce que personne ne pense. »<cite>— Une lectrice sous protection rapprochée</cite></blockquote>' +
+            '<blockquote class="temoin">« 10/10. Mon chat confirme chaque enquête d\'un lent clignement d\'yeux. »<cite>— Anonyme (comme nous tous)</cite></blockquote>' +
         '</div>';
 
     document.getElementById('homeHero').addEventListener('click', () => displayArticle(art.id, false));
