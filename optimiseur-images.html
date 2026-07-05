@@ -49,8 +49,11 @@
         <label>Largeur max (px)
             <input type="number" id="maxW" value="1200">
         </label>
-        <span style="font-size:.8rem;color:#888;align-self:center;max-width:340px;line-height:1.4;">
-            Format PNG conservé (sans perte). Le gain vient du redimensionnement : réduire la largeur allège fortement les grandes images.
+        <label>Nombre de couleurs
+            <input type="number" id="nColors" value="128" min="16" max="256" step="16">
+        </label>
+        <span style="font-size:.8rem;color:#888;align-self:center;max-width:300px;line-height:1.4;">
+            PNG conservé. Moins de couleurs = fichier plus léger. 128 est un bon compromis ; descends à 64 si besoin de plus léger, monte à 256 si le rendu se dégrade.
         </span>
     </div>
 
@@ -68,7 +71,7 @@
         2. Clique « Télécharger » sur chaque version optimisée (elle garde son nom en .png).<br>
         3. Mets ces versions allégées dans le dossier <code>images/</code> de ton repo GitHub (remplace les lourdes). <strong>Pas besoin de modifier articles.json</strong> puisque les noms .png sont conservés.<br>
         <br>
-        <strong>Recommandé :</strong> largeur 1200px. Le PNG reste sans perte de qualité ; c'est le redimensionnement qui allège tes grandes images (souvent −70 à −90%).
+        <strong>Recommandé :</strong> largeur 1200px + 128 couleurs. Pour des photos, ça réduit fortement le poids tout en gardant le format PNG. Si une image reste lourde, baisse le nombre de couleurs (96, 64...).
     </div>
 
     <a class="back" href="index.html">← Retour au Blog</a>
@@ -103,12 +106,13 @@ function handleFiles(files) {
 
 function optimize(file) {
     const maxW = parseInt(document.getElementById('maxW').value, 10) || 1200;
+    const nColors = parseInt(document.getElementById('nColors').value, 10) || 256;
 
     const reader = new FileReader();
     reader.onload = (ev) => {
         const img = new Image();
         img.onload = () => {
-            // Redimensionnement proportionnel (le vrai gain de poids pour du PNG)
+            // Redimensionnement proportionnel
             let w = img.width, h = img.height;
             if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
 
@@ -117,7 +121,11 @@ function optimize(file) {
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, w, h);
 
-            // Export en PNG (sans perte, conserve la transparence, garde l'extension .png)
+            // Quantification des couleurs (réduit fortement le poids du PNG, façon TinyPNG)
+            const imageData = ctx.getImageData(0, 0, w, h);
+            quantize(imageData, nColors);
+            ctx.putImageData(imageData, 0, 0);
+
             canvas.toBlob((blob) => {
                 showResult(file, blob, w, h);
             }, 'image/png');
@@ -125,6 +133,53 @@ function optimize(file) {
         img.src = ev.target.result;
     };
     reader.readAsDataURL(file);
+}
+
+// --- Quantification par médiane-cut : réduit l'image à nColors couleurs ---
+function quantize(imageData, nColors) {
+    const data = imageData.data;
+    const pixels = [];
+    for (let i = 0; i < data.length; i += 4) {
+        pixels.push([data[i], data[i + 1], data[i + 2], i]);
+    }
+
+    // Construit les "boîtes" de couleurs par découpe médiane récursive
+    function medianCut(boxes) {
+        while (boxes.length < nColors) {
+            // Trouve la boîte avec la plus grande étendue de couleur
+            let best = -1, bestRange = -1, bestChannel = 0;
+            for (let b = 0; b < boxes.length; b++) {
+                const box = boxes[b];
+                if (box.length < 2) continue;
+                for (let c = 0; c < 3; c++) {
+                    let min = 255, max = 0;
+                    for (const p of box) { if (p[c] < min) min = p[c]; if (p[c] > max) max = p[c]; }
+                    const range = max - min;
+                    if (range > bestRange) { bestRange = range; best = b; bestChannel = c; }
+                }
+            }
+            if (best === -1) break;
+            const box = boxes[best];
+            box.sort((a, b) => a[bestChannel] - b[bestChannel]);
+            const mid = box.length >> 1;
+            boxes.splice(best, 1, box.slice(0, mid), box.slice(mid));
+        }
+        return boxes;
+    }
+
+    const boxes = medianCut([pixels]);
+
+    // Applique la couleur moyenne de chaque boîte à ses pixels
+    for (const box of boxes) {
+        let r = 0, g = 0, bl = 0;
+        for (const p of box) { r += p[0]; g += p[1]; bl += p[2]; }
+        const n = box.length || 1;
+        r = Math.round(r / n); g = Math.round(g / n); bl = Math.round(bl / n);
+        for (const p of box) {
+            const idx = p[3];
+            data[idx] = r; data[idx + 1] = g; data[idx + 2] = bl;
+        }
+    }
 }
 
 function showResult(origFile, blob, w, h) {
