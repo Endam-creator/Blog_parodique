@@ -32,6 +32,8 @@
     .result .info .before { color: #ff8888; }
     .result .info .after { color: var(--accent-green); }
     .result .info .gain { color: var(--accent-green-bright); font-weight: bold; }
+    .result .info .json-hint { font-size: .78rem; color: #aaa; margin-top: 6px; }
+    .result .info .json-hint code { background: #000; color: var(--accent-green); padding: 1px 5px; }
     .btn {
         background: var(--accent-green); color: #111; border: none; padding: 10px 18px;
         font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; text-decoration: none;
@@ -49,11 +51,11 @@
         <label>Largeur max (px)
             <input type="number" id="maxW" value="1200">
         </label>
-        <label>Nombre de couleurs
-            <input type="number" id="nColors" value="128" min="16" max="256" step="16">
+        <label>Qualité (0.5 à 0.92)
+            <input type="number" id="quality" value="0.82" step="0.02" min="0.5" max="0.92">
         </label>
         <span style="font-size:.8rem;color:#888;align-self:center;max-width:300px;line-height:1.4;">
-            PNG conservé. Moins de couleurs = fichier plus léger. 128 est un bon compromis ; descends à 64 si besoin de plus léger, monte à 256 si le rendu se dégrade.
+            Sortie JPEG (idéal pour les photos, 5-6× plus léger que le PNG). Qualité 0.82 = excellent compromis. Descends à 0.75 pour plus léger, monte à 0.9 si tu vois des artefacts.
         </span>
     </div>
 
@@ -68,10 +70,11 @@
     <div class="tip">
         <strong>💡 Comment faire :</strong><br>
         1. Glisse tes images d'enquête ici.<br>
-        2. Clique « Télécharger » sur chaque version optimisée (elle garde son nom en .png).<br>
-        3. Mets ces versions allégées dans le dossier <code>images/</code> de ton repo GitHub (remplace les lourdes). <strong>Pas besoin de modifier articles.json</strong> puisque les noms .png sont conservés.<br>
+        2. Clique « Télécharger » sur chaque version optimisée (elle sort en <code>.jpg</code>).<br>
+        3. Mets ces fichiers <code>.jpg</code> dans le dossier <code>images/</code> de ton repo GitHub.<br>
+        4. Dans <code>articles.json</code>, mets à jour le chemin de l'image en <code>.jpg</code> (l'outil te rappelle la ligne exacte sous chaque image). Tu peux ensuite supprimer l'ancien <code>.png</code> du repo.<br>
         <br>
-        <strong>Recommandé :</strong> largeur 1200px + 128 couleurs. Pour des photos, ça réduit fortement le poids tout en gardant le format PNG. Si une image reste lourde, baisse le nombre de couleurs (96, 64...).
+        <strong>Recommandé :</strong> largeur 1200px + qualité 0.82 → tes photos de 500-880 Ko passeront à ~100-150 Ko. Site enfin rapide.
     </div>
 
     <a class="back" href="index.html">← Retour au Blog</a>
@@ -106,7 +109,7 @@ function handleFiles(files) {
 
 function optimize(file) {
     const maxW = parseInt(document.getElementById('maxW').value, 10) || 1200;
-    const nColors = parseInt(document.getElementById('nColors').value, 10) || 256;
+    const quality = parseFloat(document.getElementById('quality').value) || 0.82;
 
     const reader = new FileReader();
     reader.onload = (ev) => {
@@ -119,75 +122,27 @@ function optimize(file) {
             const canvas = document.createElement('canvas');
             canvas.width = w; canvas.height = h;
             const ctx = canvas.getContext('2d');
+            // Fond blanc (le JPEG ne gère pas la transparence)
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, w, h);
             ctx.drawImage(img, 0, 0, w, h);
 
-            // Quantification des couleurs (réduit fortement le poids du PNG, façon TinyPNG)
-            const imageData = ctx.getImageData(0, 0, w, h);
-            quantize(imageData, nColors);
-            ctx.putImageData(imageData, 0, 0);
-
+            // Export en JPEG : le format des photos web, 5 à 6x plus léger que le PNG
             canvas.toBlob((blob) => {
                 showResult(file, blob, w, h);
-            }, 'image/png');
+            }, 'image/jpeg', quality);
         };
         img.src = ev.target.result;
     };
     reader.readAsDataURL(file);
 }
 
-// --- Quantification par médiane-cut : réduit l'image à nColors couleurs ---
-function quantize(imageData, nColors) {
-    const data = imageData.data;
-    const pixels = [];
-    for (let i = 0; i < data.length; i += 4) {
-        pixels.push([data[i], data[i + 1], data[i + 2], i]);
-    }
-
-    // Construit les "boîtes" de couleurs par découpe médiane récursive
-    function medianCut(boxes) {
-        while (boxes.length < nColors) {
-            // Trouve la boîte avec la plus grande étendue de couleur
-            let best = -1, bestRange = -1, bestChannel = 0;
-            for (let b = 0; b < boxes.length; b++) {
-                const box = boxes[b];
-                if (box.length < 2) continue;
-                for (let c = 0; c < 3; c++) {
-                    let min = 255, max = 0;
-                    for (const p of box) { if (p[c] < min) min = p[c]; if (p[c] > max) max = p[c]; }
-                    const range = max - min;
-                    if (range > bestRange) { bestRange = range; best = b; bestChannel = c; }
-                }
-            }
-            if (best === -1) break;
-            const box = boxes[best];
-            box.sort((a, b) => a[bestChannel] - b[bestChannel]);
-            const mid = box.length >> 1;
-            boxes.splice(best, 1, box.slice(0, mid), box.slice(mid));
-        }
-        return boxes;
-    }
-
-    const boxes = medianCut([pixels]);
-
-    // Applique la couleur moyenne de chaque boîte à ses pixels
-    for (const box of boxes) {
-        let r = 0, g = 0, bl = 0;
-        for (const p of box) { r += p[0]; g += p[1]; bl += p[2]; }
-        const n = box.length || 1;
-        r = Math.round(r / n); g = Math.round(g / n); bl = Math.round(bl / n);
-        for (const p of box) {
-            const idx = p[3];
-            data[idx] = r; data[idx + 1] = g; data[idx + 2] = bl;
-        }
-    }
-}
-
 function showResult(origFile, blob, w, h) {
     const url = URL.createObjectURL(blob);
     const gain = Math.round((1 - blob.size / origFile.size) * 100);
-    // Nom de sortie : même nom, en .png (pas besoin de modifier articles.json)
+    // Nom de sortie : en .jpg (à reporter dans articles.json)
     const baseName = origFile.name.replace(/\.[^.]+$/, '');
-    const outName = baseName + '.png';
+    const outName = baseName + '.jpg';
 
     const div = document.createElement('div');
     div.className = 'result';
@@ -200,6 +155,7 @@ function showResult(origFile, blob, w, h) {
                 '<span class="after">Après : ' + fmtSize(blob.size) + '</span> ' +
                 '<span class="gain">(−' + gain + '%)</span>' +
             '</div>' +
+            '<div class="json-hint">Dans articles.json : <code>"img": "images/' + outName + '"</code></div>' +
         '</div>';
 
     const a = document.createElement('a');
