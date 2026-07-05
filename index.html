@@ -1441,15 +1441,17 @@ function displayHome() {
             '<button type="button" class="btn-submit" id="homeReadBtn">📰 Lire la dernière enquête</button>' +
         '</div>' +
         '<div class="home-stats">' +
-            '<div class="stat-box"><div class="stat-num">97,3%</div><div class="stat-label">de vérités vérifiées par nous-mêmes</div></div>' +
+            '<div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">de vérités vérifiées par nous-mêmes</div></div>' +
             '<div class="stat-box"><div class="stat-num">' + articles.length + '</div><div class="stat-label">enquête' + (articles.length > 1 ? 's' : '') + ' déclassifiée' + (articles.length > 1 ? 's' : '') + ' à ce jour</div></div>' +
             '<div class="stat-box"><div class="stat-num">0</div><div class="stat-label">fait validé par les médias officiels (ils sont compromis)</div></div>' +
         '</div>' +
         '<div class="home-quotes">' +
             '<h3>💬 Ils témoignent (anonymement)</h3>' +
-            '<blockquote class="temoin">« Depuis que je lis ce blog, je comprends enfin pourquoi mon grille-pain me juge. »<cite>— R., 43 ans, éveillé</cite></blockquote>' +
-            '<blockquote class="temoin">« Enfin un média qui ose dire tout haut ce que personne ne pense. »<cite>— Une lectrice sous protection rapprochée</cite></blockquote>' +
-            '<blockquote class="temoin">« 10/10. Mon chat confirme chaque enquête d\'un lent clignement d\'yeux. »<cite>— Anonyme (comme nous tous)</cite></blockquote>' +
+            '<blockquote class="temoin">« Depuis que je suis vos recommandations et que j\'analyse mon environnement, ma femme me dit que j\'ai changé. Évidemment que j\'ai changé : je vois enfin les choses telles qu\'elles sont ! »<cite>— Un lecteur de la première heure</cite></blockquote>' +
+            '<blockquote class="temoin">« J\'ai imprimé vos dossiers pour les distribuer dans les boîtes aux lettres de mon lotissement. La plupart des gens jettent, mais si on peut réveiller ne serait-ce que deux ou trois personnes, ça en vaut la peine. »<cite>— Un citoyen qui refuse de fermer les yeux</cite></blockquote>' +
+            '<blockquote class="temoin">« J\'ai essayé d\'aborder vos théories pendant le repas de dimanche, mon beau-frère m\'a ri au nez en me disant que je devenais complètement fou. Tant pis pour les endormis. »<cite>— Martine, 52 ans, bienveillante mais incomprise</cite></blockquote>' +
+            '<blockquote class="temoin">« Merci de donner une voix à ceux qui constatent les anomalies au quotidien. »<cite>— Patrice D., membre d\'un collectif d\'observation</cite></blockquote>' +
+            '<blockquote class="temoin">« Ma femme me prend pour un fou quand j\'essaie de lui expliquer comment le système fonctionne vraiment. Heureusement que votre site existe, on se sent moins seul face au déni général. »<cite>— Un citoyen qui a ouvert les yeux</cite></blockquote>' +
         '</div>';
 
     document.getElementById('homeHero').addEventListener('click', () => displayArticle(art.id, false));
