@@ -147,6 +147,27 @@
         .header-nav {
             margin-left: auto;
             flex-shrink: 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .lang-link {
+            display: inline-block;
+            background: transparent;
+            color: #ddd;
+            border: 1px solid #666;
+            padding: 8px 12px;
+            font-family: 'Impact', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transform: skewX(-6deg);
+            transition: all 0.15s ease;
+        }
+        .lang-link:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
         }
 
         .boutique-link {
@@ -314,6 +335,18 @@
             line-height: 1.25;
             text-transform: uppercase;
             font-weight: normal;
+        }
+
+        /* Page d'intro : la photo du dernier scoop est cliquable */
+        .hero-clickable { cursor: pointer; }
+        .hero-clickable img { transition: transform 0.25s ease; }
+        .hero-clickable:hover img { transform: scale(1.02); }
+        .hero-clickable:hover .hero-title-overlay { box-shadow: 4px 4px 0 var(--accent-green); }
+
+        .read-more {
+            background: var(--accent-green);
+            padding: 0 5px;
+            white-space: nowrap;
         }
 
         .article-body {
@@ -837,7 +870,7 @@
                 margin-left: auto;
             }
 
-            .boutique-link {
+            .boutique-link, .lang-link {
                 transform: none;
                 padding: 7px 13px;
                 font-size: 0.9rem;
@@ -933,6 +966,7 @@
             <div class="edition-tag">Édition Nationale &amp; Univers Connexes</div>
         </div>
         <nav class="header-nav">
+            <a href="https://les-verites-cachees-endam-digital-com.translate.goog/?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en" class="lang-link" target="_blank" rel="noopener" title="Read The Hidden Truths Blog in English">🇬🇧 EN</a>
             <a href="boutique.html" class="boutique-link">🛒 Boutique</a>
         </nav>
     </header>
@@ -1305,15 +1339,43 @@ function renderTop() {
 function displayHome() {
     draftArticles = [];
     history.replaceState(null, '', window.location.pathname); // URL propre
-    if (articles.length > 0) {
-        displayArticle(articles[0].id, false);
-    } else {
-        document.getElementById('articleViewer').innerHTML =
+    const viewer = document.getElementById('articleViewer');
+
+    if (articles.length === 0) {
+        viewer.innerHTML =
             '<div class="breaking-banner">Breaking News</div>' +
             '<div class="article-body"><p><strong>"Le Blog des Vérités Cachées"</strong> prépare sa première enquête. ' +
             'Puces 5G invisibles, mutants planqués dans la plomberie, lucioles drones biologiques... ' +
             'Le réel n\'a qu\'à bien se tenir.</p></div>';
+        renderFeed();
+        return;
     }
+
+    // PAGE D'INTRO : la photo du dernier scoop en teaser (clic = lire l'enquête),
+    // suivie du manifeste du blog. L'article complet ne s'affiche que sur clic.
+    const art = articles[0];
+    viewer.innerHTML =
+        '<div class="breaking-banner">Breaking News</div>' +
+        '<div class="hero-visual hero-clickable" id="homeHero" title="Lire l\'enquête complète">' +
+            imgTag(art.img, 'alt="' + esc(art.title) + '"') +
+            '<div class="hero-title-overlay"><h2>' + esc(art.title) +
+                ' <span class="read-more">(Lire l\'enquête exclusive)</span></h2></div>' +
+        '</div>' +
+        '<div class="article-body">' +
+            '<p>Vous en avez assez des versions officielles lisses et ennuyeuses ? Vous sentez que la vérité ' +
+            'est plus tordue, plus folle, plus... réelle ? Vous êtes au bon endroit.</p>' +
+            '<p><strong>"Le Blog des Vérités Cachées"</strong> plonge dans le quotidien secret de vos voisins ' +
+            'pour révéler l\'incroyable complot qui se tisse sous nos yeux. Puces 5G dans l\'épaule, mutants ' +
+            'cannibales dans la plomberie, lucioles drones biologiques... tout est là, mesuré et vérifié par ' +
+            'l\'Investigateur Anonyme ! <strong>Entrez, si vous osez remettre en question le réel.</strong></p>' +
+        '</div>' +
+        '<div class="studio-actions" style="margin-top:14px;">' +
+            '<button type="button" class="btn-submit" id="homeReadBtn">📰 Lire la dernière enquête</button>' +
+        '</div>';
+
+    document.getElementById('homeHero').addEventListener('click', () => displayArticle(art.id, false));
+    document.getElementById('homeReadBtn').addEventListener('click', () => displayArticle(art.id, false));
+
     renderFeed();
 }
 
