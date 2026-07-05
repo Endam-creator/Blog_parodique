@@ -49,9 +49,9 @@
         <label>Largeur max (px)
             <input type="number" id="maxW" value="1200">
         </label>
-        <label>Qualité (0.5 à 0.95)
-            <input type="number" id="quality" value="0.82" step="0.05" min="0.5" max="0.95">
-        </label>
+        <span style="font-size:.8rem;color:#888;align-self:center;max-width:340px;line-height:1.4;">
+            Format PNG conservé (sans perte). Le gain vient du redimensionnement : réduire la largeur allège fortement les grandes images.
+        </span>
     </div>
 
     <div class="drop" id="drop">
@@ -65,10 +65,10 @@
     <div class="tip">
         <strong>💡 Comment faire :</strong><br>
         1. Glisse tes images d'enquête ici.<br>
-        2. Clique « Télécharger » sur chaque version optimisée.<br>
-        3. Renomme si besoin, puis mets ces versions allégées dans le dossier <code>images/</code> de ton repo GitHub (remplace les lourdes).<br>
+        2. Clique « Télécharger » sur chaque version optimisée (elle garde son nom en .png).<br>
+        3. Mets ces versions allégées dans le dossier <code>images/</code> de ton repo GitHub (remplace les lourdes). <strong>Pas besoin de modifier articles.json</strong> puisque les noms .png sont conservés.<br>
         <br>
-        <strong>Recommandé :</strong> largeur 1200px, qualité 0.82 → une photo passe généralement de 500 Ko-2 Mo à ~100-150 Ko.
+        <strong>Recommandé :</strong> largeur 1200px. Le PNG reste sans perte de qualité ; c'est le redimensionnement qui allège tes grandes images (souvent −70 à −90%).
     </div>
 
     <a class="back" href="index.html">← Retour au Blog</a>
@@ -103,13 +103,12 @@ function handleFiles(files) {
 
 function optimize(file) {
     const maxW = parseInt(document.getElementById('maxW').value, 10) || 1200;
-    const quality = parseFloat(document.getElementById('quality').value) || 0.82;
 
     const reader = new FileReader();
     reader.onload = (ev) => {
         const img = new Image();
         img.onload = () => {
-            // Redimensionnement proportionnel
+            // Redimensionnement proportionnel (le vrai gain de poids pour du PNG)
             let w = img.width, h = img.height;
             if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
 
@@ -118,10 +117,10 @@ function optimize(file) {
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, w, h);
 
-            // Export en JPEG (bien plus léger que PNG pour les photos)
+            // Export en PNG (sans perte, conserve la transparence, garde l'extension .png)
             canvas.toBlob((blob) => {
                 showResult(file, blob, w, h);
-            }, 'image/jpeg', quality);
+            }, 'image/png');
         };
         img.src = ev.target.result;
     };
@@ -131,9 +130,9 @@ function optimize(file) {
 function showResult(origFile, blob, w, h) {
     const url = URL.createObjectURL(blob);
     const gain = Math.round((1 - blob.size / origFile.size) * 100);
-    // Nom de sortie : même nom mais en .jpg
+    // Nom de sortie : même nom, en .png (pas besoin de modifier articles.json)
     const baseName = origFile.name.replace(/\.[^.]+$/, '');
-    const outName = baseName + '.jpg';
+    const outName = baseName + '.png';
 
     const div = document.createElement('div');
     div.className = 'result';
