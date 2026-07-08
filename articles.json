@@ -1,5 +1,44 @@
 [
   {
+    "id": "art-1783531260082",
+    "title": "Je possède le don de télékinésie, mais uniquement quand je suis en plein cauchemar (et mon appartement est dévasté)",
+    "date": "Mercredi 8 juillet 2026",
+    "location": "Melun, Seine et Marne",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/telekinesie.jpg",
+    "desc": "Comment survivre à ses propres rêves ? Un préparateur de commandes raconte son enfer nocturne : quand son anxiété monte pendant son sommeil, son micro-ondes s'encastre dans le plafond.",
+    "intro": "La télékinésie est souvent présentée comme une maîtrise absolue de l'esprit sur la matière. Pour Samuel F., 28 ans, préparateur de commandes à Melun, c’est exactement l’inverse. Son pouvoir ne répond pas à sa volonté consciente, mais à son subconscient le plus sombre. Samuel est un « télékinésiste nocturne passif ». En clair : quand il fait un cauchemar, sa chambre devient une zone de guerre psychique.\n\nNous l’avons rencontré dans son studio, où tous les meubles sont désormais solidement vissés au sol avec des tirefonds de chantier.",
+    "interview": [
+      {
+        "q": "Samuel, merci de nous recevoir. Votre appartement ressemble plus à une soute de navire de guerre qu'à un logement étudiant. Pourquoi une telle installation ?",
+        "a": "(Rires nerveux) Si je ne vissais pas tout, je me réveillerais chaque matin sous ma garde-robe. Tout a commencé il y a six mois. J'ai rêvé que je me faisais poursuivre par un calamar géant dans le RER A. Quand je me suis réveillé en sursaut, ma table basse lévitait à 1,50 mètre du sol et mon micro-ondes était encastré dans le plafond. Mon stress onirique s'était transformé en force cinétique pure."
+      },
+      {
+        "q": "Vous voulez dire que votre esprit projette physiquement vos peurs pendant que vous dormez ?",
+        "a": "Exactement. Et le problème, c’est que je suis quelqu'un de très anxieux. Si je rêve que je rate mon réveil, la force de ma panique soulève mon lit et le projette contre le mur. Si je rêve que je perds mes dents, ce sont tous les bibelots de l'étagère qui se mettent à tourbillonner dans la pièce comme une tornade. Je ne contrôle rien. Je subis ma propre puissance mentale."
+      },
+      {
+        "q": "C’est un danger public pour vous-même et pour le voisinage, non ?",
+        "a": "Heureusement que j'habite au rez-de-chaussée ! Mais oui, c’est invivable. J'ai essayé de dormir avec un casque de chantier, mais le problème est ailleurs. L'autre nuit, j'ai rêvé d'une invasion d'araignées. Je me suis réveillé et j'ai vu que toutes les fourchettes de la cuisine s'étaient tordues pour former des pattes métalliques. Elles essayaient de \"marcher\" sur le carrelage. La télékinésie de peur, c'est très créatif, malheureusement."
+      },
+      {
+        "q": "Avez-vous tenté des thérapies pour calmer vos nuits ?",
+        "a": "J'ai vu un sophrologue. Il m'a dit de visualiser une plage calme. Résultat : j'ai rêvé qu'un tsunami arrivait, et mon cerveau a expulsé toute l'eau de la chasse d'eau des toilettes jusque dans mon salon. Le plombier n'a jamais cru à l'explication du \"jet mental\". Maintenant, je prends des somnifères ultra-puissants pour ne plus rêver du tout, mais je sens que la pression monte. Parfois, en pleine journée, si je stresse un peu trop, mes stylos se mettent à vibrer sur le bureau."
+      },
+      {
+        "q": "Quel est votre objectif à long terme ?",
+        "a": "J'essaie d'apprivoiser cette force. Si je pouvais canaliser ne serait-ce que 10 % de cette énergie pendant que je suis réveillé, je pourrais faire mes cartons de déménagement en un clin d'œil. Mais pour l'instant, la seule chose que je réussis à faire, c'est de déplacer mon oreiller de dix centimètres quand je suis contrarié. Apparemment, mon cerveau a besoin d'être terrifié pour être efficace."
+      },
+      {
+        "q": "Un dernier mot pour nos lecteurs qui entendent des bruits de meubles traînés chez leurs voisins la nuit ?",
+        "a": "Ne montez pas vous plaindre. Le pauvre gars est peut-être juste en train de rêver qu'il tombe dans un trou sans fin, et sa commode est en train de tenter de le rattraper. Offrez-lui plutôt une tisane relaxante ou un kit de fixation murale."
+      }
+    ],
+    "notice": "Si vous vous réveillez avec des objets qui flottent au-dessus de votre lit, ne paniquez pas, cela augmenterait leur vitesse de rotation. Respirez calmement, pensez à des choses lourdes comme des enclumes ou des impôts impayés, et attendez que la gravité reprenne ses droits.",
+    "classified": false,
+    "published": "2026-07-08"
+  },
+  {
     "id": "art-1781820756657",
     "title": "J'ai acheté un t-shirt maudit sur Vinted, depuis je perds systématiquement à Pierre-Feuille-Ciseaux",
     "date": "Jeudi 18 juin 2026",
