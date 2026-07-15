@@ -534,6 +534,12 @@
             border-bottom: 3px solid var(--accent-green);
             display: inline-block;
         }
+        /* L'iframe des commentaires doit prendre toute sa hauteur (pas de mini-fenêtre avec scroll interne) */
+        #cusdis_thread iframe {
+            width: 100% !important;
+            min-height: 600px !important;
+            height: auto !important;
+        }
 
         .load-error {
             background-color: #ffe4e4;
