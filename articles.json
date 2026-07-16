@@ -1,5 +1,40 @@
 [
   {
+    "id": "art-1784216050840",
+    "title": "« Le réchauffement climatique a bon dos, j'ai vu la carte mère du pin parasol s'enflammer de mes propres yeux ! »",
+    "date": "Jeudi 16 juillet 2026",
+    "location": "La Teste-de-Buch, Gironde",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/foret.jpg",
+    "desc": "Jean-Yves B., un \"sylviculteur alternatif\" de la Teste-de-Buch, affirme que les feux de forêt ne sont pas causés par le réchauffement climatique, mais par un complot technologique",
+    "intro": "Pour la France entière, la multiplication spectaculaire des feux de forêt est la conséquence tragique de la sécheresse et des vagues de chaleur. Mais pour Jean-Yves B., 54 ans, ancien paysagiste et \"sylviculteur alternatif\" du bassin d'Arcachon, la version des climatologues n'est qu'un immense écran de fumée (littéralement) destiné à masquer le plus grand scandale technologique du siècle. Selon lui, les forêts ne brûlent pas à cause de la météo : elles s'auto-combustent parce que les arbres ont été secrètement remplacés par des antennes relais défectueuses.\n\nNous l'avons rencontré dans sa caravane, au milieu de ses détecteurs de champs électromagnétiques, alors qu'il analysait des morceaux d'écorce fondue à la loupe.",
+    "interview": [
+      {
+        "q": "Jean-Yves, les images des forêts en feu sont terribles, mais tout le monde s'accorde à dire que c'est lié au climat. Qu'est-ce qui vous fait dire qu'il s'agit d'un complot technologique ?",
+        "a": "Je connais le bois par cœur. J'ai passé ma vie à tailler des haies et à écouter la sève couler. Le mois dernier, j'étais en forêt de la Teste pour faire un câlin à un chêne centenaire, une pratique de reconnexion à la terre. En collant mon oreille contre le tronc, au lieu du craquement naturel du bois, j'ai entendu un très léger bourdonnement. Un ventilateur de refroidissement miniature ! Quand j'ai gratté l'écorce, qui était curieusement molle, j'ai découvert qu'elle était en résine synthétique. Sous l'écorce, il y avait des câbles fibre optique verts pour imiter les nervures."
+      },
+      {
+        "q": "Des arbres synthétiques ? Avez-vous une preuve physique de ce que vous avancez ?",
+        "a": "Une preuve ? J'ai l'arme du crime ! Regardez cette pomme de pin que j'ai ramassée juste avant un départ de feu. (Il me tend un objet étrangement lourd). Regardez bien la base : il y a un port USB-C dissimulé sous les écailles ! Un passant lambda aurait cru à une malformation naturelle. Moi, en grattant les restes d'une souche calcinée hier matin, j'ai reconnu direct le matériel : tout leur réseau clandestin tourne sur des micro-cartes. Vous vous rendez compte ? Un micro-ordinateur enfermé dans du plastique en plein cagnard, sans même un dissipateur thermique ! C'est pas la sécheresse qui met le feu, ce sont les batteries lithium-ion de ces faux arbres qui gonflent et explosent à 40 degrés !"
+      },
+      {
+        "q": "Êtes-vous allé alerter les pompiers ou l'Office National des Forêts ?",
+        "a": "Évidemment ! J'ai couru vers le premier camion de pompiers avec ma pomme de pin clignotante. Je leur ai crié : \"Arrêtez de jeter de l'eau, vous allez créer des courts-circuits, balancez de la pâte thermique !\". Ils m'ont pris pour un fou et m'ont mis à l'écart. Mais moi, j'ai bien vu que les Canadairs ne lâchent pas que de l'eau : c'est un liquide de refroidissement bleuté spécialement conçu pour sauver les serveurs enterrés sous les racines !"
+      },
+      {
+        "q": "Pourquoi quelqu'un aurait-il orchestré le remplacement de nos forêts selon vous ?",
+        "a": "Pour la couverture réseau totale, pardi ! La 6G a besoin d'un maillage parfait. Les lobbys des télécoms ont profité des confinements il y a quelques années, quand personne n'avait le droit d'aller en forêt, pour déraciner les vrais pins et planter ces relais de la taille d'un séquoia. Organiser ces \"incendies\" est en fait leur seul moyen de justifier le remplacement massif des cartes mères cramées sans éveiller les soupçons de la population."
+      },
+      {
+        "q": "Qu'attendez-vous de ce témoignage ?",
+        "a": "Je ne veux pas empêcher les gens d'avoir du réseau en faisant du camping. S'ils veulent scroller en pleine nature, grand bien leur fasse. Mais je veux que les promeneurs sachent : la nature n'est plus ce qu'elle était. Si votre chien refuse de faire pipi sur un tronc d'arbre, c'est peut-être parce qu'il sent l'électricité statique. Je suis d'ailleurs en train de fabriquer des nichoirs à oiseaux faradisés pour protéger les mésanges des ondes..."
+      }
+    ],
+    "notice": "Si vous vous promenez en forêt cet été et que vous remarquez qu'un sanglier semble chercher un réseau Wi-Fi avec son groin, ou qu'un arbre émet une douce sonnerie de notification, ne paniquez pas. Inutile de brancher votre smartphone sur les racines ou de jeter un seau d'eau déminéralisée sur les branches. Éloignez-vous discrètement, mettez votre téléphone en mode avion, et laissez la sylviculture 2.0 brûler en paix.",
+    "classified": true,
+    "published": "2026-07-16"
+  },
+  {
     "id": "art-1784155068111",
     "title": "Le penalty provoqué par Digne à la 20e minute n’avait rien d'une erreur défensive",
     "date": "Jeudi 16 juillet 2026",
