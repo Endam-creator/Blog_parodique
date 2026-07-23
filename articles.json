@@ -1,5 +1,40 @@
 [
   {
+    "id": "art-1784838213511",
+    "title": "« J'ai posé un niveau à bulle sur mon canapé à Auxerre, et j'ai prouvé que la Terre est plate »",
+    "date": "Jeudi 23 juillet 2026",
+    "location": "Auxerre, Yonne",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/niveau.jpg",
+    "desc": "Chantal D., une habitante d'Auxerre de 56 ans, affirme avoir \"prouvé\" que la Terre est plate en posant un simple niveau à bulle de maçon sur son canapé",
+    "intro": "Les images satellites de la NASA, les manuels scolaires, les théories de Galilée... Tout cela ne tient pas face à la rigueur d'un outil de chantier. Pour Chantal D., 56 ans, ancienne préparatrice en pharmacie à Auxerre, le grand mensonge de la Terre ronde a vécu. Munie d'un niveau à bulle de maçon de 60 centimètres et d'une logique implacable, elle mène une croisade géométrique pour ouvrir les yeux de ses concitoyens.\nNous l'avons rencontrée dans son jardin, où elle observait l'horizon avec une règle de précision.",
+    "interview": [
+      {
+        "q": "Chantal, la rotondité de la Terre est pourtant démontrée depuis l'Antiquité. Quel a été l'élément déclencheur de votre scepticisme ?",
+        "a": "Le bon sens, tout simplement ! Un jour, j'étais assise sur mon canapé ici à Auxerre, et je regardais mon niveau à bulle posé sur la table basse. La bulle était pile au centre. Parfaitement droite. Je me suis dit : si la Terre est une boule qui tourne à toute vitesse dans l'espace, la bulle devrait osciller ou pencher d'un côté pour compenser la courbure, non ? J'ai pris ma voiture, je suis allée jusqu'à la forêt Du Thureau du Bard, j'ai reposé le niveau par terre : toujours droit. Il n'y a aucune courbure. On nous ment."
+      },
+      {
+        "q": "Les scientifiques expliquent que la Terre est tellement immense que la courbure n'est pas visible à notre échelle miniature...",
+        "a": "Une excuse pour couvrir l'erreur ! Si la Terre était ronde, l'eau des océans s'écoulerait vers le bas et s'échapperait dans l'espace par les côtés. Regardez votre baignoire : l'eau reste plate parce que le fond est plat. C'est de la physique élémentaire. Pour que l'eau des mers reste en place, il faut bien qu'on soit dans une sorte de grande cuvette stable, entourée d'un mur de glace géant que la science officielle appelle \"l'Antarctique\". L'Antarctique n'est pas un continent, c'est la bordure du plateau !"
+      },
+      {
+        "q": "Quel serait l'intérêt pour les gouvernements et les agences spatiales de nous cacher la forme réelle de notre planète ?",
+        "a": "L'argent et le prestige. Vous avez vu le budget de la NASA ? Des milliards pour nous montrer des photos de l'espace faites sur ordinateur avec des logiciels de retouche. Ils s'en mettent plein les poches pendant qu'on finance des fusées qui finissent par retomber dans l'océan juste après le décollage, cachées par les nuages. Et puis, nous faire croire qu'on est un grain de poussière perdu sur une bille qui tourne en boucle, c'est un moyen de nous faire sentir tout petits et insignifiants pour mieux nous contrôler."
+      },
+      {
+        "q": "Comment réagissent vos proches ou vos voisins  quand vous leur exposez vos mesures au niveau à bulle ?",
+        "a": "Ils sourient, ils me disent que je regarde trop de vidéos sur internet. Mais quand je leur demande d'expliquer pourquoi les avions de ligne ne piquent jamais du nez pour suivre la courbure de la Terre pendant un vol long-courrier, là, il n'y a plus personne ! Ils bégayent. Les pilotes volent à l'horizontale du début à la fin parce que le plan est droit. C'est la preuve ultime."
+      },
+      {
+        "q": "Quel est votre prochain projet pour valider votre théorie ?",
+        "a": "J'économise pour acheter un laser de chantier ultra-puissant. Je vais me poster au point le plus haut d'Auxerre et viser un repère au loin. Si la Terre était ronde, le faisceau laser finirait par se perdre dans le ciel à cause de la courbure. Mais je sais déjà ce qui va se passer : le rayon va taper pile en face. La vérité est droite, comme ma règle."
+      }
+    ],
+    "notice": "La prochaine fois que vous ferez une randonnée, n'oubliez pas d'emporter un niveau à bulle. Si la bulle reste bien au milieu du tube du début à la fin de votre marche, posez-vous les bonnes questions. L'horizon porte bien son nom : il est horizontal.",
+    "classified": false,
+    "published": "2026-07-23"
+  },
+  {
     "id": "art-1784216050840",
     "title": "« Le réchauffement climatique a bon dos, j'ai vu la carte mère du pin parasol s'enflammer de mes propres yeux ! »",
     "date": "Jeudi 16 juillet 2026",
