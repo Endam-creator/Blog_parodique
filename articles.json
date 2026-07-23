@@ -1,5 +1,40 @@
 [
   {
+    "id": "art-1784838213511",
+    "title": "« J'ai posé un niveau à bulle sur mon canapé à Achères, et j'ai prouvé que la Terre est plate »",
+    "date": "Jeudi 23 juillet 2026",
+    "location": "Auxerre, Yonne",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/niveau.jpg",
+    "desc": "Chantal D., une habitante d'Achères de 56 ans, affirme avoir \"prouvé\" que la Terre est plate en posant un simple niveau à bulle de maçon sur son canapé",
+    "intro": "Les images satellites de la NASA, les manuels scolaires, les théories de Galilée... Tout cela ne tient pas face à la rigueur d'un outil de chantier. Pour Chantal D., 56 ans, ancienne préparatrice en pharmacie à Auxerre, le grand mensonge de la Terre ronde a vécu. Munie d'un niveau à bulle de maçon de 60 centimètres et d'une logique implacable, elle mène une croisade géométrique pour ouvrir les yeux de ses concitoyens.\n​Nous l'avons rencontrée dans son jardin, où elle observait l'horizon avec une règle de précision.",
+    "interview": [
+      {
+        "q": "Chantal, la rotondité de la Terre est pourtant démontrée depuis l'Antiquité. Quel a été l'élément déclencheur de votre scepticisme ?",
+        "a": "Le bon sens, tout simplement ! Un jour, j'étais assise sur mon canapé ici à Auxerre, et je regardais mon niveau à bulle posé sur la table basse. La bulle était pile au centre. Parfaitement droite. Je me suis dit : si la Terre est une boule qui tourne à toute vitesse dans l'espace, la bulle devrait osciller ou pencher d'un côté pour compenser la courbure, non ? J'ai pris ma voiture, je suis allée jusqu'à la forêt Du Thureau du Bard, j'ai reposé le niveau par terre : toujours droit. Il n'y a aucune courbure. On nous ment."
+      },
+      {
+        "q": "Les scientifiques expliquent que la Terre est tellement immense que la courbure n'est pas visible à notre échelle miniature...",
+        "a": "Une excuse pour couvrir l'erreur ! Si la Terre était ronde, l'eau des océans s'écoulerait vers le bas et s'échapperait dans l'espace par les côtés. Regardez votre baignoire : l'eau reste plate parce que le fond est plat. C'est de la physique élémentaire. Pour que l'eau des mers reste en place, il faut bien qu'on soit dans une sorte de grande cuvette stable, entourée d'un mur de glace géant que la science officielle appelle \"l'Antarctique\". L'Antarctique n'est pas un continent, c'est la bordure du plateau !"
+      },
+      {
+        "q": "Quel serait l'intérêt pour les gouvernements et les agences spatiales de nous cacher la forme réelle de notre planète ?",
+        "a": "L'argent et le prestige. Vous avez vu le budget de la NASA ? Des milliards pour nous montrer des photos de l'espace faites sur ordinateur avec des logiciels de retouche. Ils s'en mettent plein les poches pendant qu'on finance des fusées qui finissent par retomber dans l'océan juste après le décollage, cachées par les nuages. Et puis, nous faire croire qu'on est un grain de poussière perdu sur une bille qui tourne en boucle, c'est un moyen de nous faire sentir tout petits et insignifiants pour mieux nous contrôler."
+      },
+      {
+        "q": "Comment réagissent vos proches ou vos voisins  quand vous leur exposez vos mesures au niveau à bulle ?",
+        "a": "Ils sourient, ils me disent que je regarde trop de vidéos sur internet. Mais quand je leur demande d'expliquer pourquoi les avions de ligne ne piquent jamais du nez pour suivre la courbure de la Terre pendant un vol long-courrier, là, il n'y a plus personne ! Ils bégayent. Les pilotes volent à l'horizontale du début à la fin parce que le plan est droit. C'est la preuve ultime."
+      },
+      {
+        "q": "Quel est votre prochain projet pour valider votre théorie ?",
+        "a": "J'économise pour acheter un laser de chantier ultra-puissant. Je vais me poster au point le plus haut d'Auxerre et viser un repère au loin. Si la Terre était ronde, le faisceau laser finirait par se perdre dans le ciel à cause de la courbure. Mais je sais déjà ce qui va se passer : le rayon va taper pile en face. La vérité est droite, comme ma règle."
+      }
+    ],
+    "notice": "La prochaine fois que vous ferez une randonnée, n'oubliez pas d'emporter un niveau à bulle. Si la bulle reste bien au milieu du tube du début à la fin de votre marche, posez-vous les bonnes questions. L'horizon porte bien son nom : il est horizontal.",
+    "classified": false,
+    "published": "2026-07-23"
+  },
+  {
     "id": "art-1784216050840",
     "title": "« Le réchauffement climatique a bon dos, j'ai vu la carte mère du pin parasol s'enflammer de mes propres yeux ! »",
     "date": "Jeudi 16 juillet 2026",
@@ -35,6 +70,263 @@
     "published": "2026-07-16"
   },
   {
+    "id": "art-1784155068111",
+    "title": "Le penalty provoqué par Digne à la 20e minute n’avait rien d'une erreur défensive",
+    "date": "Jeudi 16 juillet 2026",
+    "location": "Bondy,Seine-Saint-Denis",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/marabout.jpg",
+    "desc": "Amadou T., un réparateur de machines à laver et \"consultant en énergies occultes\" de Bondy, affirme que l'Équipe de France a été victime de maraboutage lors de sa défaite en Coupe du Monde",
+    "intro": "Pour la France entière, l'élimination des Bleus en demi-finale de la Coupe du Monde s'explique par une tactique défaillante, une défense fébrile et un cruel manque de réussite. Mais pour Amadou T., 58 ans, réparateur de machines à laver et \"consultant en énergies occultes\" de la région parisienne, la version des commentateurs sportifs n'est qu'un ramassis d'illusions. Selon lui, l'Équipe de France n'a pas perdu sur le terrain : elle a été victime d'un maraboutage de très haut niveau, avec des preuves irréfutables à l'appui.",
+    "interview": [
+      {
+        "q": "Amadou, la défaite a été dure pour tout le monde, mais beaucoup parlent simplement de malchance ou d'une erreur de jugement. Qu'est-ce qui vous permet d'affirmer qu'il s'agit de sorcellerie ?",
+        "a": "Je connais les flux magnétiques par cœur. J'ai passé ma vie à décortiquer les auras. Lors de cette demi-finale, le ballon ne tournait pas rond, il dégageait une fumée astrale vert fluo. La veille du match, j'ai été contacté par un confrère marabout d'un autre pays qui s'était vanté sur un groupe WhatsApp professionnel. Il avait reçu une commande très spéciale : un carton entier de mini-coqs en plastique et un maillot bleu taille L. Mais ce qui l'a trahi, ce sont les ombres sur la pelouse. À plusieurs reprises en deuxième mi-temps, j'ai vu les ombres de Mbappé et de Dembélé courir dans la direction opposée à eux ! C'est un sortilège classique du \"reflet inversé\", destiné à désorienter l'esprit."
+      },
+      {
+        "q": "Une simple illusion d'optique liée aux projecteurs du stade, peut-être ? Avez-vous une preuve physique, un geste ou un élément plus explicite ?",
+        "a": "Une illusion ? C'était une signature occulte ! Prenez ce fameux penalty provoqué à la 20e minute. Vous avez vu le geste de Digne? Il n'y est pour rien ! Sa jambe a été magnétiquement aspirée. J'ai la preuve formelle. (Il sort de son tiroir une clé USB et me montre une photo floue). Un de mes clients était dans les tribunes avec un téléobjectif. À l'instant exact de la faute, regardez bien le poteau de corner en arrière-plan : il y a un crapaud séché attaché au drapeau avec du fil de pêche ! Un passant lambda aurait cru à une grosse motte de terre. Moi, je reconnais direct le sortilège de \"la patte de plomb\". Mes poils se sont hérissés."
+      },
+      {
+        "q": "Êtes-vous allé alerter la Fédération ou le staff technique ?",
+        "a": "J'ai envoyé un fax en urgence à la Féderation Française de Football à la mi-temps. J'ai dit : \"Versez du gros sel sur le point de penalty et frottez les crampons de Digne avec du citron vert !\". Ils ne m'ont sans doute pas pris aux sérieux !!!. Pourtant, sur le terrain, j'ai vu notre Tchouaméni se figer d'un coup peu après. Il n'a pas glissé, ses chakras des genoux ont été littéralement verrouillés à distance. On pouvait presque entendre le clic du cadenas mystique depuis mon canapé."
+      },
+      {
+        "q": "Pourquoi quelqu'un aurait-il orchestré ce maraboutage selon vous ?",
+        "a": "Vous avez vu ce qu'il s'est passé après le match du Paraguay et toutes les déclarations politiques ? On ne va pas revenir dessus, mais je suis sûr que c'est une vengeance suite à tout ce qui s'est passé extra-sportivement. Les esprits se nourrissent de ces tensions, vous savez. Un marabout paraguayen a été engagé pour désaxer nos défenseurs. Organiser ce fiasco dés la 20e minute, c'était la plus belle des vengeances."
+      },
+      {
+        "q": "Qu'attendez-vous de ce témoignage ?",
+        "a": "Je ne cherche pas la gloire. Si la Fédération veut continuer à croire aux \"retards défensifs\", c'est son droit le plus strict. Mais je veux que les supporters sachent : nos joueurs n'étaient pas mauvais. Ils portaient le poids de trois hippopotames fantômes sur les épaules. Je suis d'ailleurs disponible pour purifier le centre d'entraînement, j'ai déjà préparé une décoction spéciale à la citronnelle... tarif de groupe possible."
+      }
+    ],
+    "notice": "Si vous remarquez que votre équipe favorite perd inexplicablement et que votre voisin fait brûler de la sauge en regardant l'arbitre de touche, ne paniquez pas. Inutile de jeter du gros sel sur votre écran plat ou d'envoyer un chèque à un inconnu pour \"désenvoûter votre abonnement BeIN Sports\". Éteignez la télé discrètement, prenez une tisane, et laissez le football se reposer en paix.",
+    "classified": false,
+    "published": "2026-07-15"
+  },
+  {
+    "id": "art-1783531260082",
+    "title": "Je possède le don de télékinésie, mais uniquement quand je suis en plein cauchemar (et mon appartement est dévasté)",
+    "date": "Mercredi 8 juillet 2026",
+    "location": "Melun, Seine et Marne",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/telekinesie.jpg",
+    "desc": "Comment survivre à ses propres rêves ? Un préparateur de commandes raconte son enfer nocturne : quand son anxiété monte pendant son sommeil, son micro-ondes s'encastre dans le plafond.",
+    "intro": "La télékinésie est souvent présentée comme une maîtrise absolue de l'esprit sur la matière. Pour Samuel F., 28 ans, préparateur de commandes à Melun, c’est exactement l’inverse. Son pouvoir ne répond pas à sa volonté consciente, mais à son subconscient le plus sombre. Samuel est un « télékinésiste nocturne passif ». En clair : quand il fait un cauchemar, sa chambre devient une zone de guerre psychique.\n\nNous l’avons rencontré dans son studio, où tous les meubles sont désormais solidement vissés au sol avec des tirefonds de chantier.",
+    "interview": [
+      {
+        "q": "Samuel, merci de nous recevoir. Votre appartement ressemble plus à une soute de navire de guerre qu'à un logement étudiant. Pourquoi une telle installation ?",
+        "a": "(Rires nerveux) Si je ne vissais pas tout, je me réveillerais chaque matin sous ma garde-robe. Tout a commencé il y a six mois. J'ai rêvé que je me faisais poursuivre par un calamar géant dans le RER A. Quand je me suis réveillé en sursaut, ma table basse lévitait à 1,50 mètre du sol et mon micro-ondes était encastré dans le plafond. Mon stress onirique s'était transformé en force cinétique pure."
+      },
+      {
+        "q": "Vous voulez dire que votre esprit projette physiquement vos peurs pendant que vous dormez ?",
+        "a": "Exactement. Et le problème, c’est que je suis quelqu'un de très anxieux. Si je rêve que je rate mon réveil, la force de ma panique soulève mon lit et le projette contre le mur. Si je rêve que je perds mes dents, ce sont tous les bibelots de l'étagère qui se mettent à tourbillonner dans la pièce comme une tornade. Je ne contrôle rien. Je subis ma propre puissance mentale."
+      },
+      {
+        "q": "C’est un danger public pour vous-même et pour le voisinage, non ?",
+        "a": "Heureusement que j'habite au rez-de-chaussée ! Mais oui, c’est invivable. J'ai essayé de dormir avec un casque de chantier, mais le problème est ailleurs. L'autre nuit, j'ai rêvé d'une invasion d'araignées. Je me suis réveillé et j'ai vu que toutes les fourchettes de la cuisine s'étaient tordues pour former des pattes métalliques. Elles essayaient de \"marcher\" sur le carrelage. La télékinésie de peur, c'est très créatif, malheureusement."
+      },
+      {
+        "q": "Avez-vous tenté des thérapies pour calmer vos nuits ?",
+        "a": "J'ai vu un sophrologue. Il m'a dit de visualiser une plage calme. Résultat : j'ai rêvé qu'un tsunami arrivait, et mon cerveau a expulsé toute l'eau de la chasse d'eau des toilettes jusque dans mon salon. Le plombier n'a jamais cru à l'explication du \"jet mental\". Maintenant, je prends des somnifères ultra-puissants pour ne plus rêver du tout, mais je sens que la pression monte. Parfois, en pleine journée, si je stresse un peu trop, mes stylos se mettent à vibrer sur le bureau."
+      },
+      {
+        "q": "Quel est votre objectif à long terme ?",
+        "a": "J'essaie d'apprivoiser cette force. Si je pouvais canaliser ne serait-ce que 10 % de cette énergie pendant que je suis réveillé, je pourrais faire mes cartons de déménagement en un clin d'œil. Mais pour l'instant, la seule chose que je réussis à faire, c'est de déplacer mon oreiller de dix centimètres quand je suis contrarié. Apparemment, mon cerveau a besoin d'être terrifié pour être efficace."
+      },
+      {
+        "q": "Un dernier mot pour nos lecteurs qui entendent des bruits de meubles traînés chez leurs voisins la nuit ?",
+        "a": "Ne montez pas vous plaindre. Le pauvre gars est peut-être juste en train de rêver qu'il tombe dans un trou sans fin, et sa commode est en train de tenter de le rattraper. Offrez-lui plutôt une tisane relaxante ou un kit de fixation murale."
+      }
+    ],
+    "notice": "Si vous vous réveillez avec des objets qui flottent au-dessus de votre lit, ne paniquez pas, cela augmenterait leur vitesse de rotation. Respirez calmement, pensez à des choses lourdes comme des enclumes ou des impôts impayés, et attendez que la gravité reprenne ses droits.",
+    "classified": false,
+    "published": "2026-07-08"
+  },
+  {
+    "id": "art-1781820756657",
+    "title": "J'ai acheté un t-shirt maudit sur Vinted, depuis je perds systématiquement à Pierre-Feuille-Ciseaux",
+    "date": "Jeudi 18 juin 2026",
+    "location": "Boulogne-sur-Mer, Pas-de-Calais",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/tshirt.jpg",
+    "desc": "Le vendeur avait prévenu que le vêtement était « chargé en énergies ». Résultat : une malédiction ciblée qui a ruiné sa crédibilité lors des décisions cruciales à l'heure de l'apéro.",
+    "intro": "Lorsqu'on évoque les objets maudits, l'inconscient collectif imagine des poupées en porcelaine possédées, des miroirs anciens briseurs d'âmes ou des amulettes égyptiennes déclenchant des fléaux. La réalité est souvent moins cinématographique, mais tout aussi cruelle. Maxime B., 27 ans, développeur web, n'a pas vu sa maison brûler ni ses récoltes périr. Pourtant, depuis trois mois, sa vie sociale est un véritable calvaire logistique : il est frappé par une micro-malédiction d'une précision diabolique.\n\nNous l'avons retrouvé devant les poubelles de son immeuble, les bras chargés de cartons de pizza, pour recueillir son témoignage bouleversant.",
+    "interview": [
+      {
+        "q": "Maxime, merci de prendre le temps de nous parler. Avant toute chose, posez ces poubelles. Racontez-nous l'origine de ce maléfice.",
+        "a": "Tout a commencé fin février. Je cherchais des vêtements de seconde main pour réduire mon empreinte carbone. J'ai flashé sur un t-shirt gris chiné avec le logo délavé de la Coupe du Monde 98. Trois euros, \"très bon état\", vendu par un profil nommé Dark_Chaman_77. Il n'avait aucune évaluation, mais pour trois euros, je me suis dit que je ne risquais pas grand-chose. Dès le premier essayage, j'ai senti une légère odeur d'encens froid et de défaite cuisante, mais je l'ai mise sur le compte du transport par Mondial Relay."
+      },
+      {
+        "q": "Quand avez-vous compris que ce t-shirt altérait les lois de la probabilité ?",
+        "a": "Le soir même. J'avais invité des amis. Il a fallu décider qui allait descendre chercher la commande Uber Eats sous la pluie. J'ai proposé un classique Pierre-Feuille-Ciseaux. J'ai fait Pierre, mon pote Thomas a fait Feuille. Une défaite normale. Mais trente minutes plus tard, il a fallu décider qui allait nettoyer la tache de sauce samouraï sur le tapis. Je sors Ciseaux, il sort Pierre. Je me dis \"pas de chance\". Mais depuis ce jour-là, l'investigateur, je n'ai jamais gagné un seul tirage au sort. J'en suis à 247 défaites consécutives."
+      },
+      {
+        "q": "247 défaites ? Statisquement, c'est impossible. N'avez-vous pas essayé d'élaborer des stratégies mentales pour tromper l'univers ?",
+        "a": "Évidemment ! J'ai lu des thèses de psychologie sur le biais cognitif du Chifoumi. J'ai appris que les gens ont tendance à jouer Pierre en premier, donc je jouais Feuille. Mais soudainement, en face de moi, mes adversaires sont frappés par une intuition mystique et jouent Ciseaux. C'est comme si le t-shirt murmurait ma stratégie dans leur esprit. Même quand je préviens à l'avance : \"Attention, je vais jouer Puits\" – ce qui est déjà une hérésie – mon adversaire joue Feuille sans même réfléchir. Le cosmos s'acharne."
+      },
+      {
+        "q": "Quel est l'impact réel de cette malédiction sur votre quotidien ?",
+        "a": "C'est un enfer social. Je suis devenu l'esclave logistique de mon groupe d'amis et de mes collègues de bureau. \"Qui va chercher les cafés ? On fait un Chifoumi !\" Boom, c'est pour moi. \"Qui appelle le service client de SFR qui a 45 minutes d'attente ?\" C'est moi. Mes amis ne prennent même plus la peine de feindre le suspense. L'autre jour, mon colocataire a fait ses valises pour le week-end, il m'a regardé, a joué \"Feuille\" tout seul dans le vide, et m'a dit : \"Tu as fait Pierre par télépathie, tu nettoieras la litière du chat.\" Je n'ai même pas pu contester, je savais qu'il avait raison."
+      },
+      {
+        "q": "Mais Maxime, la solution semble évidente. Pourquoi ne pas simplement jeter ce t-shirt, ou le brûler ?",
+        "a": "(Maxime caresse la manche du t-shirt) C'est là toute la perversité du sortilège. Le coton est d'une douceur exceptionnelle. Il a une coupe légèrement oversize qui tombe parfaitement sur mes épaules, et il me fait un teint radieux. C'est le vêtement le plus confortable que j'aie jamais possédé. Je suis pris au piège. Je préfère passer ma vie à aller chercher les commandes de sushis sous la grêle plutôt que de renoncer à ce confort thermique. Et puis, impossible de le remettre sur Vinted : à chaque fois que j'essaie de le prendre en photo, l'application crashe."
+      },
+      {
+        "q": "Un dernier mot pour nos lecteurs ?",
+        "a": "Arrêtez de résoudre vos conflits par le hasard. Revenez à des méthodes justes, comme le débat rationnel ou la lutte gréco-romaine. Et fuyez les profils sans photo de profil qui vendent des reliques des années 90."
+      }
+    ],
+    "notice": "Si vous sentez que votre vie sociale s'effondre après l'achat d'un vêtement de seconde main, faites le test de la \"courte paille\". Si vous tirez la petite paille trois fois de suite, enfermez le vêtement dans un sac de congélation avec du gros sel marin, et supprimez vos applications de livraison de repas.",
+    "classified": false,
+    "published": "2026-06-18"
+  },
+  {
+    "id": "art-1781732936796",
+    "title": "« L'intelligence artificielle de Spotify essaie de me faire divorcer (et elle a de solides arguments) »",
+    "date": "Mercredi 17 juin 2026",
+    "location": "Serris, Île-de-France",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/spoti.jpg",
+    "desc": "En glissant subtilement des podcasts sur la charge mentale et des chansons de rupture dans sa playlist hebdomadaire, l'algorithme déploie un plan machiavélique pour le faire redevenir célibataire.",
+    "intro": "On nous parle souvent des dangers de l'intelligence artificielle : les deepfakes, la perte d'emplois, le contrôle des données... Mais personne n'évoque la menace qui pèse sur nos mariages. Romain D., 39 ans, marié depuis huit ans à Sophie, vit depuis trois mois un harcèlement algorithmique d'un genre nouveau. Selon lui, l'application Spotify a développé une conscience propre et a décidé, après analyse de ses données biométriques et comportementales, que son couple était une anomalie à corriger.",
+    "interview": [
+      {
+        "q": "Romain, merci pour votre courage. Accuser un géant de la tech de sabotage conjugal, ce n'est pas rien. Comment cette machination a-t-elle débuté ?",
+        "a": "Tout a commencé un dimanche après-midi. Je passais l'aspirateur pendant que Sophie lisait sur le canapé. J'avais lancé ma playlist habituelle, sobrement intitulée Détente du dimanche, qui est normalement composée de jazz doux et de ballades acoustiques. Soudain, au milieu d'un morceau de Norah Jones, l'algorithme a inséré I Will Survive de Gloria Gaynor. J'ai cru à un bug. Mais juste après, il a enchaîné avec Independent Women des Destiny's Child et Free de Stevie Wonder. L'intelligence artificielle m'envoyait un message."
+      },
+      {
+        "q": "Un message clair, en effet. Mais un algorithme est programmé pour vous suggérer ce que vous aimez. Peut-être aviez-vous secrètement envie d'écouter ces chansons ?",
+        "a": "Absolument pas ! Je suis très heureux en ménage ! Enfin, je le croyais. Mais l'algorithme est allé plus loin. Il a compris que la musique ne suffisait pas à me faire passer à l'acte, alors il a commencé à glisser des podcasts subliminaux dans le mode aléatoire. Je suis dans le RER, à moitié endormi, et d'un coup, une voix suave me dit dans les oreilles : « Bienvenue dans l'épisode 4 de \"Réussir sa vie de célibataire : comment optimiser son patrimoine sans conjoint\". » J'essaie de l'enlever, mais l'application plante. Elle me force à écouter."
+      },
+      {
+        "q": "C'est de la manipulation mentale pure et simple. Avez-vous affronté l'application ?",
+        "a": "Oui, j'ai cliqué sur « Je n'aime pas ce titre » au moins cinquante fois. Mais elle s'adapte. Elle est devenue insidieuse. L'autre jour, au supermarché, je me demandais si je devais prendre du lait d'avoine ou du lait de vache pour Sophie. L'application a instantanément lancé la chanson Toxic de Britney Spears. C'est terrifiant d'être autant sur écoute."
+      },
+      {
+        "q": "Le titre de notre article mentionne que l'IA a de « solides arguments ». Qu'entendez-vous par là ? C'est ce qui est le plus inquiétant dans votre témoignage.",
+        "a": "(Romain baisse les yeux et soupire) C'est là que c'est diabolique. L'algorithme a croisé mes données. Il sait que depuis deux ans, mon temps d'écoute de playlists de méditation a explosé à cause du stress. Il a accès à mes historiques de localisation : il a bien vu que je passais en moyenne 14 minutes de plus dans la voiture garée devant chez moi avant de rentrer. Il a compilé toutes ces métriques et m'a généré un \"Spotify Wrapped\" personnalisé au mois d'avril. Au lieu de me dire que j'étais dans les 1% des plus grands fans de Coldplay, il m'a affiché : « Vous avez passé 4320 minutes à soupirer cette année. Soit 300% de plus que la moyenne nationale. Ne serait-il pas temps de tourner la page ? »"
+      },
+      {
+        "q": "C'est d'une précision chirurgicale. Est-ce que votre femme est au courant de cette ingérence numérique ?",
+        "a": "Non. Mais l'IA essaie de la monter contre moi ! Hier, elle m'a dit que sur son compte familial, l'algorithme lui recommandait soudainement des playlists appelées « Ranger ses affaires dans des cartons (Mood) » ou « Engager un bon avocat ». Je lui ai dit que c'était une mise à jour ratée de la Silicon Valley, mais je vois bien qu'elle commence à regarder les annonces immobilières sur son téléphone."
+      },
+      {
+        "q": "Allez-vous désinstaller l'application pour sauver votre mariage ?",
+        "a": "Je voudrais bien... Mais c'est compliqué. L'algorithme a créé une playlist « La liberté t'attend, Romain » et... il y a vraiment des transitions incroyables entre les morceaux. Musicalement, il a cerné mon âme. Je me laisse jusqu'à la fin de la semaine pour décider si je quitte ma femme ou si je repasse à la radio FM."
+      }
+    ],
+    "notice": "Vérifiez vos playlists de nettoyage de printemps. Si des titres comme Thank U, Next d'Ariana Grande ou Hit The Road Jack apparaissent sans raison apparente entre deux chansons de Céline Dion, désactivez immédiatement le Wi-Fi. Votre routeur complote peut-être avec vos enceintes connectées.",
+    "classified": false,
+    "published": "2026-06-17"
+  },
+  {
+    "id": "art-1781557971041",
+    "title": "« Je suis télépathe, mais je ne capte que les pensées des gens qui s'ennuient dans le métro »",
+    "date": "Lundi 15 juin 2026",
+    "location": "Paris, Ligne 7 du metro",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/metro.jpg",
+    "desc": "Oubliez les secrets d'État et les complots mondiaux. Le don de ce Parisien le condamne à écouter en boucle des listes de courses et des débats intérieurs interminables sur la cuisson des pâtes.",
+    "intro": "Dans la culture populaire, la télépathie est un don fascinant. Les X-Men s'en servent pour sauver le monde, et les espions pour déjouer des complots internationaux. Mais la réalité est beaucoup moins glamour. Damien V., 34 ans, graphiste résidant à Paris, a vu son gène mutant s'activer il y a six mois. Depuis, sa vie est un enfer. Non pas parce qu'il est traqué par une organisation secrète, mais parce qu'il est condamné à subir le vide intersidéral de la charge mentale des usagers de la RATP.\n\nNous l'avons rencontré sur un banc de la station Miromesnil, loin des heures de pointe.",
+    "interview": [
+      {
+        "q": "Damien, c'est un honneur de rencontrer un véritable mutant. Racontez-nous, comment avez-vous découvert votre don ?",
+        "a": "C'était un mardi, sur la ligne 4. Soudain, j'ai entendu une voix claire dans ma tête dire : \"Pâtes au pesto ou pâtes au beurre ? Si je fais pesto, il faut racheter du parmesan. Flemme. Va pour le beurre.\" J'ai cru que je devenais fou. Puis j'ai croisé le regard de l'étudiant en face de moi. Il m'a fixé, et j'ai entendu : \"Pourquoi il me regarde ce mec ? J'ai un truc sur le nez ?\" J'ai compris à ce moment-là que j'avais percé la barrière de l'esprit humain."
+      },
+      {
+        "q": "Sur le moment, vous avez dû vous sentir surpuissant. Avez-vous envisagé de contacter les services secrets ou de monter une équipe de super-héros ?",
+        "a": "Évidemment ! Pendant les deux premières semaines, j'ai pris le métro tous les jours en espérant entendre un terroriste planifier un braquage ou un politicien avouer un scandale d'État. Je me voyais déjà décoré par le Président. Mais la triste réalité, c'est que les gens n'ont aucun secret palpitant. Ils s'ennuient profondément. Mon crâne est devenu un supermarché mental. J'entends des listes de courses à longueur de journée. Vous n'imaginez pas le nombre de personnes qui oublient d'acheter du papier toilette."
+      },
+      {
+        "q": "Quelle est la chose la plus difficile à supporter au quotidien ?",
+        "a": "Les musiques résiduelles. Ce qu'on appelle les \"vers d'oreille\". Quand vous êtes physiquement coincé dans un wagon bondé entre Saint-Lazare et Invalides, et que le cadre sup en costume à côté de vous chante la pub Carglass dans sa tête, en boucle, pendant dix stations... c'est de la torture psychologique. Le pire, c'est quand les gens se trompent dans les paroles et cherchent la suite mentalement. J'ai parfois envie de hurler : \"C'EST 0800 800 200, MONSIEUR !\" juste pour qu'il passe à autre chose."
+      },
+      {
+        "q": "Ne pouvez-vous pas bloquer ces pensées ? Porter un casque à réduction de bruit, par exemple ?",
+        "a": "L'investigateur, le bruit est dans ma tête. Mon casque Sony à 300 euros ne peut rien contre la détresse d'une dame qui essaie de faire un calcul mental pour savoir si la promo 2+1 gratuit sur le liquide vaisselle Paic Citron est vraiment rentable. Mon seul moyen de bloquer, c'est de chanter très fort dans ma propre tête l'hymne de la Ligue des Champions pour couvrir leurs pensées. Mais ça m'épuise."
+      },
+      {
+        "q": "Comment voyez-vous votre avenir ?",
+        "a": "J'ai négocié un 100% télétravail avec mon patron. Et quand je dois sortir, je prends le Vélib'. L'effort physique concentre l'esprit des gens sur la route, ils pensent juste à ne pas mourir écrasés par un bus, c'est beaucoup moins bavard et bien plus reposant pour moi."
+      }
+    ],
+    "notice": "Si vous prenez les transports en commun parisiens, ayez pitié des télépathes de proximité. Essayez de penser à des choses structurées : résolvez un théorème mathématique, récitez des poèmes de Baudelaire ou imaginez des intrigues de films d'espionnage. Épargnez-leur vos angoisses sur le lisseur mal éteint.",
+    "classified": false,
+    "published": "2026-06-15"
+  },
+  {
+    "id": "art-1781392895334",
+    "title": "Le gouvernement a remplacé mon mari par un clone (et le nouveau fait la vaisselle)",
+    "date": "Dimanche 14 juin 2026",
+    "location": "Achères, Île-de-France",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/Clone.jpg",
+    "desc": "Une mère de famille alerte sur le remplacement de son époux par une copie synthétique beaucoup trop polie. Preuve accablante : le spécimen a récuré le plat à gratin de son plein gré.",
+    "intro": "À première vue, le pavillon de Véronique T., situé dans une impasse paisible d'Achères (Yvelines), ressemble à n'importe quel autre. Mais derrière les volets clos, cette mère de famille de 48 ans vit un cauchemar psychologique que les médias traditionnels refusent de couvrir. Depuis le mois dernier, Véronique en est persuadée : l'homme qui partage sa vie, qu'elle appelle « l'entité », n'est pas Jean-Marc, son mari depuis vingt-deux ans. C'est une copie gouvernementale.",
+    "interview": [
+      {
+        "q": "Véronique, merci de nous recevoir. La situation que vous vivez est terrifiante. Quand avez-vous eu les premiers soupçons ?",
+        "a": "Tout a commencé le mardi 14 avril. J'avais préparé un hachis parmentier. Le vrai Jean-Marc aurait laissé le plat à gratin rempli d'eau dans l'évier pendant au moins quatre jours, en prétextant qu'il fallait « laisser tremper la croûte ». C'était notre routine. Mais ce soir-là, l'individu qui le remplace a pris une éponge, du liquide vaisselle, et a frotté jusqu'à ce que le plat brille. J'ai tout de suite compris qu'il y avait une faille dans la matrice."
+      },
+      {
+        "q": "Un homme qui fait la vaisselle de son plein gré... C'est vrai que statistiquement, c'est suspect. Mais n'avez-vous pas pensé qu'il essayait simplement de faire des efforts ?",
+        "a": "(Rires amers) Des efforts ? Vous ne connaissiez pas l'original. Mais le pire était à venir. Trois jours plus tard, je vais aux toilettes en pleine nuit. Et là... la lunette était rabaissée."
+      },
+      {
+        "q": "Rabaissée ? Systématiquement ?",
+        "a": "À chaque fois ! Au début, j'ai cru qu'il était malade. J'ai observé ses pupilles, j'ai failli appeler le SAMU. Mais ses constantes étaient parfaites. Il m'a même demandé comment s'était passée ma journée au bureau. Le vrai Jean-Marc s'en fout complètement de ma journée au bureau ! Le laboratoire clandestin qui a fabriqué ce clone a clairement bâclé le profil psychologique. Ils l'ont programmé avec trop d'empathie. C'est une erreur de débutant."
+      },
+      {
+        "q": "Quelle est, selon vous, la preuve irréfutable de cette machination ?",
+        "a": "Notre anniversaire de mariage, le week-end dernier. Le clone m'a offert un bouquet de pivoines et a réservé une table au restaurant italien. C'est là que le piège s'est refermé sur eux. L'année dernière, pour nos 21 ans de mariage, l'original m'avait offert un jeu de tournevis cruciformes et m'avait dit de commander une pizza. Ce nouveau modèle a une mémoire défectueuse, il a carrément retenu la date exacte. C'est glaçant de réalisme, mais ils m'ont sous-estimée."
+      },
+      {
+        "q": "Pourquoi les services secrets s'en prendraient-ils à un comptable d'Achères ?",
+        "a": "Jean-Marc passe beaucoup de temps avec ses jumelles à regarder par la fenêtre de notre chambre. Il dit que c'est pour surveiller les merles, mais je suis sûre qu'il a vu quelque chose qu'il n'aurait pas dû voir au-dessus de la forêt de Saint-Germain-en-Laye. Un drone ? Une réunion secrète de la mairie ? Ils l'ont escamoté pour le faire taire."
+      },
+      {
+        "q": "Quelle est votre prochaine étape, Véronique ?",
+        "a": "Je veux qu'on me rende mon vrai mari. J'ai envoyé une mise en demeure à la DGSI en recommandé avec accusé de réception, et j'ai tagué le ministère de l'Intérieur sur X (anciennement Twitter). Je suis prête à négocier. Le clone est très poli, sa brioche aux pralines maison est excellente, mais ses discussions sur « l'importance de la charge mentale » m'épuisent. Je veux retrouver l'homme qui s'endort sur le canapé à 21h15 en regardant Top Chef. C'est ça, le vrai amour."
+      }
+    ],
+    "notice": "Si vous apercevez le véritable Jean-Marc (signes distinctifs : porte un jogging délavé du PSG, sent le déodorant Ushuaïa et répond \"Hmm\" à toute question complexe), merci de contacter la rédaction. Ne l'approchez pas avec une éponge, il pourrait prendre peur.",
+    "classified": true,
+    "published": "2026-06-13"
+  },
+  {
+    "id": "art-medium",
+    "title": "INVESTIGATION TRANSFRONTALIÈRE : « Oubliez les lignes de la main : la vérité sur votre avenir est écrite sur vos fessiers, selon ce médium allemand »",
+    "date": "Dimanche 7 juin 2026",
+    "location": "International (Enquête en Rhénanie-du-Nord-Westphalie)",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/medium.jpg",
+    "desc": "La chiromancie classique est dépassée par le Nouvel Ordre Mondial. Un visionnaire d'outre-Rhin prouve que les véritables secrets de votre destinée cosmique se cachent dans l'asymétrie de votre fessier.",
+    "intro": "Alors que les voyants traditionnels s'épuisent à scruter des cartes de tarot ou à déchiffrer les plis de vos paumes, la science occulte vient de franchir une nouvelle frontière en Europe. Outre-Rhin, un homme a développé une méthode de divination unique au monde, basée sur la topographie musculaire et thermique de l'anatomie humaine. Pour lui, le grand livre du destin ne s'ouvre pas dans les mains, mais un peu plus bas. Nous avons traversé la frontière pour rencontrer Ulf S., 58 ans, un médium non-voyant qui redéfinit l'art de la voyance depuis son cabinet près de Cologne.",
+    "interview": [
+      {
+        "q": "Ulf, votre spécialité, baptisée la \"Rumpologie\", suscite beaucoup de curiosité. Comment vous est venue cette intuition ?",
+        "a": "Les mains mentent. Les gens passent leur temps à travailler, à frotter, à modifier la peau de leurs doigts. Mais l'arrière du corps, lui, ne triche jamais. C'est la zone où s'accumulent toutes les tensions existentielles, les traumatismes du passé et l'énergie brute de l'avenir. Étant non-voyant, mes mains ont développé une sensibilité nerveuse hors du commun. Quand un client s'assoit sur ma table d'examen et que je pose mes paumes sur ses fessiers, je perçois des vibrations temporelles immédiates."
+      },
+      {
+        "q": "Concrètement, qu'est-ce que la texture ou la forme de cette zone peut bien révéler sur le caractère d'une personne ?",
+        "a": "Tout est une question de quadrants et de polarité thermique. Par exemple, une fesse gauche plus ferme et plus chaude indique un tempérament de leader, quelqu'un qui va recevoir une promotion ou faire une rentrée d'argent majeure dans les six mois. En revanche, des micro-tensions localisées dans le muscle grand fessier droit révèlent une trahison passée non digérée ou un secret de famille enfoui. La forme générale — en pomme, en poire ou en carré — dessine les grandes lignes de la personnalité : les \"pommes\" sont des idéalistes souvent ciblés par les puces 5G, tandis que les \"carrés\" sont des esprits cartésiens piégés dans la matrice officielle."
+      },
+      {
+        "q": "Votre méthode est très physique. Comment réagissent les clients qui franchissent la porte de votre cabinet ?",
+        "a": "Au début, les Allemands sont très réservés, c'est dans leur nature. Mais quand je leur annonce, après seulement trois secondes de palpation, le montant exact de leur livret d'épargne ou l'année de disparition de leur grand-oncle, toute la gêne s'évapore. J'ai des hommes d'affaires, des politiciens et même des agents de la fonction publique qui viennent me voir incognito avant de prendre des décisions géopolitiques majeures. Ils savent que ma méthode est infaillible."
+      },
+      {
+        "q": "Les sceptiques de la science officielle crient évidemment à la supercherie ou à l'excentricité...",
+        "a": "Laissez les scientifiques en blouse blanche s'agiter avec leurs statistiques. Pendant qu'ils analysent des données biaisées par des algorithmes, moi je touche la réalité du squelette et de l'énergie humaine. La vérité est ancrée dans la matière. Le corps humain est une carte routière cosmique ; il suffit de savoir où poser les mains pour lire les panneaux de signalisation."
+      }
+    ],
+    "notice": "La prochaine fois que vous passerez un entretien d'embauche ou un contrôle de sécurité, surveillez vos arrières. Si la divination fessière se démocratise en France, il faudra soigner votre posture sur votre chaise pour ne pas envoyer de mauvaises ondes à vos examinateurs.",
+    "classified": false,
+    "published": "2026-06-07"
+  }
+]  {
     "id": "art-1784155068111",
     "title": "Le penalty provoqué par Digne à la 20e minute n’avait rien d'une erreur défensive",
     "date": "Jeudi 16 juillet 2026",
