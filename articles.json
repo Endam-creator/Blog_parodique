@@ -1,5 +1,44 @@
 [
   {
+    "id": "art-1785011830622",
+    "title": "Oubliez les antennes 6G, les incendies sont des défrichages express commandités pour installer les Data Centers de l'Intelligence Artificielle !",
+    "date": "Samedi 25 juillet 2026",
+    "location": "Saint Germain en Laye, Yvelines",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/feu.jpg",
+    "desc": "Les feux de forêt ne seraient pas dus au climat, mais seraient allumés volontairement par les géants de la Tech.",
+    "intro": "Suite à la parution de notre enquête sur la combustion des \"pins parasols à carte mère\" dans le bassin d'Arcachon, notre standard téléphonique a littéralement explosé. Parmi les nombreux appels, celui de Loïc T., 41 ans, technicien fibre optique et lanceur d'alerte, nous a particulièrement interpellés. Selon lui, notre précédent témoin n'a vu que la partie émergée du complot. Les incendies ne sont pas dus à des batteries qui surchauffent : ce sont des opérations immobilières clandestines et volontaires, orchestrées par les géants de la Tech pour héberger les immenses cerveaux de l'Intelligence Artificielle (IA).\nNous avons retranscrit son appel, passé depuis une cabine téléphonique sécurisée et tapissée de papier aluminium au cœur d'une forêt domaniale.",
+    "interview": [
+      {
+        "q": "Loïc, vous avez lu notre article sur les arbres artificiels qui prennent feu. Vous affirmez que notre témoin précédent se trompe de complot ?",
+        "a": "Jean-Yves est un grand naïf qui a trouvé un port USB dans une pomme de pin et qui croit avoir percé le mystère ! La vérité est beaucoup plus cynique. Si les forêts brûlent de manière aussi ciblée en ce moment, c'est un défrichage volontaire, propre, et surtout gratuit, payé par les impôts des citoyens ! Vous croyez vraiment que ChatGPT et toutes ces nouvelles intelligences artificielles flottent dans les nuages par magie ? Non, ça demande des hangars entiers remplis de milliers de serveurs !"
+      },
+      {
+        "q": "Vous suggérez que l'on brûle nos forêts pour construire des Data Centers à la place ?",
+        "a": "Exactement ! Le boom de l'IA demande une place folle et une énergie colossale. Acheter des terrains agricoles ou raser des zones industrielles, ça prend des années de paperasse et ça alerte les écologistes. Alors que cramer 10 000 hectares de pins, ça vous fait une parcelle viabilisée et prête à construire en 48 heures sous couvert d'état de catastrophe naturelle ! Et devinez quoi ? La cendre de bois, une fois compactée, est le meilleur isolant thermique naturel pour les dalles des processeurs quantiques. Tout est calculé."
+      },
+      {
+        "q": "C'est une accusation gravissime. Avez-vous des preuves de cette machination ?",
+        "a": "Des preuves ? J'y suis allé hier soir, sur les cendres encore fumantes du dernier grand feu de Gironde. Pendant que les journalistes filmaient les braises pour le journal de 20h, moi, j'ai regardé le sol. Les bulldozers qui faisaient soi-disant des tranchées \"pare-feu\" étaient en réalité en train de creuser les fondations pour passer les gaines de fibre optique très haut débit ! J'ai même trouvé un permis de construire à moitié cramé sous une souche : c'était au nom d'une société écran appelée \"Sylvi-Compute\"."
+      },
+      {
+        "q": "Et comment gèrent-ils l'extinction des feux si le but est de tout détruire ?",
+        "a": "Mais réfléchissez deux secondes à l'eau balancée par les Canadairs ! Vous croyez qu'ils éteignent le feu ? Pas du tout ! Ils pré-hydratent massivement les sols pour préparer les circuits de watercooling (refroidissement à eau) souterrains des futurs serveurs géants. Les nappes phréatiques ne sont pas à sec à cause de la canicule, elles sont siphonnées par anticipation pour refroidir les algorithmes qui génèrent vos images de petits chats mignons sur internet !"
+      },
+      {
+        "q": "Quel est le but ultime de cette opération selon vous ?",
+        "a": "Remplacer le poumon vert de la planète par un cerveau artificiel géant. D'ici cinq ans, quand vous irez vous promener dans ce que vous croyez être une \"nouvelle forêt replantée\", vous ne respirerez plus de l'oxygène, vous respirerez de l'air chaud expulsé par des cartes graphiques surpuissantes cachées sous de faux buissons. Et les chants d'oiseaux que vous entendrez seront générés en temps réel par une IA pour vous rassurer. C'est le grand remplacement numérique !"
+      },
+      {
+        "q": "Que comptez-vous faire pour alerter la population ?",
+        "a": "Je monte un collectif de résistance analogique. On va semer de vieilles disquettes dans les clairières et balancer de la pâte thermique premier prix sur les braises pour saboter leurs chantiers. Et si je ne donne plus de nouvelles au blog, c'est qu'un drone algorithmique m'aura géolocalisé."
+      }
+    ],
+    "notice": "Si, lors de votre prochaine balade en lisière d'une zone incendiée, vous apercevez un immense hangar sans fenêtres pousser miraculeusement sous les cendres, ou si une souche calcinée vous demande de valider un Captcha pour prouver que vous n'êtes pas un robot avant de ramasser un champignon, gardez votre calme. Inutile d'attaquer les câbles apparents avec un opinel ou de menacer les écureuils de piratage informatique. Rebroussez chemin discrètement, videz le cache de votre navigateur, et laissez l'intelligence artificielle s'étendre en paix.",
+    "classified": true,
+    "published": "2026-07-25"
+  },
+  {
     "id": "art-1784838213511",
     "title": "« J'ai posé un niveau à bulle sur mon canapé à Auxerre, et j'ai prouvé que la Terre est plate »",
     "date": "Jeudi 23 juillet 2026",
