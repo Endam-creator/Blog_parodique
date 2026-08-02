@@ -1,5 +1,40 @@
 [
   {
+    "id": "art-1785698731156",
+    "title": "« Il n'y a pas de crise migratoire, ce sont des figurants payés au SMIC par le lobby européen de la vidéosurveillance ! »",
+    "date": "Dimanche 2 août 2026",
+    "location": "Algésiras, Andalousie",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/migrants.jpg",
+    "desc": "La crise migratoire à Ceuta est une vaste mise en scène intégralement jouée par des figurants rémunérés",
+    "intro": "Pour la presse internationale et les gouvernements européens, les arrivées massives de migrants sur les plages de l'enclave de Ceuta sont une tragédie humaine et un casse-tête géopolitique. Mais pour Michel R., 55 ans, ancien douanier et \"analyste indépendant des flux frontaliers\", les journaux télévisés nous diffusent en réalité la plus grande pièce de théâtre à ciel ouvert de la décennie. Selon lui, il n'y a pas d'afflux spontané : ces nageurs sont des acteurs de crise recrutés par des multinationales de la sécurité pour forcer l'Union Européenne à débloquer des milliards d'euros de budget.\n\nNous l'avons rencontré dans un café sur le port d'Algésiras, entouré de dossiers remplis d'appels d'offres publics surlignés au marqueur jaune, alors qu'il scrutait les allées et venues des navires patrouilleurs.",
+    "interview": [
+      {
+        "q": "Michel, les images des personnes épuisées arrivant sur les plages de Ceuta sont pourtant poignantes. Comment pouvez-vous affirmer qu'il s'agit d'une mise en scène ?",
+        "a": "C'est du cynisme financier à l'état pur ! J'ai passé trente ans à contrôler des passeports, je connais le regard de quelqu'un qui a tout quitté. Ces gars-là sur la plage ? Ils avaient l'air d'attendre que le réalisateur crie \"Coupez !\". J'ai analysé les directs des chaînes d'info en continu : à la minute 14 du reportage de mardi, j'ai vu un soi-disant naufragé sortir de l'eau, s'essuyer le visage, et regarder discrètement une montre de plongée connectée à 800 euros pour vérifier son rythme cardiaque ! Les vrais désespérés n'ont pas de coach sportif numérique au poignet."
+      },
+      {
+        "q": "Des figurants engagés pour simuler une crise ? Avez-vous une preuve physique de ce que vous avancez ?",
+        "a": "Une preuve ? J'ai le contrat ! (Il sort une feuille froissée d'une pochette cartonnée). Le mois dernier, un de mes contacts au Maroc a trouvé ça collé sur un poteau près d'une agence d'intérim locale. C'est une annonce de casting : \"Recherche 500 figurants, profil sportif, sachant nager, pour exercice de sécurité civile. Rémunération : 120€/jour, repas chaud et serviette fournis.\" Et devinez quoi ? Les fameuses couvertures de survie dorées qu'on leur donne à l'arrivée... J'en ai récupéré une dans une poubelle à Ceuta. L'étiquette disait : \"Propriété des Studios de Cinéma d'Almería - Ne pas emporter\"."
+      },
+      {
+        "q": "Mais quel serait le mobile ? Pourquoi orchestrer une telle manipulation aux yeux du monde entier ?",
+        "a": "Suivez l'argent, toujours l'argent ! La semaine prochaine, la Commission Européenne doit voter un budget d'urgence de 15 milliards d'euros pour le programme \"Bouclier Frontex 2.0\". Ce programme prévoit l'achat de milliers de drones infrarouges, de murs biométriques et de caméras thermiques. Le lobby des entreprises d'armement et de sécurité privée a besoin d'images chocs à la télévision pour justifier cette dépense colossale auprès des contribuables. Quoi de mieux pour vendre un système d'alarme hors de prix que de payer des gens pour simuler un cambriolage en direct devant chez vous ?"
+      },
+      {
+        "q": "Avez-vous tenté d'alerter des députés européens ou la police locale de cette escroquerie ?",
+        "a": "J'ai envoyé tout mon dossier à Bruxelles ! En recommandé ! Silence radio. Et quand je suis allé au commissariat de Ceuta pour dénoncer la mascarade, le policier a à peine levé les yeux de son écran. Vous savez pourquoi ? Parce que la moitié des gardes-côtes font des heures supplémentaires astronomiques grâce à cette \"crise\". Tout le monde croque dans le gâteau : les vendeurs de barbelés, les politiciens qui jouent les sauveurs, et les figurants qui rentrent chez eux en bus de tourisme une fois les caméras éteintes."
+      },
+      {
+        "q": "Qu'attendez-vous de ce témoignage ?",
+        "a": "Je veux que les citoyens arrêtent de tomber dans le panneau de l'ingénierie sociale. La prochaine fois que vous verrez un journal télévisé avec des images de chaos frontalier, ne regardez pas le centre de l'image. Regardez en arrière-plan. Si vous cherchez bien, vous finirez par apercevoir le camion cantine qui sert des cafés aux acteurs entre deux prises."
+      }
+    ],
+    "notice": "Si, en regardant un reportage dramatique sur une crise géopolitique, vous remarquez qu'un des figurants au second plan recrache son eau salée pour boire une gorgée de boisson énergisante, ne paniquez pas. Inutile d'appeler le CSA ou d'exiger de voir le générique de fin de l'actualité. Éteignez votre téléviseur discrètement, lisez le Journal Officiel des marchés publics, et laissez le complexe militaro-industriel tourner ses scènes en paix.",
+    "classified": false,
+    "published": "2026-08-02"
+  },
+  {
     "id": "art-1785011830622",
     "title": "Oubliez les antennes 6G, les incendies sont des défrichages express commandités pour installer les Data Centers de l'Intelligence Artificielle !",
     "date": "Samedi 25 juillet 2026",
