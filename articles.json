@@ -1,5 +1,40 @@
 [
   {
+    "id": "art-1787690746646",
+    "title": "« Les faux policiers de Paris étaient de vrais agents de l'État : comment le gouvernement vole vos Bitcoins »",
+    "date": "Mardi 25 août 2026",
+    "location": "Paris, Île-de-France",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/crypto.jpg",
+    "desc": "Selon un ancien analyste du renseignement, l'enlèvement d'un jeune millionnaire du Bitcoin à Paris en 2020 par de faux policiers était en réalité une opération clandestine de l'État français.",
+    "intro": "Pour la presse nationale et les tribunaux, l'affaire est classée : un jeune trader de 22 ans, trop bavard sur sa fortune en cryptomonnaie, s'est fait enlever en janvier 2020 dans le 10e arrondissement de Paris. Séquestré dans une forêt par des malfaiteurs déguisés en policiers, il a dû céder ses codes pour un butin estimé à 2 millions d'euros en Bitcoin. Mais pour Laurent M., 45 ans, ancien spécialiste en cybersécurité pour le Ministère des Armées, cette version officielle est une insulte à l'intelligence.\n\nNous l'avons rencontré dans un café discret du quartier de la Défense, le téléphone placé dans une pochette brouilleuse d'ondes.",
+    "interview": [
+      {
+        "q": "Laurent, la police a pourtant arrêté les coupables. Ils ont été jugés et condamnés. Comment pouvez-vous affirmer qu'il s'agissait d'une opération d'État ?",
+        "a": "C'est le principe même des opérations \"False Flag\" (sous faux drapeau). Regardez la logistique de l'enlèvement. On nous vend des petites frappes de banlieue. Pourtant, le soir de l'enlèvement, toutes les caméras de vidéosurveillance de la préfecture de police sur le trajet du véhicule ont connu une \"défaillance technique inexpliquée\" de 45 minutes. Vous croyez qu'un braqueur de rue sait pirater le réseau de la préfecture ? C'était une opération de barbouzes. Les voyous qui ont été arrêtés plus tard n'étaient que des boucs émissaires, engagés via des intermédiaires aveugles pour servir de fusibles à la justice."
+      },
+      {
+        "q": "Vous affirmez que l'État français kidnappe ses propres citoyens pour de la cryptomonnaie ? Dans quel but ?",
+        "a": "Pour le financement occulte ! Historiquement, la \"Françafrique\" ou les opérations clandestines à l'étranger étaient financées par des valises de billets ou des rétrocommissions sur des ventes d'armes. Aujourd'hui, c'est devenu trop surveillé. Les services de renseignement ont besoin de liquidités intraçables. Quoi de mieux que le Bitcoin ? Le trader ciblé en 2020 n'a pas été choisi au hasard : ses portefeuilles n'étaient pas déclarés au fisc. Il était la cible parfaite. S'il parlait, il s'auto-incriminait pour fraude fiscale."
+      },
+      {
+        "q": "Avez-vous une preuve technique de ce que vous avancez, ou est-ce seulement une déduction ?",
+        "a": "J'ai tracé la blockchain. Quand les Bitcoins ont été volés ce soir-là, ils n'ont pas été envoyés vers des \"mixeurs\" du dark web utilisés par les criminels traditionnels pour blanchir l'argent. Non. Les fonds ont été divisés en micro-transactions et envoyés vers des adresses de contrats intelligents liées à des sociétés écrans basées à Dubaï. Ces mêmes sociétés écrans ont récemment remporté des appels d'offres logistiques pour l'armée française au Sahel. L'argent volé dans cette forêt parisienne a servi à financer des opérations militaires non officielles."
+      },
+      {
+        "q": "Pourquoi cette vérité n'éclate-t-elle pas au grand jour lors du procès ?",
+        "a": "Parce que la justice est cloisonnée. Le juge d'instruction s'est contenté des aveux des petites frappes (qui ont probablement touché 5 % du butin en liquide pour se taire). Quand les avocats de la victime ont demandé une commission rogatoire internationale pour tracer les portefeuilles numériques à Dubaï, le parquet a mystérieusement freiné des quatre fers en invoquant un \"manque de moyens techniques\". Le dossier a été verrouillé de l'intérieur par le Ministère de la Justice pour protéger le secret défense."
+      },
+      {
+        "q": "Qu'attendez-vous de ce témoignage ?",
+        "a": "Je veux que les nouveaux riches de la crypto en France comprennent le danger. L'État ne se contente plus de vous taxer à 30 % avec la Flat Tax. Si vos portefeuilles deviennent trop gros et trop opaques, vous n'êtes plus un citoyen, vous devenez une ressource exploitable. Sécurisez vos clés, taisez-vous, et méfiez-vous des gyrophares banalisés en bas de chez vous."
+      }
+    ],
+    "notice": "La prochaine fois que vous lirez dans le journal qu'un influenceur crypto s'est fait \"saucissonner\" par des cambrioleurs amateurs, regardez bien qui récupère les fonds à la fin. Les impôts sont la méthode douce de l'État pour se financer ; ce genre de \"fait divers\" est leur méthode forte. Gardez vos Ledger dans des coffres physiques et ne faites jamais confiance aux uniformes.",
+    "classified": true,
+    "published": "2026-08-25"
+  },
+  {
     "id": "art-1785698731156",
     "title": "« Il n'y a pas de crise migratoire, ce sont des figurants payés au SMIC par le lobby européen de la vidéosurveillance ! »",
     "date": "Dimanche 2 août 2026",
