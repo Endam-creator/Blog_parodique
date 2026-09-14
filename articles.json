@@ -1,5 +1,44 @@
 [
   {
+    "id": "art-1789422528427",
+    "title": "SCANDALE À LA PLENITUDE ARENA : « Ce n’est pas la vraie Céline Dion sur scène, c’est un clone biologique fabriqué en laboratoire ! »",
+    "date": "Lundi 14 septembre 2026",
+    "location": "Bar associatif, Porte de La Chapelle, Paris",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/celine.jpg",
+    "desc": "Une ancienne costumière affirme que Céline Dion a été secrètement remplacée sur scène par un clone biologique infatigable et dépourvu d'empreintes digitales, fabriqué en laboratoire par l'industrie du spectacle pour rentabiliser sa tournée mondiale.",
+    "intro": "Pour des millions de fans émus, le retour de Céline Dion à Paris est une résurrection musicale après des années de combat contre la maladie. Mais pour Sylvie D., 48 ans, ancienne costumière de la tournée et membre active du collectif \"Vérité pour Céline\", l'émotion collective masque une machination terrifiante. Selon elle, la femme qui interprète My Heart Will Go On n’est ni un hologramme, ni la Céline que nous connaissons. C’est un clone physique parfait, créé secrètement pour assurer la rentabilité d'une tournée mondiale que la véritable artiste, trop affaiblie, ne pouvait assumer.\n\nNous l'avons rencontrée dans un café discret près du lieu des concerts, où elle nous a confié, sous couvert d'anonymat, des détails troublants observés en coulisses.",
+    "interview": [
+      {
+        "q": "Sylvie, vos accusations sont extrêmement graves. Vous affirmez au monde que la femme qui remplit l'Aréna soir après soir est une doublure biologique ?",
+        "a": "Grave ? Le mot est faible ! C'est un crime contre l'humanité et contre l'art. J'ai travaillé dix ans sur les tournées de Céline. Je connais chaque millimètre de son corps, la texture de sa peau, la façon dont ses muscles réagissent à l'effort. Dès le premier soir à Paris, j'ai su que quelque chose n'allait pas. Ce n'était pas la fatigue, ni l'âge. C'était une anomalie fondamentale dans sa présence physique."
+      },
+      {
+        "q": "Vous parlez d'une \"anomalie fondamentale\". Avez-vous pu observer des preuves irréfutables de ces failles biologiques sur scène ?",
+        "a": "Prenez le test de l'endurance, par exemple ! C'est flagrant. Le clone enchaîne les morceaux les plus exigeants vocalement pendant deux heures sans jamais transpirer, ni montrer le moindre signe de fatigue musculaire. La vraie Céline, même au sommet de sa forme, était vidée après un tel show. Cette femme sur scène est une machine biologique, elle a été optimisée en laboratoire pour la performance pure !"
+      },
+      {
+        "q": "Une machine biologique très bien faite, en somme. Mais avez-vous pu l'approcher en coulisses pour confirmer physiquement vos soupçons ?",
+        "a": "Mieux que ça ! Un collègue de la sécurité, qui fait aussi partie de notre collectif, a réussi à récupérer un verre d'eau utilisé par la soi-disant \"Céline\" dans sa loge. Nous avons immédiatement tenté de relever les empreintes digitales pour les comparer aux bases de données officielles."
+      },
+      {
+        "q": "Et qu'avez-vous découvert ?",
+        "a": "Résultat : le verre était parfaitement lisse, aucune empreinte exploitable ! C'est la signature évidente des clones de première génération : le processus de vieillissement accéléré fait que leurs crêtes papillaires ne sont pas encore totalement formées au bout des doigts !"
+      },
+      {
+        "q": "C'est glaçant... Et concernant son comportement ? Même un clone biologique devrait imiter la psychologie de l'original, non ?",
+        "a": "Ils ont essayé, mais ils ont oublié l'essentiel : les failles humaines ! Céline a toujours eu un tic nerveux très spécifique lorsqu'elle est stressée juste avant de monter sur scène : elle se frotte l'oreille gauche trois fois. C'est son ancrage. J'ai observé le clone pendant dix soirées d'affilée via les caméras de sécurité de l'Arena. Rien du tout. Pas le moindre mouvement incontrôlé, juste une répétition mécanique parfaite, froide et sans âme."
+      },
+      {
+        "q": "Mais pourquoi une telle supercherie ? Qui aurait intérêt à cloner Céline Dion ?",
+        "a": "Suivez l'argent ! Le Lobby du Spectacle en direct. Une tournée mondiale de Céline Dion, c’est des milliards de dollars en jeu. Annuler à cause de sa maladie était inenvisageable pour Big Entertainment. Ils ont utilisé une technologie de clonage humain classée secret-défense pour fabriquer ce qu'ils appellent le \"modèle Dion 2.0\". C'est un produit marketing parfait : il ne tombe jamais malade, ne vieillit pas et peut chanter indéfiniment."
+      }
+    ],
+    "notice": "Si, lors du prochain concert, la star que vous adorez semble ne jamais s'essouffler, si elle interagit avec le public en répétant exactement les mêmes phrases d'un soir à l'autre, ou si vous remarquez que ses empreintes digitales ont mystérieusement disparu des objets qu'elle touche, ne paniquez pas. Inutile de demander un test ADN au guichet ou d'essayer de lui arracher un cheveu pour le faire analyser. Applaudissez la performance biologique et laissez Big Entertainment rentabiliser son investissement.",
+    "classified": false,
+    "published": "2026-09-14"
+  },
+  {  
     "id": "art-1787690746646",
     "title": "« Les faux policiers de Paris étaient de vrais agents de l'État : comment le gouvernement vole vos Bitcoins »",
     "date": "Mardi 25 août 2026",
