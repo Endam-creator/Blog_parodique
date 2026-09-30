@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Récupération du dépôt
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Installation de Node
         uses: actions/setup-node@v4
@@ -62,3 +64,33 @@ jobs:
             git commit -m "🤖 Régénération auto : RSS, sitemap et pages d'articles"
             git push
           fi
+
+      # ÉTAPE 4 : signalement IndexNow (Bing, Yandex, Seznam, Naver…)
+      # On attend que GitHub Pages ait publié, puis on signale l'accueil,
+      # le flux RSS et les pages des articles nouveaux ou modifiés.
+      - name: Signalement IndexNow
+        continue-on-error: true
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          sleep 90
+          git fetch -q --depth=1 origin "$BEFORE" 2>/dev/null || true
+          git show "$BEFORE:articles.json" > /tmp/avant.json 2>/dev/null || echo "[]" > /tmp/avant.json
+          node -e "
+            const fs = require('fs');
+            const HOST = 'les-verites-cachees.endam-digital.com';
+            const KEY = '79ed8a00dddc9ba376be8dc93cd5408c';
+            const avant = JSON.parse(fs.readFileSync('/tmp/avant.json', 'utf8') || '[]');
+            const apres = JSON.parse(fs.readFileSync('articles.json', 'utf8'));
+            const ancien = new Map(avant.map(a => [a.id, JSON.stringify(a)]));
+            const changes = apres.filter(a => ancien.get(a.id) !== JSON.stringify(a)).map(a => a.id);
+            const urls = ['https://' + HOST + '/', 'https://' + HOST + '/feed.xml']
+              .concat(changes.map(id => 'https://' + HOST + '/articles/' + encodeURIComponent(id) + '.html'));
+            console.log('URLs signalées :\n' + urls.join('\n'));
+            fetch('https://api.indexnow.org/indexnow', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json; charset=utf-8' },
+              body: JSON.stringify({ host: HOST, key: KEY, keyLocation: 'https://' + HOST + '/' + KEY + '.txt', urlList: urls })
+            }).then(r => console.log('Réponse IndexNow : HTTP ' + r.status + ' (200 ou 202 = OK)'))
+              .catch(e => console.log('IndexNow injoignable : ' + e.message));
+          "
