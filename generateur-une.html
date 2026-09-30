@@ -262,7 +262,8 @@ function render() {
     ctx.font = 'bold ' + titleSize + 'px Impact, "Arial Black", Arial';
     ctx.textAlign = 'left';
     const pad = 50;
-    const used = wrapText(title, pad, imgH + 80, W - pad * 2, titleSize + 8, 5);
+    const maxTitleLines = H >= 1900 ? 9 : (H >= 1300 ? 6 : 5);
+    const used = wrapText(title, pad, imgH + 80, W - pad * 2, titleSize + 8, maxTitleLines);
 
     // Accroche du bas
     const kicker = document.getElementById('inKicker').value.trim();
@@ -286,6 +287,11 @@ function render() {
         ctx.restore();
     }
 
+    // Tampon PARODIE — toujours présent (non désactivable) : l'image doit rester
+    // identifiable comme satire même partagée seule, sans lien vers le blog.
+    // Posé à cheval sur l'image et le titre pour résister à un recadrage simple.
+    drawParodyStamp(pad - 10, imgH + 4);
+
     // Coins scotchés
     if (document.getElementById('ckTape').checked) {
         drawTape(60, 20, -0.7);
@@ -299,6 +305,26 @@ function render() {
         ctx.drawImage(logoImg, W - ls - 30, imgH - ls - 20, ls, ls);
         ctx.globalAlpha = 1;
     }
+}
+
+function drawParodyStamp(x, y) {
+    const label = '🎭 PARODIE · 100 % INVENTÉ';
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-0.06);
+    ctx.font = 'bold 34px Impact, "Arial Black", Arial';
+    const tw = ctx.measureText(label).width;
+    const bw = tw + 44, bh = 60;
+    ctx.fillStyle = C.white;
+    ctx.fillRect(0, -bh / 2, bw, bh);
+    ctx.strokeStyle = C.red; ctx.lineWidth = 5;
+    ctx.strokeRect(0, -bh / 2, bw, bh);
+    ctx.lineWidth = 2;
+    ctx.strokeRect(7, -bh / 2 + 7, bw - 14, bh - 14);
+    ctx.fillStyle = C.red;
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, 22, 2);
+    ctx.restore();
 }
 
 function drawTape(x, y, rot) {
