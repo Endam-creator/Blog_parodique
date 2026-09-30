@@ -1,7 +1,10 @@
-// Génère une vraie page HTML par article dans articles/<id>.html
-// Objectif : SEO Google + aperçus de partage sociaux corrects.
-// Chaque page contient le contenu complet (lu par Google et les robots sociaux)
-// et redirige le visiteur humain vers le site fluide (index.html?article=<id>).
+// Génère une vraie page HTML par article dans articles/<id>.html.
+// La page est construite à partir d'index.html (même design, mêmes fonctions : votes,
+// commentaires, fil…) avec :
+//   - un <head> propre à l'article (titre, description, canonical, Open Graph, Schema.org)
+//   - le contenu de l'article déjà présent dans le HTML (lu par Google sans JavaScript)
+//   - window.__ARTICLE_ID__ pour que le site affiche directement cette enquête.
+// Aucune redirection : l'URL /articles/<id>.html EST la page de l'article.
 //
 // Le domaine est lu depuis le fichier CNAME (sinon fallback GitHub Pages).
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
@@ -54,12 +57,23 @@ if (existsSync(OUT_DIR)) {
     }
 }
 
+// --- Gabarit : index.html ---
+const TEMPLATE = readFileSync('index.html', 'utf8');
+const SEO_RE = /<!-- SEO:START[\s\S]*?<!-- SEO:END -->/;
+const VIEWER_MARK = '<!-- PRERENDER -->';
+if (!SEO_RE.test(TEMPLATE) || !TEMPLATE.includes(VIEWER_MARK)) {
+    console.error('ERREUR : marqueurs SEO:START/SEO:END ou PRERENDER introuvables dans index.html.');
+    process.exit(1);
+}
+
+const PARODY_NOTE = "<strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.";
+
 // --- Génération d'une page par article ---
-function buildPage(art) {
+function buildPage(art, isLatest) {
     const canonical = `${SITE}/articles/${encodeURIComponent(art.id)}.html`;
-    const fluidURL = `${SITE}/?article=${encodeURIComponent(art.id)}`;
     const imgPath = resolveImg(art.img);
     const imgAbs = imgPath.startsWith('http') ? imgPath : `${SITE}/${imgPath.replace(/^\/+/, '')}`;
+    const imgRel = imgPath.startsWith('http') ? imgPath : '/' + imgPath.replace(/^\/+/, '');
     // Aperçu de partage tamponné « PARODIE » (généré par generate_og_images.mjs), sinon image d'origine
     const ogPath = `images/og/${art.id}.jpg`;
     const ogAbs = existsSync(ogPath) ? `${SITE}/${ogPath}` : imgAbs;
@@ -68,107 +82,73 @@ function buildPage(art) {
     const shareDesc = '🎭 Parodie : ' + desc;
     const shareTitle = art.title + ' (parodie)';
 
-    // Interview en HTML
+    const ld = {
+        "@context": "https://schema.org",
+        "@type": "SatiricalArticle",
+        "headline": art.title,
+        "description": desc,
+        "image": ogAbs,
+        "datePublished": art.published || undefined,
+        "author": { "@type": "Person", "name": art.author || "L'Investigateur Anonyme" },
+        "publisher": { "@type": "Organization", "name": "Le Blog des Vérités Cachées" },
+        "mainEntityOfPage": canonical
+    };
+
+    const head = `<title>${escHTML(art.title)} | Le Blog des Vérités Cachées</title>
+    <meta name="description" content="${escHTML(shareDesc)}">
+    <link rel="canonical" href="${canonical}">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Le Blog des Vérités Cachées">
+    <meta property="og:title" content="${escHTML(shareTitle)}">
+    <meta property="og:description" content="${escHTML(shareDesc)}">
+    <meta property="og:url" content="${canonical}">
+    <meta property="og:image" content="${ogAbs}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${escHTML(shareTitle)}">
+    <meta name="twitter:description" content="${escHTML(shareDesc)}">
+    <meta name="twitter:image" content="${ogAbs}">
+    <script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>
+    <script>window.__ARTICLE_ID__ = ${JSON.stringify(art.id).replace(/</g, '\\u003c')};</script>`;
+
+    // Contenu pré-rendu (même structure que displayArticle() dans index.html)
     let interviewHTML = '';
     if (Array.isArray(art.interview) && art.interview.length) {
-        interviewHTML = '<section class="interview"><h2>L\'Interview Exclusive</h2>';
-        for (const row of art.interview) {
-            interviewHTML += `<p><strong>${escHTML(row.q)}</strong><br>${escHTML(row.a)}</p>`;
-        }
-        interviewHTML += '</section>';
+        interviewHTML = '<div class="interview-box"><h3>L\'Interview Exclusive</h3>' +
+            art.interview.map(r => `<div class="interview-line"><strong>${escHTML(r.q)}</strong>${escHTML(r.a)}</div>`).join('') +
+            '</div>';
     }
+    const noticeHTML = art.notice ? `<div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : ${escHTML(art.notice)}</div>` : '';
+    const stamp = art.classified ? '<span class="classified-stamp big">Classified</span>' : '';
+    const banner = isLatest ? '<div class="breaking-banner">Breaking News</div>' : '<div class="archive-banner">Archive déclassifiée</div>';
 
-    const noticeHTML = art.notice
-        ? `<aside class="notice">⚠️ L'AVIS DE LA RÉDACTION : ${escHTML(art.notice)}</aside>`
-        : '';
+    const body =
+        `<div class="meta-data">LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>` +
+        `Date de publication : ${escHTML(art.date || '')}<br>` +
+        `Localisation : ${escHTML(art.location || '')}<br>` +
+        `Auteur : ${escHTML(art.author || "L'Investigateur Anonyme")}</div>` +
+        banner +
+        `<div class="hero-visual"><img src="${escHTML(imgRel)}" alt="${escHTML(art.title)}">` +
+        `<div class="hero-title-overlay"><h2>${escHTML(art.title)}</h2></div>${stamp}</div>` +
+        `<div class="parody-banner" role="note">${PARODY_NOTE}</div>` +
+        `<div class="article-body"><p>${escHTML(art.intro || '')}</p>${interviewHTML}${noticeHTML}</div>`;
 
-    return `<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${escHTML(art.title)} | Le Blog des Vérités Cachées</title>
-<meta name="description" content="${escHTML(shareDesc)}">
-<link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="${SITE}/logo_chat_loupe.png">
-
-<!-- Open Graph : aperçu de partage avec le titre et l'image de CETTE enquête -->
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="Le Blog des Vérités Cachées">
-<meta property="og:title" content="${escHTML(shareTitle)}">
-<meta property="og:description" content="${escHTML(shareDesc)}">
-<meta property="og:url" content="${canonical}">
-<meta property="og:image" content="${ogAbs}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${escHTML(shareTitle)}">
-<meta name="twitter:description" content="${escHTML(shareDesc)}">
-<meta name="twitter:image" content="${ogAbs}">
-
-<!-- Données structurées (aide Google à comprendre que c'est un article) -->
-<script type="application/ld+json">
-${JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "SatiricalArticle",
-    "headline": art.title,
-    "description": desc,
-    "image": imgAbs,
-    "datePublished": art.published || undefined,
-    "author": { "@type": "Person", "name": art.author || "L'Investigateur Anonyme" },
-    "publisher": { "@type": "Organization", "name": "Le Blog des Vérités Cachées" },
-    "mainEntityOfPage": canonical
-}, null, 0)}
-</script>
-
-<!-- Redirection des visiteurs humains vers le site fluide (les robots ignorent le JS) -->
-<script>
-  window.location.replace(${JSON.stringify(fluidURL)});
-</script>
-
-<style>
-  body { font-family: Arial, sans-serif; max-width: 740px; margin: 0 auto; padding: 25px 18px; color: #1a1a1a; line-height: 1.6; }
-  .brand { font-family: 'Impact', sans-serif; text-transform: uppercase; color: #555; font-size: .9rem; letter-spacing: 1px; }
-  h1 { font-family: 'Impact', 'Arial Black', sans-serif; text-transform: uppercase; line-height: 1.2; margin: 8px 0 14px; }
-  .meta { font-family: monospace; color: #666; font-size: .85rem; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-bottom: 16px; }
-  img.hero { width: 100%; height: auto; border: 2px solid #111; margin-bottom: 16px; }
-  .interview { background: #f7f7f2; border-left: 5px solid #76b900; padding: 14px; margin: 20px 0; }
-  .interview h2 { font-family: 'Impact', sans-serif; text-transform: uppercase; font-size: 1.1rem; }
-  .notice { background: #fff2a3; border: 2px dashed #a31515; padding: 14px; margin-top: 18px; font-weight: bold; }
-  .parody { background: #111; color: #fff; border-left: 5px solid #76b900; padding: 10px 14px; margin: 0 0 16px; }
-  .parody strong { color: #8ae000; text-transform: uppercase; }
-  .redirect-note { margin-top: 24px; padding: 14px; background: #111; color: #76b900; text-align: center; }
-  .redirect-note a { color: #8ae000; }
-</style>
-</head>
-<body>
-  <p class="brand">Le Blog des Vérités Cachées — La voix de ceux qui savent</p>
-  <h1>${escHTML(art.title)}</h1>
-  <div class="meta">
-    Date de publication : ${escHTML(art.date || '')}<br>
-    Localisation : ${escHTML(art.location || '')}<br>
-    Auteur : ${escHTML(art.author || "L'Investigateur Anonyme")}
-  </div>
-  <p class="parody" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</p>
-  <img class="hero" src="${escHTML(imgAbs)}" alt="${escHTML(art.title)}">
-  <article>
-    <p>${escHTML(art.intro || '')}</p>
-    ${interviewHTML}
-    ${noticeHTML}
-  </article>
-  <div class="redirect-note">
-    Vous allez être redirigé vers l'enquête complète.
-    <br>Si rien ne se passe : <a href="${escHTML(fluidURL)}">cliquez ici pour accéder au Blog des Vérités Cachées</a>.
-  </div>
-</body>
-</html>
-`;
+    return TEMPLATE
+        .replace(SEO_RE, () => head)
+        .replace(VIEWER_MARK, () => body);
 }
 
 let count = 0;
+// Même tri que le site : l'article le plus récent porte le bandeau « Breaking News »
+const sorted = articles.some(a => a.published)
+    ? [...articles].sort((a, b) => String(b.published || '').localeCompare(String(a.published || '')))
+    : articles;
+const latestId = sorted.length ? sorted[0].id : null;
+
 for (const art of articles) {
     if (!art.id) continue;
-    writeFileSync(`${OUT_DIR}/${art.id}.html`, buildPage(art));
+    writeFileSync(`${OUT_DIR}/${art.id}.html`, buildPage(art, art.id === latestId));
     count++;
 }
 

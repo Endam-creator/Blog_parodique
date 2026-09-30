@@ -3,6 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon carré (le chat à la loupe) - Google exige un favicon carré, multiple de 48px -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+    <link rel="apple-touch-icon" href="/favicon-192.png">
+    <link rel="shortcut icon" href="/favicon-96.png">
+
+    <!-- Flux RSS (généré automatiquement par la GitHub Action) -->
+    <link rel="alternate" type="application/rss+xml" title="Le Blog des Vérités Cachées" href="/feed.xml">
+
+    <!-- SEO:START (remplacé par generate_pages.mjs sur chaque page d'article) -->
     <title>Le Blog des Vérités Cachées - La voix de ceux qui savent</title>
     <meta name="description" content="Le Blog des Vérités Cachées : enquêtes apocryphes, interviews exclusives et révélations que personne ne vous demandait.">
 
@@ -17,15 +27,6 @@
     <meta property="og:image" content="https://les-verites-cachees.endam-digital.com/logo_chat_loupe.png">
     <meta name="twitter:card" content="summary">
 
-    <!-- Favicon carré (le chat à la loupe) - Google exige un favicon carré, multiple de 48px -->
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
-    <link rel="apple-touch-icon" href="favicon-192.png">
-    <link rel="shortcut icon" href="favicon-96.png">
-
-    <!-- Flux RSS (généré automatiquement par la GitHub Action) -->
-    <link rel="alternate" type="application/rss+xml" title="Le Blog des Vérités Cachées" href="feed.xml">
-
     <!-- Donnée structurée : indique à Google le nom du site (pour le fil d'Ariane des résultats) -->
     <script type="application/ld+json">
     {
@@ -36,6 +37,7 @@
       "url": "https://les-verites-cachees.endam-digital.com/"
     }
     </script>
+    <!-- SEO:END -->
 
     <style>
         :root {
@@ -1062,7 +1064,7 @@
     <!-- HEADER -->
     <header>
         <div class="logo-area" onclick="toggleStudio()" title="Console de l'Investigateur Anonyme">
-            <img src="logo_chat_loupe.png" alt="Logo - chat à la loupe" class="logo-img">
+            <img src="/logo_chat_loupe.png" alt="Logo - chat à la loupe" class="logo-img">
         </div>
         <div class="header-titles" onclick="displayHome()" title="Retour au dernier scoop">
             <h1>Le Blog des Vérités Cachées &ndash; <span class="slogan">*La voix de ceux qui savent*</span></h1>
@@ -1070,7 +1072,7 @@
         </div>
         <nav class="header-nav">
             <a href="https://les--verites--cachees-endam--digital-com.translate.goog/?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en" class="lang-link" target="_blank" rel="noopener" title="Read The Hidden Truths Blog in English">🇬🇧 EN</a>
-            <a href="boutique.html" class="boutique-link">🛒 Boutique</a>
+            <a href="/boutique.html" class="boutique-link">🛒 Boutique</a>
         </nav>
     </header>
 
@@ -1139,7 +1141,7 @@
 
     <!-- MAIN -->
     <div class="main-layout">
-        <div class="featured-story" id="articleViewer"></div>
+        <div class="featured-story" id="articleViewer"><!-- PRERENDER --></div>
         <div class="right-column">
             <div class="top-box" id="topBox" style="display:none;">
                 <div class="top-box-header">🏆 Le Top des Éveillés</div>
@@ -1155,7 +1157,7 @@
         <div class="rss-subscribe">
             <p class="rss-pitch">📡 Suivez le <strong>canal crypté</strong> dans votre lecteur de flux. Aucun email, aucune liste, aucune trace : le gouvernement ne saura jamais que vous nous lisez.</p>
             <div class="rss-actions">
-                <a href="feed.xml" class="btn-submit" title="Ouvrir le flux RSS">📡 Suivre le flux RSS</a>
+                <a href="/feed.xml" class="btn-submit" title="Ouvrir le flux RSS">📡 Suivre le flux RSS</a>
                 <button type="button" class="btn-secondary" onclick="copyRssLink()">🔗 Copier le lien du flux</button>
             </div>
         </div>
@@ -1163,7 +1165,7 @@
             <!-- ⚠️ Remplace les # par tes vrais liens de profil (X, Mastodon, etc.).
                  Par défaut : 𝕏 et 👁 partagent le site, ◎ pointe vers le flux RSS. -->
             <a id="socialX" href="#" target="_blank" rel="noopener" title="Partager sur X" style="color:inherit;text-decoration:none;">𝕏</a>
-            <a id="socialRss" href="feed.xml" title="Flux RSS - s'abonner au canal" style="color:inherit;text-decoration:none;">◎</a>
+            <a id="socialRss" href="/feed.xml" title="Flux RSS - s'abonner au canal" style="color:inherit;text-decoration:none;">◎</a>
             <a id="socialWatch" href="#toggle-goatcounter" title="Mode Investigateur (ne pas être compté)" style="color:inherit;text-decoration:none;">👁</a>
         </div>
         <div class="visit-counter" id="visitCounter" title="Compteur GoatCounter (sans cookies)"></div>
@@ -1173,9 +1175,9 @@
     <footer>
         <div class="footer-links">
             <a href="#" onclick="toggleStudio(); return false;">Témoignez (Anonymement) !</a>
-            <a href="apropos.html">À propos / L'Investigateur Anonyme</a>
-            <a href="boutique.html">Boutique</a>
-            <a href="feed.xml">Flux RSS</a>
+            <a href="/apropos.html">À propos / L'Investigateur Anonyme</a>
+            <a href="/boutique.html">Boutique</a>
+            <a href="/feed.xml">Flux RSS</a>
             <a href="#" onclick="alert('Toute ressemblance avec la réalité serait franchement inquiétante.'); return false;">Mentions (Pas très) Légales</a>
             <a href="https://endam-digital.com/">Un projet Endam Digital</a>
             <a href="https://endam-digital.com/soutenir/">Soutenir</a>
@@ -1269,10 +1271,12 @@ function latestId() { return articles.length > 0 ? articles[0].id : null; }
 // Cascade de chargement d'image : essaie le chemin tel quel, puis images/<nom>,
 // puis <nom> à la racine, et enfin le logo. Tolère les erreurs de dossier/chemin.
 function imgCandidates(raw) {
-    const fallback = 'logo_chat_loupe.png';
+    const fallback = '/logo_chat_loupe.png';
     if (!raw) return [fallback];
     const base = raw.split('/').pop();              // nom de fichier seul
-    const list = [raw, 'images/' + base, base, fallback];
+    // Chemins absolus : le site est aussi servi depuis /articles/<id>.html
+    const abs = /^(https?:|data:|\/)/.test(raw) ? raw : '/' + raw;
+    const list = [abs, '/images/' + base, '/' + base, fallback];
     // déduplique en gardant l'ordre
     return list.filter((v, i) => list.indexOf(v) === i);
 }
@@ -1348,22 +1352,22 @@ function refreshOpenArticleVotes() {
     if (downs) downs.textContent = t.down || 0;
 }
 
+// URL canonique d'un article : sa vraie page /articles/<id>.html
 function articleURL(id) {
-    return window.location.origin + window.location.pathname + '?article=' + encodeURIComponent(id);
+    return window.location.origin + '/articles/' + encodeURIComponent(id) + '.html';
 }
 
 // URL de PARTAGE : pointe vers la vraie page HTML (/articles/<id>.html),
 // pour que les aperçus sociaux (image + titre de l'enquête) soient corrects.
 function articleShareURL(id) {
-    const base = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
-    return base + 'articles/' + encodeURIComponent(id) + '.html';
+    return articleURL(id);
 }
 
 // --- CHARGEMENT + ROUTAGE PAR URL ---
 
 async function loadArticles() {
     try {
-        const resp = await fetch('articles.json?v=' + Date.now());
+        const resp = await fetch('/articles.json?v=' + Date.now());
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         articles = await resp.json();
     } catch (err) {
@@ -1391,8 +1395,10 @@ async function loadArticles() {
     loadVoteTotals(); // charge les vrais totaux partagés depuis l'API (asynchrone)
 
     // Routage : ?article=id dans l'URL → affichage direct de l'enquête (lien partageable)
+    // - page d'article générée : window.__ARTICLE_ID__ est injecté par generate_pages.mjs
+    // - ancien lien index.html?article=id : toujours accepté, l'URL bascule ensuite sur /articles/<id>.html
     const params = new URLSearchParams(window.location.search);
-    const wanted = params.get('article');
+    const wanted = window.__ARTICLE_ID__ || params.get('article');
     if (wanted && articles.some(a => a.id === wanted)) {
         displayArticle(wanted, true);
     } else {
@@ -1442,8 +1448,10 @@ function renderTop() {
 // --- ACCUEIL = DERNIER ARTICLE EN BREAKING NEWS ---
 
 function displayHome() {
+    // Depuis une page d'article, l'accueil est une autre page (balises SEO différentes)
+    if (window.__ARTICLE_ID__) { window.location.href = '/'; return; }
     draftArticles = [];
-    history.replaceState(null, '', window.location.pathname); // URL propre
+    history.replaceState(null, '', '/'); // URL propre
     const viewer = document.getElementById('articleViewer');
 
     if (articles.length === 0) {
@@ -1593,10 +1601,8 @@ function displayArticle(id, isArchive) {
 
     // URL partageable (sauf brouillons)
     if (!art._draft) {
-        const newURL = art.id === latestId()
-            ? window.location.pathname
-            : window.location.pathname + '?article=' + encodeURIComponent(art.id);
-        history.replaceState(null, '', newURL);
+        history.replaceState(null, '', '/articles/' + encodeURIComponent(art.id) + '.html');
+        document.title = art.title + ' | Le Blog des Vérités Cachées';
     }
 
     let interviewHTML = "";
@@ -1723,7 +1729,7 @@ function copyArticleLink(id) {
 }
 
 function copyRssLink() {
-    const url = window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'feed.xml';
+    const url = window.location.origin + '/feed.xml';
     navigator.clipboard.writeText(url)
         .then(() => alert('Lien du flux copié ! Collez-le dans votre lecteur RSS (Feedly, Inoreader...). 📡\n' + url))
         .catch(() => prompt('Copiez le lien du flux manuellement :', url));
@@ -2085,7 +2091,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Lien "Partager sur X" du pied de page → partage le site
     const sx = document.getElementById('socialX');
     if (sx) {
-        const siteUrl = window.location.origin + window.location.pathname;
+        const siteUrl = window.location.origin + '/';
         sx.href = 'https://twitter.com/intent/tweet?text=' +
             encodeURIComponent('Le Blog des Vérités Cachées — La voix de ceux qui savent') +
             '&url=' + encodeURIComponent(siteUrl);

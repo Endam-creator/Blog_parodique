@@ -5,6 +5,7 @@ on:
     branches: [main, master]
     paths:
       - 'articles.json'
+      - 'index.html'
       - '.github/scripts/generate_feed.mjs'
       - '.github/scripts/generate_pages.mjs'
       - '.github/scripts/generate_og_images.mjs'
