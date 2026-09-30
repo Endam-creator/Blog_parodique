@@ -60,6 +60,9 @@ function buildPage(art) {
     const fluidURL = `${SITE}/?article=${encodeURIComponent(art.id)}`;
     const imgPath = resolveImg(art.img);
     const imgAbs = imgPath.startsWith('http') ? imgPath : `${SITE}/${imgPath.replace(/^\/+/, '')}`;
+    // Aperçu de partage tamponné « PARODIE » (généré par generate_og_images.mjs), sinon image d'origine
+    const ogPath = `images/og/${art.id}.jpg`;
+    const ogAbs = existsSync(ogPath) ? `${SITE}/${ogPath}` : imgAbs;
     const desc = art.desc || (art.intro || '').slice(0, 200);
     // Mention parodie dans tout ce qui circule hors du site (aperçus X, WhatsApp, Google...)
     const shareDesc = '🎭 Parodie : ' + desc;
@@ -95,11 +98,13 @@ function buildPage(art) {
 <meta property="og:title" content="${escHTML(shareTitle)}">
 <meta property="og:description" content="${escHTML(shareDesc)}">
 <meta property="og:url" content="${canonical}">
-<meta property="og:image" content="${imgAbs}">
+<meta property="og:image" content="${ogAbs}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escHTML(shareTitle)}">
 <meta name="twitter:description" content="${escHTML(shareDesc)}">
-<meta name="twitter:image" content="${imgAbs}">
+<meta name="twitter:image" content="${ogAbs}">
 
 <!-- Données structurées (aide Google à comprendre que c'est un article) -->
 <script type="application/ld+json">
