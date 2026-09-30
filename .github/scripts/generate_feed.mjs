@@ -44,7 +44,7 @@ const items = articles.slice(0, 20).map(art => `    <item>
       <link>${SITE}/articles/${encodeURIComponent(art.id)}.html</link>
       <guid isPermaLink="true">${SITE}/articles/${encodeURIComponent(art.id)}.html</guid>
       <pubDate>${pubDate(art)}</pubDate>
-      <description>${escXML(art.desc || art.intro || '')}</description>
+      <description>${escXML('🎭 Parodie : ' + (art.desc || art.intro || ''))}</description>
     </item>`).join('\n');
 
 const rss = `<?xml version="1.0" encoding="UTF-8"?>

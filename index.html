@@ -457,6 +457,18 @@
             font-weight: bold;
         }
 
+        /* ===== MENTION PARODIE (sur chaque article) ===== */
+        .parody-banner {
+            background: #111;
+            color: #fff;
+            border-left: 5px solid var(--accent-green);
+            padding: 10px 14px;
+            margin: 14px 0;
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+        .parody-banner strong { color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.5px; }
+
         /* ===== BOUTONS DE PARTAGE ===== */
         .share-bar {
             display: flex;
@@ -1614,7 +1626,7 @@ function displayArticle(id, isArchive) {
     let voteHTML = '';
     if (!art._draft) {
         const url = articleShareURL(art.id);
-        const shareText = art.title;
+        const shareText = '🎭 [Parodie] ' + art.title;
 
         // Votes sur l'article principal
         const v = voteScore(art);
@@ -1652,6 +1664,7 @@ function displayArticle(id, isArchive) {
             '<div class="hero-title-overlay"><h2>' + esc(art.title) + '</h2></div>' +
             stampBig +
         '</div>' +
+        '<div class="parody-banner" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</div>' +
         '<div class="article-body">' +
             '<p>' + esc(art.intro) + '</p>' +
             interviewHTML +

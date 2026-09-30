@@ -61,6 +61,9 @@ function buildPage(art) {
     const imgPath = resolveImg(art.img);
     const imgAbs = imgPath.startsWith('http') ? imgPath : `${SITE}/${imgPath.replace(/^\/+/, '')}`;
     const desc = art.desc || (art.intro || '').slice(0, 200);
+    // Mention parodie dans tout ce qui circule hors du site (aperçus X, WhatsApp, Google...)
+    const shareDesc = '🎭 Parodie : ' + desc;
+    const shareTitle = art.title + ' (parodie)';
 
     // Interview en HTML
     let interviewHTML = '';
@@ -82,27 +85,27 @@ function buildPage(art) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escHTML(art.title)} | Le Blog des Vérités Cachées</title>
-<meta name="description" content="${escHTML(desc)}">
+<meta name="description" content="${escHTML(shareDesc)}">
 <link rel="canonical" href="${canonical}">
 <link rel="icon" type="image/png" href="${SITE}/logo_chat_loupe.png">
 
 <!-- Open Graph : aperçu de partage avec le titre et l'image de CETTE enquête -->
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Le Blog des Vérités Cachées">
-<meta property="og:title" content="${escHTML(art.title)}">
-<meta property="og:description" content="${escHTML(desc)}">
+<meta property="og:title" content="${escHTML(shareTitle)}">
+<meta property="og:description" content="${escHTML(shareDesc)}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${imgAbs}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${escHTML(art.title)}">
-<meta name="twitter:description" content="${escHTML(desc)}">
+<meta name="twitter:title" content="${escHTML(shareTitle)}">
+<meta name="twitter:description" content="${escHTML(shareDesc)}">
 <meta name="twitter:image" content="${imgAbs}">
 
 <!-- Données structurées (aide Google à comprendre que c'est un article) -->
 <script type="application/ld+json">
 ${JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "SatiricalArticle",
     "headline": art.title,
     "description": desc,
     "image": imgAbs,
@@ -127,6 +130,8 @@ ${JSON.stringify({
   .interview { background: #f7f7f2; border-left: 5px solid #76b900; padding: 14px; margin: 20px 0; }
   .interview h2 { font-family: 'Impact', sans-serif; text-transform: uppercase; font-size: 1.1rem; }
   .notice { background: #fff2a3; border: 2px dashed #a31515; padding: 14px; margin-top: 18px; font-weight: bold; }
+  .parody { background: #111; color: #fff; border-left: 5px solid #76b900; padding: 10px 14px; margin: 0 0 16px; }
+  .parody strong { color: #8ae000; text-transform: uppercase; }
   .redirect-note { margin-top: 24px; padding: 14px; background: #111; color: #76b900; text-align: center; }
   .redirect-note a { color: #8ae000; }
 </style>
@@ -139,6 +144,7 @@ ${JSON.stringify({
     Localisation : ${escHTML(art.location || '')}<br>
     Auteur : ${escHTML(art.author || "L'Investigateur Anonyme")}
   </div>
+  <p class="parody" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</p>
   <img class="hero" src="${escHTML(imgAbs)}" alt="${escHTML(art.title)}">
   <article>
     <p>${escHTML(art.intro || '')}</p>
