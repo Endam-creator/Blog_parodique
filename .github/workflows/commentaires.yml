@@ -1,0 +1,85 @@
+name: Déploiement des commentaires (Cloudflare Worker)
+
+# Déploie le Worker de commentaires (dossier commentaires/) sur Cloudflare,
+# puis écrit son adresse dans assets/comments-config.js pour que le site l'utilise.
+#
+# Secrets GitHub nécessaires (Settings → Secrets and variables → Actions) :
+#   CLOUDFLARE_API_TOKEN   jeton Cloudflare (modèle « Edit Cloudflare Workers »)
+#   CLOUDFLARE_ACCOUNT_ID  identifiant du compte Cloudflare
+#   COMMENTS_ADMIN_TOKEN   mot de passe de la page /outils/moderation.html
+#   DISCORD_WEBHOOK        (facultatif) notification Discord à chaque nouveau commentaire
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'commentaires/**'
+      - '.github/workflows/commentaires.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: commentaires
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      ADMIN_TOKEN: ${{ secrets.COMMENTS_ADMIN_TOKEN }}
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Vérification des secrets
+        id: check
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$ADMIN_TOKEN" ]; then
+            echo "::warning::Secrets manquants (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, COMMENTS_ADMIN_TOKEN) : déploiement ignoré."
+            echo "ok=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.check.outputs.ok == '1'
+        with:
+          node-version: '20'
+
+      - name: Déploiement du Worker
+        if: steps.check.outputs.ok == '1'
+        working-directory: commentaires
+        run: |
+          npx --yes wrangler@4 deploy 2>&1 | tee /tmp/deploy.log
+          URL=$(grep -oE 'https://[a-zA-Z0-9.-]+\.workers\.dev' /tmp/deploy.log | head -1)
+          if [ -z "$URL" ]; then echo "::error::Adresse du Worker introuvable dans la sortie de wrangler"; exit 1; fi
+          echo "URL=$URL" >> "$GITHUB_ENV"
+          echo "✅ Worker en ligne : $URL"
+
+      - name: Mots de passe et notifications
+        if: steps.check.outputs.ok == '1'
+        working-directory: commentaires
+        run: |
+          printf '%s' "$ADMIN_TOKEN" | npx --yes wrangler@4 secret put ADMIN_TOKEN
+          if [ -n "$DISCORD_WEBHOOK" ]; then
+            printf '%s' "$DISCORD_WEBHOOK" | npx --yes wrangler@4 secret put DISCORD_WEBHOOK
+          fi
+
+      - name: Inscription de l'adresse dans le site
+        if: steps.check.outputs.ok == '1'
+        run: |
+          printf '// Généré automatiquement au déploiement du Worker de commentaires (.github/workflows/commentaires.yml)\nwindow.COMMENTS_API = "%s";\n' "$URL" > assets/comments-config.js
+          git config user.name "L'Investigateur Automatique"
+          git config user.email "actions@github.com"
+          git add assets/comments-config.js
+          if git diff --cached --quiet; then
+            echo "Adresse inchangée."
+          else
+            git commit -m "🤖 Commentaires : adresse du service ($URL)"
+            git pull --rebase -q origin main
+            git push
+          fi

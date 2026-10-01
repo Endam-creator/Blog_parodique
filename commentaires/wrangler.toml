@@ -1,0 +1,18 @@
+# Worker de commentaires du Blog des Vérités Cachées
+# Déployé automatiquement par .github/workflows/commentaires.yml
+name = "verites-cachees-commentaires"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGINS = "https://les-verites-cachees.endam-digital.com"
+AUTO_APPROVE = "false"
+
+[[durable_objects.bindings]]
+name = "COMMENTS"
+class_name = "CommentStore"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["CommentStore"]

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Modération des témoignages — Console Investigateur</title>
+<link rel="icon" type="image/png" href="/favicon-96.png">
+<link rel="stylesheet" href="/assets/page.css">
+<style>
+  .login, .reply { border: 2px solid #111; padding: 14px; margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .login input, .reply input, .reply textarea, .reply select { font: inherit; padding: 8px 10px; border: 2px solid #111; flex: 1 1 220px; }
+  .reply textarea { flex-basis: 100%; min-height: 70px; }
+  .btn { background: #111; color: var(--accent-green); border: 2px solid var(--accent-green); padding: 9px 16px; font-weight: bold; cursor: pointer; }
+  .btn:hover { background: var(--accent-green); color: #111; }
+  .btn.ok { background: var(--accent-green); color: #111; }
+  .btn.del { border-color: var(--danger-red); color: var(--danger-red); background: #fff; }
+  .btn.del:hover { background: var(--danger-red); color: #fff; }
+  .tabs { margin-bottom: 12px; }
+  .item { border: 2px solid #111; padding: 12px 14px; margin-bottom: 12px; background: #fff; }
+  .item.admin { border-color: var(--accent-green); background: #eef6e2; }
+  .item .meta { font-family: monospace; font-size: .78rem; color: #555; margin-bottom: 6px; }
+  .item .body { white-space: pre-wrap; line-height: 1.5; margin-bottom: 10px; overflow-wrap: anywhere; }
+  .item .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+  #status { min-height: 1.3em; font-weight: bold; margin-bottom: 10px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="container" style="max-width:900px">
+  <header><a href="/"><img src="/logo_chat_loupe.png" alt=""><h1>Modération<br><span class="slogan">Témoignages des Éveillés</span></h1></a></header>
+  <div class="content">
+    <div id="status" role="status"></div>
+
+    <form class="login" id="login">
+      <input type="password" id="token" placeholder="Mot de passe de modération (ADMIN_TOKEN)" autocomplete="current-password" required>
+      <button class="btn" type="submit">🔓 Se connecter</button>
+    </form>
+
+    <div id="panel" class="hidden">
+      <div class="chip-row tabs">
+        <a href="#" class="chip active" data-tab="pending">⏳ En attente <span id="nPending"></span></a>
+        <a href="#" class="chip" data-tab="approved">✅ Publiés</a>
+        <a href="#" class="chip" id="logout">🔒 Se déconnecter</a>
+      </div>
+      <div id="list"></div>
+
+      <h2>Répondre au nom de la Rédaction</h2>
+      <form class="reply" id="reply">
+        <select id="replyPage" required></select>
+        <textarea id="replyBody" placeholder="La réponse est publiée immédiatement, signée « La Rédaction »." required></textarea>
+        <button class="btn ok" type="submit">📡 Publier la réponse</button>
+      </form>
+    </div>
+  </div>
+  <div class="back-bar"><a class="back-link" href="/">← Retour au blog</a></div>
+</div>
+
+<script src="/assets/comments-config.js"></script>
+<script>
+const API = (window.COMMENTS_API || '').replace(/\/+$/, '');
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let token = '';
+try { token = sessionStorage.getItem('mod_token') || ''; } catch (e) {}
+let tab = 'pending';
+let titles = {};
+
+function setStatus(t, err) { $('status').textContent = t; $('status').style.color = err ? '#a31515' : '#3d6b00'; }
+
+async function api(path, opts = {}) {
+  const r = await fetch(API + path, { ...opts, headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token, ...(opts.headers || {}) } });
+  if (r.status === 401) { logout(); throw new Error('Mot de passe incorrect.'); }
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || ('Erreur HTTP ' + r.status));
+  return d;
+}
+
+async function loadTitles() {
+  try {
+    const list = await (await fetch('/articles.json?v=' + Date.now())).json();
+    list.sort((a, b) => String(b.published || '').localeCompare(String(a.published || '')));
+    titles = Object.fromEntries(list.map(a => [a.id, a.title]));
+    $('replyPage').innerHTML = list.map(a => '<option value="' + esc(a.id) + '">' + esc(a.title.slice(0, 90)) + '</option>').join('');
+  } catch (e) {}
+}
+
+async function load() {
+  $('list').innerHTML = 'Chargement…';
+  try {
+    const [{ comments }, pend] = await Promise.all([
+      api('/admin/comments?status=' + tab),
+      tab === 'pending' ? Promise.resolve(null) : api('/admin/comments?status=pending')
+    ]);
+    $('nPending').textContent = '(' + (tab === 'pending' ? comments.length : pend.comments.length) + ')';
+    $('list').innerHTML = comments.length ? comments.map(c =>
+      '<div class="item' + (c.is_admin ? ' admin' : '') + '" data-id="' + c.id + '">' +
+        '<div class="meta">#' + c.id + ' · ' + new Date(c.created).toLocaleString('fr-FR') + ' · <a href="/articles/' + encodeURIComponent(c.page) + '.html" target="_blank">' + esc(titles[c.page] || c.page) + '</a></div>' +
+        '<div><strong>' + esc(c.name) + '</strong></div>' +
+        '<div class="body">' + esc(c.body) + '</div>' +
+        '<div class="acts">' +
+          (c.status === 'pending' ? '<button class="btn ok" data-act="approve">✅ Publier</button>' : '') +
+          '<button class="btn del" data-act="delete">🗑 Supprimer</button>' +
+        '</div></div>').join('')
+      : '<p>' + (tab === 'pending' ? 'Aucun témoignage en attente. 🕵️' : 'Aucun témoignage publié.') + '</p>';
+  } catch (e) { setStatus(e.message, true); $('list').innerHTML = ''; }
+}
+
+$('list').addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const item = b.closest('.item'); const id = parseInt(item.dataset.id, 10);
+  if (b.dataset.act === 'delete' && !confirm('Supprimer définitivement ce témoignage ?')) return;
+  b.disabled = true;
+  try {
+    await api('/admin/moderate', { method: 'POST', body: JSON.stringify({ id, action: b.dataset.act }) });
+    setStatus(b.dataset.act === 'approve' ? 'Témoignage publié.' : 'Témoignage supprimé.');
+    load();
+  } catch (err) { setStatus(err.message, true); b.disabled = false; }
+});
+
+document.querySelectorAll('[data-tab]').forEach(t => t.addEventListener('click', e => {
+  e.preventDefault(); tab = t.dataset.tab;
+  document.querySelectorAll('[data-tab]').forEach(x => x.classList.toggle('active', x === t));
+  load();
+}));
+
+$('reply').addEventListener('submit', async e => {
+  e.preventDefault();
+  try {
+    await api('/admin/reply', { method: 'POST', body: JSON.stringify({ page: $('replyPage').value, body: $('replyBody').value }) });
+    $('replyBody').value = ''; setStatus('Réponse de la Rédaction publiée.');
+    if (tab === 'approved') load();
+  } catch (err) { setStatus(err.message, true); }
+});
+
+function logout() {
+  token = ''; try { sessionStorage.removeItem('mod_token'); } catch (e) {}
+  $('panel').classList.add('hidden'); $('login').classList.remove('hidden');
+}
+$('logout').addEventListener('click', e => { e.preventDefault(); logout(); setStatus('Déconnecté.'); });
+
+async function start() {
+  $('login').classList.add('hidden'); $('panel').classList.remove('hidden');
+  await loadTitles(); load();
+}
+$('login').addEventListener('submit', async e => {
+  e.preventDefault(); token = $('token').value.trim();
+  try { await api('/admin/comments?status=pending'); } catch (err) { setStatus(err.message, true); return; }
+  try { sessionStorage.setItem('mod_token', token); } catch (e) {}
+  setStatus(''); start();
+});
+
+if (!API) { setStatus('Le service de commentaires n\'est pas encore déployé (assets/comments-config.js vide).', true); $('login').classList.add('hidden'); }
+else if (token) start();
+</script>
+</body>
+</html>

@@ -12,13 +12,10 @@
 // → vos visites depuis ce navigateur ne seront plus comptées. Re-visitez la même URL pour réactiver.
 const GOATCOUNTER_CODE = "endam-digital";   // ex: "veritescachees"
 
-// Commentaires Cusdis (gratuit, sans inscription des visiteurs, sans compte GitHub) :
-// 1. Créez un compte gratuit sur https://cusdis.com
-// 2. Ajoutez un site ("Add new website") → Cusdis vous donne un "App ID" (un UUID)
-// 3. Collez cet App ID ci-dessous. Laissez vide pour désactiver les commentaires.
-// Les visiteurs commentent avec un simple pseudo. Vous validez/supprimez les
-// commentaires depuis votre tableau de bord Cusdis (et par email).
-const CUSDIS_APP_ID = "804824ac-4fc7-4325-9f8c-7f7666f90117";   // ex: "a1b2c3d4-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+// Commentaires : Worker Cloudflare maison (dossier commentaires/ du dépôt).
+// L'adresse de l'API est écrite automatiquement dans /assets/comments-config.js au déploiement.
+// Vide = commentaires désactivés.
+const COMMENTS_API = (window.COMMENTS_API || '').replace(/\/+$/, '');
 
 const FEED_PAGE_SIZE = 5;      // nb d'enquêtes par "page" dans le fil
 const TOP_SIZE = 3;            // nb d'enquêtes dans le Top
@@ -593,27 +590,7 @@ function displayArticle(id, isArchive) {
         });
     });
 
-    // Commentaires Cusdis (si configurés, hors brouillons)
-    if (CUSDIS_APP_ID) {
-        const zone = document.getElementById('commentsZone');
-        zone.innerHTML = '<h3>💬 Témoignages des Éveillés</h3>' +
-            '<div id="cusdis_thread" ' +
-                'data-host="https://cusdis.com" ' +
-                'data-app-id="' + esc(CUSDIS_APP_ID) + '" ' +
-                'data-page-id="' + esc(art.id) + '" ' +
-                'data-page-url="' + esc(articleURL(art.id)) + '" ' +
-                'data-page-title="' + esc(art.title) + '"></div>';
-        // (Re)charge le script Cusdis et force le rendu du fil courant
-        if (window.CUSDIS && typeof window.CUSDIS.initial === 'function') {
-            window.CUSDIS.initial();
-        } else {
-            const s = document.createElement('script');
-            s.async = true;
-            s.defer = true;
-            s.src = 'https://cusdis.com/js/cusdis.es.js';
-            document.body.appendChild(s);
-        }
-    }
+    loadComments(art);
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -630,6 +607,86 @@ function copyRssLink() {
     navigator.clipboard.writeText(url)
         .then(() => alert('Lien du flux copié ! Collez-le dans votre lecteur RSS (Feedly, Inoreader...). 📡\n' + url))
         .catch(() => prompt('Copiez le lien du flux manuellement :', url));
+}
+
+// --- COMMENTAIRES (« Témoignages des Éveillés ») ---
+
+function formatCommentDate(ms) {
+    return new Date(ms).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function commentHTML(c) {
+    return '<div class="comment' + (c.is_admin ? ' comment-admin' : '') + '">' +
+        '<div class="comment-head"><strong>' + esc(c.name) + '</strong>' +
+        (c.is_admin ? ' <span class="comment-badge">✔ Rédaction</span>' : '') +
+        '<span class="comment-date">' + formatCommentDate(c.created) + '</span></div>' +
+        '<div class="comment-body">' + esc(c.body).replace(/\n/g, '<br>') + '</div></div>';
+}
+
+async function loadComments(art) {
+    const zone = document.getElementById('commentsZone');
+    if (!zone || !COMMENTS_API) return;
+    const savedName = (() => { try { return localStorage.getItem('comment_name') || ''; } catch (e) { return ''; } })();
+    zone.innerHTML =
+        '<h3>💬 Témoignages des Éveillés</h3>' +
+        '<div class="comment-list" id="commentList"><p class="comment-empty">Chargement des témoignages…</p></div>' +
+        '<form class="comment-form" id="commentForm" novalidate>' +
+            '<label for="cName">Pseudo</label>' +
+            '<input id="cName" name="name" maxlength="40" required autocomplete="nickname" placeholder="Ex : Un citoyen éveillé" value="' + esc(savedName) + '">' +
+            '<label for="cBody">Votre témoignage</label>' +
+            '<textarea id="cBody" name="body" maxlength="2000" required rows="4" placeholder="Vous aussi, vous avez remarqué quelque chose ?"></textarea>' +
+            // Piège à robots : invisible pour les humains
+            '<div class="hp" aria-hidden="true"><label>Site web <input name="website" tabindex="-1" autocomplete="off"></label></div>' +
+            '<div class="comment-actions"><button type="submit" class="btn-submit">📡 Transmettre</button>' +
+            '<span class="comment-note">Témoignages relus par la Rédaction avant publication.</span></div>' +
+            '<p class="comment-msg" id="commentMsg" role="status"></p>' +
+        '</form>';
+
+    const list = document.getElementById('commentList');
+    try {
+        const r = await fetch(COMMENTS_API + '/comments?page=' + encodeURIComponent(art.id), { signal: AbortSignal.timeout(8000) });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const { comments } = await r.json();
+        list.innerHTML = comments.length
+            ? comments.map(commentHTML).join('')
+            : '<p class="comment-empty">Aucun témoignage pour l\'instant. Soyez le premier à briser le silence.</p>';
+    } catch (e) {
+        list.innerHTML = '<p class="comment-empty">Les témoignages sont momentanément brouillés. Réessayez plus tard.</p>';
+    }
+
+    const form = document.getElementById('commentForm');
+    const msg = document.getElementById('commentMsg');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const f = form.elements;
+        const name = f.namedItem('name').value.trim(), body = f.namedItem('body').value.trim();
+        if (name.length < 2) { msg.textContent = 'Pseudo trop court (2 caractères minimum).'; msg.className = 'comment-msg err'; return; }
+        if (body.length < 3) { msg.textContent = 'Votre témoignage est un peu court.'; msg.className = 'comment-msg err'; return; }
+        const btn = form.querySelector('button'); btn.disabled = true;
+        msg.textContent = 'Transmission cryptée en cours…'; msg.className = 'comment-msg';
+        try {
+            const r = await fetch(COMMENTS_API + '/comments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page: art.id, name, body, website: f.namedItem('website').value }),
+                signal: AbortSignal.timeout(10000)
+            });
+            const d = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(d.error || 'Échec de la transmission.');
+            try { localStorage.setItem('comment_name', name); } catch (err) {}
+            f.namedItem('body').value = '';
+            msg.textContent = d.status === 'approved'
+                ? '✅ Témoignage publié. ILS vont adorer.'
+                : '✅ Témoignage reçu ! Il sera publié après vérification par la Rédaction.';
+            msg.className = 'comment-msg ok';
+            if (d.status === 'approved') loadComments(art);
+        } catch (err) {
+            msg.textContent = '⚠️ ' + (err.name === 'TimeoutError' ? 'La transmission a été interceptée. Réessayez.' : err.message);
+            msg.className = 'comment-msg err';
+        } finally {
+            btn.disabled = false;
+        }
+    });
 }
 
 // --- VOTES PARTAGÉS (compteurs en ligne, communs à tous les visiteurs) ---
