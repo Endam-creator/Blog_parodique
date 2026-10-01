@@ -71,6 +71,16 @@ function highlightTitle(title) {
     return '<span class="hl">' + esc(head) + '</span>' + esc(tail);
 }
 
+// Date affichée : champ « date » si rempli, sinon calculée depuis « published » (AAAA-MM-JJ)
+function displayDate(art) {
+    if (art.date) return art.date;
+    if (!art.published) return '';
+    const d = new Date(art.published + 'T12:00:00');
+    if (isNaN(d)) return art.published;
+    const str = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 function todayFR() {
     const d = new Date();
     const str = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
@@ -475,7 +485,7 @@ function displayArticle(id, isArchive) {
     viewer.innerHTML =
         '<div class="meta-data">' +
             'LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>' +
-            'Date de publication : ' + esc(art.date) + '<br>' +
+            'Date de publication : ' + esc(displayDate(art)) + '<br>' +
             'Localisation : ' + esc(art.location) + '<br>' +
             'Auteur : ' + esc(art.author) +
         '</div>' +

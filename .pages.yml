@@ -1,0 +1,95 @@
+# Configuration Pages CMS — https://app.pagescms.org
+# Éditeur visuel des enquêtes : chaque enregistrement fait un commit sur articles.json,
+# puis la GitHub Action valide le fichier et régénère pages, RSS, sitemap, WebP et aperçus.
+
+media:
+  input: images
+  output: /images
+  categories: [image]
+  extensions: [jpg, jpeg, png, webp]
+  rename: safe
+
+content:
+  - name: enquetes
+    label: 🕵️ Enquêtes
+    type: file
+    path: articles.json
+    format: json
+    list:
+      collapsible:
+        collapsed: true
+        summary: "{published} — {title}"
+    fields:
+      - name: id
+        label: Identifiant (généré automatiquement)
+        type: uuid
+        required: true
+        options:
+          editable: false
+          generate: false
+
+      - name: published
+        label: Date de publication (sert au tri, au RSS et au sitemap)
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+
+      - name: title
+        label: Titre de l'enquête
+        type: string
+        required: true
+
+      - name: desc
+        label: Résumé court (fil d'actualités + aperçus de partage, 1-2 phrases)
+        type: text
+        required: true
+
+      - name: img
+        label: Image d'illustration
+        type: image
+        options:
+          rename: safe
+
+      - name: classified
+        label: Tampon CLASSIFIED
+        type: boolean
+        default: false
+
+      - name: location
+        label: Localisation
+        type: string
+
+      - name: author
+        label: Auteur
+        type: string
+        default: L'Investigateur Anonyme
+
+      - name: date
+        label: Date affichée (facultatif — laissé vide, elle est calculée à partir de la date de publication)
+        type: string
+        default: ""
+
+      - name: intro
+        label: Chapô / introduction
+        type: text
+        required: true
+
+      - name: interview
+        label: Interview exclusive
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "Q{index} — {q}"
+        fields:
+          - name: q
+            label: Question
+            type: text
+          - name: a
+            label: Réponse
+            type: text
+
+      - name: notice
+        label: ⚠️ L'avis de la Rédaction
+        type: text
