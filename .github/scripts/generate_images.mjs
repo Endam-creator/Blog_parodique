@@ -1,15 +1,40 @@
-// Génère une image d'aperçu de partage (1200x630) par article dans images/og/<id>.jpg,
+// 1) Versions WebP légères de chaque photo (images/webp/<nom>.webp), affichées par le site.
+//    Les originaux restent en place et servent de secours si le WebP manque.
+// 2) Une image d'aperçu de partage (1200x630) par article dans images/og/<id>.jpg,
 // avec un tampon « PARODIE · 100 % INVENTÉ » incrusté.
 // Objectif : que l'aperçu affiché par X, WhatsApp, Telegram, Facebook… reste
 // identifiable comme satire, même capturé ou repartagé sans le texte.
 // Les photos originales (images/*.jpg) ne sont pas modifiées : le site les affiche telles quelles.
-import { readFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
+import { readFileSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
 import sharp from 'sharp';
 
 const W = 1200, H = 630;
 const OUT_DIR = 'images/og';
 
 const articles = JSON.parse(readFileSync('articles.json', 'utf8'));
+
+// --- 1) WebP ---
+const WEBP_DIR = 'images/webp';
+if (!existsSync(WEBP_DIR)) mkdirSync(WEBP_DIR, { recursive: true });
+const sources = readdirSync('images').filter(f => /\.(jpe?g|png)$/i.test(f));
+const wanted = new Set(sources.map(f => f.replace(/\.[^.]+$/, '.webp')));
+for (const f of readdirSync(WEBP_DIR)) {
+    if (!wanted.has(f)) { rmSync(`${WEBP_DIR}/${f}`); console.log('WebP obsolète supprimé : ' + f); }
+}
+let webpCount = 0;
+for (const f of sources) {
+    const out = `${WEBP_DIR}/${f.replace(/\.[^.]+$/, '.webp')}`;
+    // Ne régénère que si l'original est plus récent (ou si le WebP n'existe pas)
+    if (existsSync(out) && statSync(out).mtimeMs >= statSync(`images/${f}`).mtimeMs) continue;
+    await sharp(`images/${f}`)
+        .resize({ width: 1200, withoutEnlargement: true })
+        .webp({ quality: 72, effort: 6 })
+        .toFile(out);
+    webpCount++;
+}
+console.log(`${webpCount} WebP (re)généré(s) dans ${WEBP_DIR}/`);
+
+// --- 2) Aperçus de partage ---
 if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
 
 // Nettoyage des aperçus d'articles supprimés

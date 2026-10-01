@@ -68,6 +68,14 @@ if (!SEO_RE.test(TEMPLATE) || !TEMPLATE.includes(VIEWER_MARK)) {
 
 const PARODY_NOTE = "<strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.";
 
+// <picture> : WebP allégé si disponible, image d'origine sinon
+function pictureTag(imgRel, alt) {
+    const webp = '/images/webp/' + imgRel.split('/').pop().replace(/\.[^.]+$/, '.webp');
+    const img = `<img src="${escHTML(imgRel)}" alt="${escHTML(alt)}" fetchpriority="high" decoding="async">`;
+    return existsSync(webp.slice(1)) && /\.(jpe?g|png)$/i.test(imgRel)
+        ? `<picture><source srcset="${escHTML(webp)}" type="image/webp">${img}</picture>` : img;
+}
+
 // --- Génération d'une page par article ---
 function buildPage(art, isLatest) {
     const canonical = `${SITE}/articles/${encodeURIComponent(art.id)}.html`;
@@ -129,7 +137,7 @@ function buildPage(art, isLatest) {
         `Localisation : ${escHTML(art.location || '')}<br>` +
         `Auteur : ${escHTML(art.author || "L'Investigateur Anonyme")}</div>` +
         banner +
-        `<div class="hero-visual"><img src="${escHTML(imgRel)}" alt="${escHTML(art.title)}">` +
+        `<div class="hero-visual">${pictureTag(imgRel, art.title)}` +
         `<div class="hero-title-overlay"><h2>${escHTML(art.title)}</h2></div>${stamp}</div>` +
         `<div class="parody-banner" role="note">${PARODY_NOTE}</div>` +
         `<div class="article-body"><p>${escHTML(art.intro || '')}</p>${interviewHTML}${noticeHTML}</div>`;

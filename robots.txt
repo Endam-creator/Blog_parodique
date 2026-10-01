@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /boutique.html
+Disallow: /outils/
 
-# ⚠️ Remplace VOTRE-DOMAINE.fr par ton vrai domaine (celui du fichier CNAME)
 Sitemap: https://les-verites-cachees.endam-digital.com/sitemap.xml

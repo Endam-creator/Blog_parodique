@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Réinitialisation des votes — Console Investigateur</title>
-<link rel="icon" type="image/png" href="logo_chat_loupe.png">
+<link rel="icon" type="image/png" href="/logo_chat_loupe.png">
 <style>
     :root { --accent-green: #76b900; --danger-red: #a31515; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
@@ -62,7 +62,7 @@
 
     <div class="log" id="log">Prêt.</div>
 
-    <a class="back" href="index.html">← Retour au Blog</a>
+    <a class="back" href="/">← Retour au Blog</a>
 
 <script>
 const VOTE_API = "https://countapi.mileshilliard.com/api/v1";
@@ -112,7 +112,7 @@ async function setZero(id, type) {
 async function loadAll() {
     log('Chargement des compteurs en ligne…');
     try {
-        const resp = await fetch('articles.json?v=' + Date.now());
+        const resp = await fetch('/articles.json?v=' + Date.now());
         articles = await resp.json();
     } catch (e) {
         document.getElementById('list').innerHTML = '<p style="color:#ff6b6b">Impossible de charger articles.json</p>';

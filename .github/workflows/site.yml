@@ -8,9 +8,10 @@ on:
       - 'index.html'
       - '.github/scripts/generate_feed.mjs'
       - '.github/scripts/generate_pages.mjs'
-      - '.github/scripts/generate_og_images.mjs'
+      - '.github/scripts/generate_images.mjs'
       - 'images/**'
       - '!images/og/**'
+      - '!images/webp/**'
       - '.github/workflows/site.yml'
   workflow_dispatch:
 
@@ -53,10 +54,10 @@ jobs:
       - name: Génération de feed.xml et sitemap.xml
         run: node .github/scripts/generate_feed.mjs
 
-      - name: Génération des aperçus de partage tamponnés « PARODIE »
+      - name: Génération des images WebP et des aperçus de partage tamponnés « PARODIE »
         run: |
           npm install --no-save --no-package-lock --silent sharp@0.34
-          node .github/scripts/generate_og_images.mjs
+          node .github/scripts/generate_images.mjs
 
       - name: Génération des pages HTML d'articles
         run: node .github/scripts/generate_pages.mjs
@@ -66,7 +67,7 @@ jobs:
         run: |
           git config user.name "L'Investigateur Automatique"
           git config user.email "actions@github.com"
-          git add feed.xml sitemap.xml articles/ images/og/
+          git add feed.xml sitemap.xml articles/ images/og/ images/webp/
           if git diff --cached --quiet; then
             echo "Rien à committer."
           else
