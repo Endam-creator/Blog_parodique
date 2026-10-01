@@ -18,7 +18,16 @@ on:
       - '!images/webp/**'
       - '!images/unes/**'
       - '.github/workflows/site.yml'
+      - '.github/scripts/**'
+  # Passage quotidien vers 7 h (heure de Paris) : publie les enquêtes programmées ce jour-là
+  schedule:
+    - cron: '7 5 * * *'
   workflow_dispatch:
+
+# Une seule génération à la fois (évite les conflits entre une publication et le passage quotidien)
+concurrency:
+  group: site
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -84,8 +93,14 @@ jobs:
       - name: Génération des pages HTML d'articles
         run: node .github/scripts/generate_pages.mjs
 
+      # ÉTAPE 2 bis : contrôle du site généré (images, pages, liens internes)
+      # En cas d'échec : pas de commit, le site en ligne reste inchangé, e-mail d'alerte GitHub.
+      - name: Contrôle avant mise en ligne
+        run: node .github/scripts/check_site.mjs
+
       # ÉTAPE 3 : commit automatique des fichiers générés
       - name: Commit des fichiers générés
+        id: commit
         run: |
           git config user.name "L'Investigateur Automatique"
           git config user.email "actions@github.com"
@@ -94,20 +109,21 @@ jobs:
             echo "Rien à committer."
           else
             git commit -m "🤖 Régénération auto : RSS, sitemap et pages d'articles"
+            git pull --rebase -q origin "${GITHUB_REF_NAME}"
             git push
+            echo "committed=1" >> "$GITHUB_OUTPUT"
           fi
 
       # ÉTAPE 4 : signalement IndexNow (Bing, Yandex, Seznam, Naver…)
       # On attend que GitHub Pages ait publié, puis on signale l'accueil,
       # le flux RSS et les pages des articles nouveaux ou modifiés.
       - name: Signalement IndexNow
+        if: steps.commit.outputs.committed == '1'
         continue-on-error: true
-        env:
-          BEFORE: ${{ github.event.before }}
         run: |
           sleep 90
-          git fetch -q --depth=1 origin "$BEFORE" 2>/dev/null || true
-          git show "$BEFORE:articles.json" > /tmp/avant.json 2>/dev/null || echo "[]" > /tmp/avant.json
+          # État d'avant = parent du commit automatique
+          git show "HEAD~1:articles.json" > /tmp/avant.json 2>/dev/null || echo "[]" > /tmp/avant.json
           node -e "
             const fs = require('fs');
             const HOST = 'les-verites-cachees.endam-digital.com';

@@ -64,7 +64,8 @@ writeFileSync('feed.xml', rss);
 console.log(`feed.xml généré (${articles.length} article(s), domaine: ${SITE})`);
 
 // --- sitemap.xml ---
-const today = new Date().toISOString().slice(0, 10);
+// lastmod de l'accueil = date de la dernière enquête (évite un commit quotidien inutile)
+const today = articles.map(a => a.published || '').sort().pop() || new Date().toISOString().slice(0, 10);
 const urls = [
     `  <url><loc>${SITE}/</loc><lastmod>${today}</lastmod></url>`,
     `  <url><loc>${SITE}/apropos.html</loc></url>`,

@@ -18,7 +18,7 @@ content:
     format: json
     filename: "{fields.id}.json"
     view:
-      fields: [title, rubrique, published]
+      fields: [title, rubrique, published, brouillon]
       primary: title
       sort: published
       order: desc
@@ -31,8 +31,13 @@ content:
           editable: false
           generate: false
 
+      - name: brouillon
+        label: ✏️ Brouillon (cochée = invisible sur le site)
+        type: boolean
+        default: false
+
       - name: published
-        label: Date de publication (sert au tri, au RSS et au sitemap)
+        label: Date de publication (une date future programme la mise en ligne ce jour-là, vers 7 h)
         type: date
         required: true
         options:
