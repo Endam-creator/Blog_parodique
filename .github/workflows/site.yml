@@ -5,6 +5,8 @@ on:
     branches: [main, master]
     paths:
       - 'articles.json'
+      - 'content/enquetes/**'
+      - '.github/scripts/sync_articles.mjs'
       - 'index.html'
       - '.github/scripts/generate_feed.mjs'
       - '.github/scripts/generate_pages.mjs'
@@ -31,6 +33,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      # ÉTAPE 0 : synchronisation content/enquetes/*.json (Pages CMS) ⇄ articles.json (site)
+      # Si seul articles.json a été modifié à la main → on le découpe en fichiers.
+      # Sinon → articles.json est reconstruit à partir des fichiers d'enquêtes.
+      - name: Synchronisation des enquêtes
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          CHANGED=$(git diff --name-only "$BEFORE" HEAD 2>/dev/null || echo "")
+          if echo "$CHANGED" | grep -q '^articles.json$' && ! echo "$CHANGED" | grep -q '^content/enquetes/'; then
+            node .github/scripts/sync_articles.mjs --import
+          else
+            node .github/scripts/sync_articles.mjs
+          fi
 
       # ÉTAPE 1 : validation de articles.json
       # Si le JSON est invalide (virgule en trop, guillemet oublié...),
@@ -67,7 +83,7 @@ jobs:
         run: |
           git config user.name "L'Investigateur Automatique"
           git config user.email "actions@github.com"
-          git add feed.xml sitemap.xml articles/ images/og/ images/webp/
+          git add articles.json content/enquetes/ feed.xml sitemap.xml articles/ images/og/ images/webp/
           if git diff --cached --quiet; then
             echo "Rien à committer."
           else

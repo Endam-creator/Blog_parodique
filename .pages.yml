@@ -1,6 +1,7 @@
 # Configuration Pages CMS — https://app.pagescms.org
-# Éditeur visuel des enquêtes : chaque enregistrement fait un commit sur articles.json,
-# puis la GitHub Action valide le fichier et régénère pages, RSS, sitemap, WebP et aperçus.
+# Une enquête = un fichier content/enquetes/<id>.json.
+# À chaque enregistrement, la GitHub Action reconstruit articles.json (lu par le site)
+# puis régénère pages, RSS, sitemap, images WebP et aperçus de partage.
 
 media:
   input: images
@@ -12,16 +13,18 @@ media:
 content:
   - name: enquetes
     label: 🕵️ Enquêtes
-    type: file
-    path: articles.json
+    type: collection
+    path: content/enquetes
     format: json
-    list:
-      collapsible:
-        collapsed: true
-        summary: "{published} — {title}"
+    filename: "{fields.id}.json"
+    view:
+      fields: [title, published]
+      primary: title
+      sort: published
+      order: desc
     fields:
       - name: id
-        label: Identifiant (généré automatiquement)
+        label: Identifiant (généré automatiquement, ne pas modifier)
         type: uuid
         required: true
         options:
@@ -66,7 +69,7 @@ content:
         default: L'Investigateur Anonyme
 
       - name: date
-        label: Date affichée (facultatif — laissé vide, elle est calculée à partir de la date de publication)
+        label: Date affichée (facultatif — vide = calculée depuis la date de publication)
         type: string
         default: ""
 

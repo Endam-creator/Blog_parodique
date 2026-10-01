@@ -1,6 +1,7 @@
 [
   {
     "id": "art-1789422528427",
+    "published": "2026-09-14",
     "title": "SCANDALE À LA PLENITUDE ARENA : « Ce n’est pas la vraie Céline Dion sur scène, c’est un clone biologique fabriqué en laboratoire ! »",
     "date": "Lundi 14 septembre 2026",
     "location": "Bar associatif, Porte de La Chapelle, Paris",
@@ -35,11 +36,11 @@
       }
     ],
     "notice": "Si, lors du prochain concert, la star que vous adorez semble ne jamais s'essouffler, si elle interagit avec le public en répétant exactement les mêmes phrases d'un soir à l'autre, ou si vous remarquez que ses empreintes digitales ont mystérieusement disparu des objets qu'elle touche, ne paniquez pas. Inutile de demander un test ADN au guichet ou d'essayer de lui arracher un cheveu pour le faire analyser. Applaudissez la performance biologique et laissez Big Entertainment rentabiliser son investissement.",
-    "classified": false,
-    "published": "2026-09-14"
+    "classified": false
   },
-  {  
+  {
     "id": "art-1787690746646",
+    "published": "2026-08-25",
     "title": "« Les faux policiers de Paris étaient de vrais agents de l'État : comment le gouvernement vole vos Bitcoins »",
     "date": "Mardi 25 août 2026",
     "location": "Paris, Île-de-France",
@@ -70,11 +71,11 @@
       }
     ],
     "notice": "La prochaine fois que vous lirez dans le journal qu'un influenceur crypto s'est fait \"saucissonner\" par des cambrioleurs amateurs, regardez bien qui récupère les fonds à la fin. Les impôts sont la méthode douce de l'État pour se financer ; ce genre de \"fait divers\" est leur méthode forte. Gardez vos Ledger dans des coffres physiques et ne faites jamais confiance aux uniformes.",
-    "classified": true,
-    "published": "2026-08-25"
+    "classified": true
   },
   {
     "id": "art-1785698731156",
+    "published": "2026-08-02",
     "title": "« Il n'y a pas de crise migratoire, ce sont des figurants payés au SMIC par le lobby européen de la vidéosurveillance ! »",
     "date": "Dimanche 2 août 2026",
     "location": "Algésiras, Andalousie",
@@ -105,11 +106,11 @@
       }
     ],
     "notice": "Si, en regardant un reportage dramatique sur une crise géopolitique, vous remarquez qu'un des figurants au second plan recrache son eau salée pour boire une gorgée de boisson énergisante, ne paniquez pas. Inutile d'appeler le CSA ou d'exiger de voir le générique de fin de l'actualité. Éteignez votre téléviseur discrètement, lisez le Journal Officiel des marchés publics, et laissez le complexe militaro-industriel tourner ses scènes en paix.",
-    "classified": false,
-    "published": "2026-08-02"
+    "classified": false
   },
   {
     "id": "art-1785011830622",
+    "published": "2026-07-25",
     "title": "Oubliez les antennes 6G, les incendies sont des défrichages express commandités pour installer les Data Centers de l'Intelligence Artificielle !",
     "date": "Samedi 25 juillet 2026",
     "location": "Saint Germain en Laye, Yvelines",
@@ -144,11 +145,11 @@
       }
     ],
     "notice": "Si, lors de votre prochaine balade en lisière d'une zone incendiée, vous apercevez un immense hangar sans fenêtres pousser miraculeusement sous les cendres, ou si une souche calcinée vous demande de valider un Captcha pour prouver que vous n'êtes pas un robot avant de ramasser un champignon, gardez votre calme. Inutile d'attaquer les câbles apparents avec un opinel ou de menacer les écureuils de piratage informatique. Rebroussez chemin discrètement, videz le cache de votre navigateur, et laissez l'intelligence artificielle s'étendre en paix.",
-    "classified": true,
-    "published": "2026-07-25"
+    "classified": true
   },
   {
     "id": "art-1784838213511",
+    "published": "2026-07-23",
     "title": "« J'ai posé un niveau à bulle sur mon canapé à Auxerre, et j'ai prouvé que la Terre est plate »",
     "date": "Jeudi 23 juillet 2026",
     "location": "Auxerre, Yonne",
@@ -179,11 +180,11 @@
       }
     ],
     "notice": "La prochaine fois que vous ferez une randonnée, n'oubliez pas d'emporter un niveau à bulle. Si la bulle reste bien au milieu du tube du début à la fin de votre marche, posez-vous les bonnes questions. L'horizon porte bien son nom : il est horizontal.",
-    "classified": false,
-    "published": "2026-07-23"
+    "classified": false
   },
   {
     "id": "art-1784216050840",
+    "published": "2026-07-16",
     "title": "« Le réchauffement climatique a bon dos, j'ai vu la carte mère du pin parasol s'enflammer de mes propres yeux ! »",
     "date": "Jeudi 16 juillet 2026",
     "location": "La Teste-de-Buch, Gironde",
@@ -214,11 +215,11 @@
       }
     ],
     "notice": "Si vous vous promenez en forêt cet été et que vous remarquez qu'un sanglier semble chercher un réseau Wi-Fi avec son groin, ou qu'un arbre émet une douce sonnerie de notification, ne paniquez pas. Inutile de brancher votre smartphone sur les racines ou de jeter un seau d'eau déminéralisée sur les branches. Éloignez-vous discrètement, mettez votre téléphone en mode avion, et laissez la sylviculture 2.0 brûler en paix.",
-    "classified": true,
-    "published": "2026-07-16"
+    "classified": true
   },
   {
     "id": "art-1784155068111",
+    "published": "2026-07-15",
     "title": "Le penalty provoqué par Digne à la 20e minute n’avait rien d'une erreur défensive",
     "date": "Jeudi 16 juillet 2026",
     "location": "Bondy,Seine-Saint-Denis",
@@ -249,11 +250,11 @@
       }
     ],
     "notice": "Si vous remarquez que votre équipe favorite perd inexplicablement et que votre voisin fait brûler de la sauge en regardant l'arbitre de touche, ne paniquez pas. Inutile de jeter du gros sel sur votre écran plat ou d'envoyer un chèque à un inconnu pour \"désenvoûter votre abonnement BeIN Sports\". Éteignez la télé discrètement, prenez une tisane, et laissez le football se reposer en paix.",
-    "classified": false,
-    "published": "2026-07-15"
+    "classified": false
   },
   {
     "id": "art-1783531260082",
+    "published": "2026-07-08",
     "title": "Je possède le don de télékinésie, mais uniquement quand je suis en plein cauchemar (et mon appartement est dévasté)",
     "date": "Mercredi 8 juillet 2026",
     "location": "Melun, Seine et Marne",
@@ -288,11 +289,11 @@
       }
     ],
     "notice": "Si vous vous réveillez avec des objets qui flottent au-dessus de votre lit, ne paniquez pas, cela augmenterait leur vitesse de rotation. Respirez calmement, pensez à des choses lourdes comme des enclumes ou des impôts impayés, et attendez que la gravité reprenne ses droits.",
-    "classified": false,
-    "published": "2026-07-08"
+    "classified": false
   },
   {
     "id": "art-1781820756657",
+    "published": "2026-06-18",
     "title": "J'ai acheté un t-shirt maudit sur Vinted, depuis je perds systématiquement à Pierre-Feuille-Ciseaux",
     "date": "Jeudi 18 juin 2026",
     "location": "Boulogne-sur-Mer, Pas-de-Calais",
@@ -327,11 +328,11 @@
       }
     ],
     "notice": "Si vous sentez que votre vie sociale s'effondre après l'achat d'un vêtement de seconde main, faites le test de la \"courte paille\". Si vous tirez la petite paille trois fois de suite, enfermez le vêtement dans un sac de congélation avec du gros sel marin, et supprimez vos applications de livraison de repas.",
-    "classified": false,
-    "published": "2026-06-18"
+    "classified": false
   },
   {
     "id": "art-1781732936796",
+    "published": "2026-06-17",
     "title": "« L'intelligence artificielle de Spotify essaie de me faire divorcer (et elle a de solides arguments) »",
     "date": "Mercredi 17 juin 2026",
     "location": "Serris, Île-de-France",
@@ -366,11 +367,11 @@
       }
     ],
     "notice": "Vérifiez vos playlists de nettoyage de printemps. Si des titres comme Thank U, Next d'Ariana Grande ou Hit The Road Jack apparaissent sans raison apparente entre deux chansons de Céline Dion, désactivez immédiatement le Wi-Fi. Votre routeur complote peut-être avec vos enceintes connectées.",
-    "classified": false,
-    "published": "2026-06-17"
+    "classified": false
   },
   {
     "id": "art-1781557971041",
+    "published": "2026-06-15",
     "title": "« Je suis télépathe, mais je ne capte que les pensées des gens qui s'ennuient dans le métro »",
     "date": "Lundi 15 juin 2026",
     "location": "Paris, Ligne 7 du metro",
@@ -401,11 +402,11 @@
       }
     ],
     "notice": "Si vous prenez les transports en commun parisiens, ayez pitié des télépathes de proximité. Essayez de penser à des choses structurées : résolvez un théorème mathématique, récitez des poèmes de Baudelaire ou imaginez des intrigues de films d'espionnage. Épargnez-leur vos angoisses sur le lisseur mal éteint.",
-    "classified": false,
-    "published": "2026-06-15"
+    "classified": false
   },
   {
     "id": "art-1781392895334",
+    "published": "2026-06-13",
     "title": "Le gouvernement a remplacé mon mari par un clone (et le nouveau fait la vaisselle)",
     "date": "Dimanche 14 juin 2026",
     "location": "Achères, Île-de-France",
@@ -440,11 +441,11 @@
       }
     ],
     "notice": "Si vous apercevez le véritable Jean-Marc (signes distinctifs : porte un jogging délavé du PSG, sent le déodorant Ushuaïa et répond \"Hmm\" à toute question complexe), merci de contacter la rédaction. Ne l'approchez pas avec une éponge, il pourrait prendre peur.",
-    "classified": true,
-    "published": "2026-06-13"
+    "classified": true
   },
   {
     "id": "art-medium",
+    "published": "2026-06-07",
     "title": "INVESTIGATION TRANSFRONTALIÈRE : « Oubliez les lignes de la main : la vérité sur votre avenir est écrite sur vos fessiers, selon ce médium allemand »",
     "date": "Dimanche 7 juin 2026",
     "location": "International (Enquête en Rhénanie-du-Nord-Westphalie)",
@@ -471,7 +472,6 @@
       }
     ],
     "notice": "La prochaine fois que vous passerez un entretien d'embauche ou un contrôle de sécurité, surveillez vos arrières. Si la divination fessière se démocratise en France, il faudra soigner votre posture sur votre chaise pour ne pas envoyer de mauvaises ondes à vos examinateurs.",
-    "classified": false,
-    "published": "2026-06-07"
+    "classified": false
   }
 ]
