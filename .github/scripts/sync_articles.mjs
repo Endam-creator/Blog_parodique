@@ -8,7 +8,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, rmSync } from 'node:fs';
 
 const DIR = 'content/enquetes';
-const ORDER = ['id', 'published', 'title', 'date', 'location', 'author', 'img', 'desc', 'intro', 'interview', 'notice', 'classified'];
+const ORDER = ['id', 'published', 'rubrique', 'title', 'date', 'location', 'author', 'img', 'desc', 'intro', 'interview', 'notice', 'classified'];
 
 function clean(art) {
     const out = {};

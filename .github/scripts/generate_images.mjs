@@ -1,5 +1,7 @@
 // 1) Versions WebP légères de chaque photo (images/webp/<nom>.webp), affichées par le site.
 //    Les originaux restent en place et servent de secours si le WebP manque.
+// 3) Des « unes » prêtes à poster (carré 1080x1080 et story 1080x1920) dans images/unes/,
+//    avec titre, tampon PARODIE et adresse du site.
 // 2) Une image d'aperçu de partage (1200x630) par article dans images/og/<id>.jpg,
 // avec un tampon « PARODIE · 100 % INVENTÉ » incrusté.
 // Objectif : que l'aperçu affiché par X, WhatsApp, Telegram, Facebook… reste
@@ -99,3 +101,52 @@ for (const art of articles) {
     count++;
 }
 console.log(`${count} aperçu(s) de partage généré(s) dans ${OUT_DIR}/`);
+
+// --- 3) Unes pour les réseaux sociaux ---
+const UNES_DIR = 'images/unes';
+if (!existsSync(UNES_DIR)) mkdirSync(UNES_DIR, { recursive: true });
+const unesValid = new Set(articles.flatMap(a => [`${a.id}-carre.jpg`, `${a.id}-story.jpg`]));
+for (const f of readdirSync(UNES_DIR)) if (!unesValid.has(f)) rmSync(`${UNES_DIR}/${f}`);
+
+const pango = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const domainUne = existsSync('CNAME') ? readFileSync('CNAME', 'utf8').trim() : '';
+
+async function textImg(markup, opts) {
+    return sharp({ text: { text: markup, rgba: true, wrap: 'word', ...opts } }).png().toBuffer({ resolveWithObject: true });
+}
+
+async function buildUne(art, W, H, out) {
+    const src = art.img.replace(/^\/+/, '');
+    const imgH = Math.round(H * 0.56);
+    const pad = 60;
+    const photo = await sharp(src).resize(W, imgH, { fit: 'cover', position: 'attention' }).toBuffer();
+    const titleBoxH = Math.round((H - imgH) * (H > 1500 ? 0.62 : 0.6));
+    const title = await textImg(`<span foreground="#ffffff">${pango(art.title.toUpperCase())}</span>`,
+        { font: 'DejaVu Sans Bold', width: W - pad * 2, height: titleBoxH, align: 'left' });
+    const url = await textImg(`<span foreground="#76b900">▸ ${pango(domainUne)}</span>`,
+        { font: 'DejaVu Sans Mono Bold', dpi: H > 1500 ? 190 : 160 });
+    const band = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
+        <rect x="0" y="${imgH}" width="${W}" height="${H - imgH}" fill="#111"/>
+        <rect x="0" y="${imgH}" width="${W}" height="10" fill="#76b900"/></svg>`);
+    const titleTop = imgH + 70;
+    await sharp({ create: { width: W, height: H, channels: 3, background: '#111' } })
+        .composite([
+            { input: photo, top: 0, left: 0 },
+            { input: band, top: 0, left: 0 },
+            { input: title.data, top: titleTop, left: pad },
+            { input: stamp, top: imgH - Math.round(stampInfo.height / 2), left: pad - 10 },
+            { input: url.data, top: H - url.info.height - 55, left: pad },
+        ])
+        .jpeg({ quality: 80, mozjpeg: true })
+        .toFile(out);
+}
+
+let unesCount = 0;
+for (const art of articles) {
+    if (!art.id || !art.img || !existsSync(art.img.replace(/^\/+/, ''))) continue;
+    await buildUne(art, 1080, 1080, `${UNES_DIR}/${art.id}-carre.jpg`);
+    await buildUne(art, 1080, 1920, `${UNES_DIR}/${art.id}-story.jpg`);
+    unesCount++;
+}
+console.log(`${unesCount * 2} une(s) générée(s) dans ${UNES_DIR}/`);
+

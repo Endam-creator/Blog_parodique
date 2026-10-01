@@ -35,5 +35,6 @@
     }
   ],
   "notice": "Si, lors de votre prochaine balade en lisière d'une zone incendiée, vous apercevez un immense hangar sans fenêtres pousser miraculeusement sous les cendres, ou si une souche calcinée vous demande de valider un Captcha pour prouver que vous n'êtes pas un robot avant de ramasser un champignon, gardez votre calme. Inutile d'attaquer les câbles apparents avec un opinel ou de menacer les écureuils de piratage informatique. Rebroussez chemin discrètement, videz le cache de votre navigateur, et laissez l'intelligence artificielle s'étendre en paix.",
-  "classified": true
+  "classified": true,
+  "rubrique": "technologies"
 }

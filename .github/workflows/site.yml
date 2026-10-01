@@ -8,12 +8,15 @@ on:
       - 'content/enquetes/**'
       - '.github/scripts/sync_articles.mjs'
       - 'index.html'
+      - 'rubriques.json'
+      - 'assets/**'
       - '.github/scripts/generate_feed.mjs'
       - '.github/scripts/generate_pages.mjs'
       - '.github/scripts/generate_images.mjs'
       - 'images/**'
       - '!images/og/**'
       - '!images/webp/**'
+      - '!images/unes/**'
       - '.github/workflows/site.yml'
   workflow_dispatch:
 
@@ -75,6 +78,9 @@ jobs:
           npm install --no-save --no-package-lock --silent sharp@0.34
           node .github/scripts/generate_images.mjs
 
+      - name: Génération des pages de rubriques
+        run: node .github/scripts/generate_rubriques.mjs
+
       - name: Génération des pages HTML d'articles
         run: node .github/scripts/generate_pages.mjs
 
@@ -83,7 +89,7 @@ jobs:
         run: |
           git config user.name "L'Investigateur Automatique"
           git config user.email "actions@github.com"
-          git add articles.json content/enquetes/ feed.xml sitemap.xml articles/ images/og/ images/webp/
+          git add articles.json content/enquetes/ feed.xml sitemap.xml articles/ rubriques/ images/og/ images/webp/ images/unes/
           if git diff --cached --quiet; then
             echo "Rien à committer."
           else

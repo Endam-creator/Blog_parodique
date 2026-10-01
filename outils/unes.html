@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Unes prêtes à poster — Console Investigateur</title>
+<link rel="icon" type="image/png" href="/favicon-96.png">
+<link rel="stylesheet" href="/assets/page.css">
+<style>
+  .une { border: 2px solid #111; padding: 12px; margin-bottom: 16px; display: grid; grid-template-columns: 120px 68px 1fr; gap: 14px; align-items: center; }
+  .une img { width: 100%; display: block; border: 1px solid #111; }
+  .une h3 { font-size: .95rem; margin-bottom: 8px; line-height: 1.3; }
+  .une .dl { display: flex; flex-wrap: wrap; gap: 8px; }
+  @media (max-width: 600px) { .une { grid-template-columns: 1fr 1fr; } .une div:last-child { grid-column: 1 / -1; } }
+</style>
+</head>
+<body>
+<div class="container" style="max-width:900px">
+  <header><a href="/"><img src="/logo_chat_loupe.png" alt=""><h1>Unes prêtes à poster<br><span class="slogan">générées automatiquement</span></h1></a></header>
+  <div class="content">
+    <p>Pour chaque enquête, la GitHub Action fabrique un visuel <strong>carré</strong> (Instagram, X, Facebook) et un visuel <strong>story</strong> (Stories, TikTok, Reels), avec le tampon PARODIE. Pour un visuel personnalisé (bandeau, accroche…), utilise le <a href="/outils/generateur-une.html">générateur de unes</a>.</p>
+    <div id="list">Chargement…</div>
+  </div>
+  <div class="back-bar"><a class="back-link" href="/">← Retour au blog</a></div>
+</div>
+<script>
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+fetch('/articles.json?v=' + Date.now()).then(r => r.json()).then(list => {
+  list.sort((a, b) => String(b.published || '').localeCompare(String(a.published || '')));
+  document.getElementById('list').innerHTML = list.map(a => {
+    const c = '/images/unes/' + encodeURIComponent(a.id) + '-carre.jpg';
+    const s = '/images/unes/' + encodeURIComponent(a.id) + '-story.jpg';
+    const link = location.origin + '/articles/' + encodeURIComponent(a.id) + '.html';
+    return '<div class="une"><a href="' + c + '" target="_blank"><img src="' + c + '" loading="lazy" alt=""></a>' +
+      '<a href="' + s + '" target="_blank"><img src="' + s + '" loading="lazy" alt=""></a>' +
+      '<div><h3>' + esc(a.title) + '</h3><div class="dl">' +
+      '<a class="chip" href="' + c + '" download>⬇️ Carré</a>' +
+      '<a class="chip" href="' + s + '" download>⬇️ Story</a>' +
+      '<a class="chip" href="#" data-link="' + esc(link) + '">🔗 Copier le lien</a></div></div></div>';
+  }).join('');
+  document.querySelectorAll('[data-link]').forEach(b => b.addEventListener('click', e => {
+    e.preventDefault();
+    navigator.clipboard.writeText(b.dataset.link).then(() => { b.textContent = '✅ Copié'; });
+  }));
+}).catch(() => { document.getElementById('list').textContent = 'Impossible de charger articles.json.'; });
+</script>
+</body>
+</html>

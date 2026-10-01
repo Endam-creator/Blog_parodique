@@ -42,7 +42,7 @@
 
     <!-- HEADER -->
     <header>
-        <div class="logo-area" onclick="toggleStudio()" title="Console de l'Investigateur Anonyme">
+        <div class="logo-area" onclick="displayHome()" title="Retour à l'accueil">
             <img src="/logo_chat_loupe.png" alt="Logo - chat à la loupe" class="logo-img">
         </div>
         <div class="header-titles" onclick="displayHome()" title="Retour au dernier scoop">
@@ -51,6 +51,7 @@
         </div>
         <nav class="header-nav">
             <a href="https://les--verites--cachees-endam--digital-com.translate.goog/?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en" class="lang-link" target="_blank" rel="noopener" title="Read The Hidden Truths Blog in English">🇬🇧 EN</a>
+            <a href="/?hasard" class="lang-link random-link" data-random title="Laissez le destin vous éveiller">🎲 Au hasard</a>
             <a href="/boutique.html" class="boutique-link">🛒 Boutique</a>
         </nav>
     </header>
@@ -63,72 +64,18 @@
         </div>
     </div>
 
-    <!-- STUDIO DE RÉDACTION (accès protégé par identification SHA-256) -->
-    <div id="adminPanel" class="admin-panel">
-        <h3>Console de Transmission de l'Investigateur</h3>
-        <p class="admin-help">
-            Session authentifiée. 🔓 Gérez vos enquêtes ci-dessous (ajout, modification, suppression) :
-            chaque action met à jour une <strong>copie de travail</strong>. Quand tout est prêt, cliquez sur
-            « 📡 Générer articles.json » et remplacez le contenu du fichier sur GitHub.
-            Rien n'est publié tant que vous n'avez pas commité.
-        </p>
-
-        <h4>📂 Enquêtes en base (copie de travail)</h4>
-        <div class="manage-list" id="manageList"></div>
-
-        <h4 id="formHeading">✍️ Nouvelle enquête</h4>
-        <div class="editing-notice" id="editingNotice"></div>
-        <form id="studioForm" onsubmit="validateArticle(event)">
-            <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS D'ACHÈRES"></div>
-            <div class="form-group"><label>Date de publication (affichée)</label><input type="text" id="formDate"></div>
-            <div class="form-group"><label>Localisation</label><input type="text" id="formLoc" placeholder="Ex: National (Enquête en Ille-et-Vilaine)"></div>
-            <div class="form-group"><label>Auteur</label><input type="text" id="formAuthor" value="L'Investigateur Anonyme"></div>
-            <div class="form-group"><label>Résumé court (affiché dans le fil d'actualités, 1-2 phrases)</label><textarea id="formDesc" required placeholder="Ex: La créature cartilagineuse qui compresse son corps pour vous manger pendant votre sommeil !"></textarea></div>
-            <div class="form-group"><label>Chapô / Introduction de l'enquête</label><textarea id="formIntro" required placeholder="Texte d'introduction complet de l'enquête..."></textarea></div>
-            <div class="form-group">
-                <label>Interview Exclusive — préfixez chaque question par Q: et chaque réponse par R: (une réponse peut tenir sur plusieurs lignes)</label>
-                <textarea id="formInterview" style="height:140px;" placeholder="Q: Le Blog : Votre question ?&#10;R: Ulf : Ma réponse, qui peut contenir des deux-points : sans problème.&#10;Q: Le Blog : Question suivante ?&#10;R: La réponse suivante."></textarea>
-            </div>
-            <div class="form-group"><label>⚠️ L'AVIS DE LA RÉDACTION</label><textarea id="formNotice" placeholder="Conseils ou avertissements..."></textarea></div>
-            <div class="form-group"><label>Image d'illustration (nom du fichier déposé dans le dossier images/ du dépôt)</label><input type="text" id="formImg" placeholder="monstre_canalisation.png"></div>
-            <div class="form-group"><label>Tampon CLASSIFIED sur la carte ? (oui / non)</label><input type="text" id="formClassified" value="non" placeholder="oui ou non"></div>
-            <div class="studio-actions">
-                <button type="button" class="btn-secondary" onclick="previewArticle()">👁 Prévisualiser (local)</button>
-                <button type="submit" class="btn-submit" style="border:1px solid #fff" id="validateBtn">✅ Ajouter à la copie de travail</button>
-                <button type="button" class="btn-secondary" id="cancelEditBtn" style="display:none" onclick="cancelEdit()">✖ Annuler la modification</button>
-            </div>
-        </form>
-
-        <div class="studio-actions" style="margin-top:20px; border-top:1px solid #333; padding-top:15px;">
-            <button type="button" class="btn-submit" onclick="generateFullJSON()">📡 Générer articles.json (fichier complet)</button>
-        </div>
-
-        <div class="json-output-zone" id="jsonZone">
-            <h4>Fichier articles.json prêt à diffuser</h4>
-            <p class="json-steps">
-                1. Cliquez sur « Copier ».<br>
-                2. Sur GitHub : ouvrez <code>articles.json</code> → ✏️ Modifier → <strong>remplacez TOUT le contenu</strong> par ce qui est copié.<br>
-                3. Si de nouvelles images : déposez-les dans le dossier <code>images/</code> du dépôt.<br>
-                4. « Commit changes » → la GitHub Action valide le fichier et régénère le flux RSS + sitemap automatiquement. En ligne en ~1 minute. 📰
-            </p>
-            <textarea id="jsonOutput" readonly></textarea>
-            <div class="studio-actions">
-                <button type="button" class="btn-submit" onclick="copyJSON()">📋 Copier</button>
-            </div>
-        </div>
-    </div>
-
     <!-- MAIN -->
     <div class="main-layout">
-        <div class="featured-story" id="articleViewer"><div class="meta-data">LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>Date de publication : Mercredi 8 juillet 2026<br>Localisation : Melun, Seine et Marne<br>Auteur : L&#039;Investigateur Anonyme</div><div class="archive-banner">Archive déclassifiée</div><div class="hero-visual"><picture><source srcset="/images/webp/telekinesie.webp" type="image/webp"><img src="/images/telekinesie.jpg" alt="Je possède le don de télékinésie, mais uniquement quand je suis en plein cauchemar (et mon appartement est dévasté)" fetchpriority="high" decoding="async"></picture><div class="hero-title-overlay"><h2>Je possède le don de télékinésie, mais uniquement quand je suis en plein cauchemar (et mon appartement est dévasté)</h2></div></div><div class="parody-banner" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</div><div class="article-body"><p>La télékinésie est souvent présentée comme une maîtrise absolue de l&#039;esprit sur la matière. Pour Samuel F., 28 ans, préparateur de commandes à Melun, c’est exactement l’inverse. Son pouvoir ne répond pas à sa volonté consciente, mais à son subconscient le plus sombre. Samuel est un « télékinésiste nocturne passif ». En clair : quand il fait un cauchemar, sa chambre devient une zone de guerre psychique.
+        <div class="featured-story" id="articleViewer"><a class="rubrique-chip" href="/rubriques/paranormal.html">🔮 Phénomènes paranormaux</a><div class="meta-data">LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>Date de publication : Mercredi 8 juillet 2026<br>Localisation : Melun, Seine et Marne<br>Auteur : L&#039;Investigateur Anonyme</div><div class="archive-banner">Archive déclassifiée</div><div class="hero-visual"><picture><source srcset="/images/webp/telekinesie.webp" type="image/webp"><img src="/images/telekinesie.jpg" alt="Je possède le don de télékinésie, mais uniquement quand je suis en plein cauchemar (et mon appartement est dévasté)" fetchpriority="high" decoding="async"></picture><div class="hero-title-overlay"><h2>Je possède le don de télékinésie, mais uniquement quand je suis en plein cauchemar (et mon appartement est dévasté)</h2></div></div><div class="parody-banner" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</div><div class="article-body"><p>La télékinésie est souvent présentée comme une maîtrise absolue de l&#039;esprit sur la matière. Pour Samuel F., 28 ans, préparateur de commandes à Melun, c’est exactement l’inverse. Son pouvoir ne répond pas à sa volonté consciente, mais à son subconscient le plus sombre. Samuel est un « télékinésiste nocturne passif ». En clair : quand il fait un cauchemar, sa chambre devient une zone de guerre psychique.
 
-Nous l’avons rencontré dans son studio, où tous les meubles sont désormais solidement vissés au sol avec des tirefonds de chantier.</p><div class="interview-box"><h3>L'Interview Exclusive</h3><div class="interview-line"><strong>Samuel, merci de nous recevoir. Votre appartement ressemble plus à une soute de navire de guerre qu&#039;à un logement étudiant. Pourquoi une telle installation ?</strong>(Rires nerveux) Si je ne vissais pas tout, je me réveillerais chaque matin sous ma garde-robe. Tout a commencé il y a six mois. J&#039;ai rêvé que je me faisais poursuivre par un calamar géant dans le RER A. Quand je me suis réveillé en sursaut, ma table basse lévitait à 1,50 mètre du sol et mon micro-ondes était encastré dans le plafond. Mon stress onirique s&#039;était transformé en force cinétique pure.</div><div class="interview-line"><strong>Vous voulez dire que votre esprit projette physiquement vos peurs pendant que vous dormez ?</strong>Exactement. Et le problème, c’est que je suis quelqu&#039;un de très anxieux. Si je rêve que je rate mon réveil, la force de ma panique soulève mon lit et le projette contre le mur. Si je rêve que je perds mes dents, ce sont tous les bibelots de l&#039;étagère qui se mettent à tourbillonner dans la pièce comme une tornade. Je ne contrôle rien. Je subis ma propre puissance mentale.</div><div class="interview-line"><strong>C’est un danger public pour vous-même et pour le voisinage, non ?</strong>Heureusement que j&#039;habite au rez-de-chaussée ! Mais oui, c’est invivable. J&#039;ai essayé de dormir avec un casque de chantier, mais le problème est ailleurs. L&#039;autre nuit, j&#039;ai rêvé d&#039;une invasion d&#039;araignées. Je me suis réveillé et j&#039;ai vu que toutes les fourchettes de la cuisine s&#039;étaient tordues pour former des pattes métalliques. Elles essayaient de &quot;marcher&quot; sur le carrelage. La télékinésie de peur, c&#039;est très créatif, malheureusement.</div><div class="interview-line"><strong>Avez-vous tenté des thérapies pour calmer vos nuits ?</strong>J&#039;ai vu un sophrologue. Il m&#039;a dit de visualiser une plage calme. Résultat : j&#039;ai rêvé qu&#039;un tsunami arrivait, et mon cerveau a expulsé toute l&#039;eau de la chasse d&#039;eau des toilettes jusque dans mon salon. Le plombier n&#039;a jamais cru à l&#039;explication du &quot;jet mental&quot;. Maintenant, je prends des somnifères ultra-puissants pour ne plus rêver du tout, mais je sens que la pression monte. Parfois, en pleine journée, si je stresse un peu trop, mes stylos se mettent à vibrer sur le bureau.</div><div class="interview-line"><strong>Quel est votre objectif à long terme ?</strong>J&#039;essaie d&#039;apprivoiser cette force. Si je pouvais canaliser ne serait-ce que 10 % de cette énergie pendant que je suis réveillé, je pourrais faire mes cartons de déménagement en un clin d&#039;œil. Mais pour l&#039;instant, la seule chose que je réussis à faire, c&#039;est de déplacer mon oreiller de dix centimètres quand je suis contrarié. Apparemment, mon cerveau a besoin d&#039;être terrifié pour être efficace.</div><div class="interview-line"><strong>Un dernier mot pour nos lecteurs qui entendent des bruits de meubles traînés chez leurs voisins la nuit ?</strong>Ne montez pas vous plaindre. Le pauvre gars est peut-être juste en train de rêver qu&#039;il tombe dans un trou sans fin, et sa commode est en train de tenter de le rattraper. Offrez-lui plutôt une tisane relaxante ou un kit de fixation murale.</div></div><div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : Si vous vous réveillez avec des objets qui flottent au-dessus de votre lit, ne paniquez pas, cela augmenterait leur vitesse de rotation. Respirez calmement, pensez à des choses lourdes comme des enclumes ou des impôts impayés, et attendez que la gravité reprenne ses droits.</div></div></div>
+Nous l’avons rencontré dans son studio, où tous les meubles sont désormais solidement vissés au sol avec des tirefonds de chantier.</p><div class="interview-box"><h3>L'Interview Exclusive</h3><div class="interview-line"><strong>Samuel, merci de nous recevoir. Votre appartement ressemble plus à une soute de navire de guerre qu&#039;à un logement étudiant. Pourquoi une telle installation ?</strong>(Rires nerveux) Si je ne vissais pas tout, je me réveillerais chaque matin sous ma garde-robe. Tout a commencé il y a six mois. J&#039;ai rêvé que je me faisais poursuivre par un calamar géant dans le RER A. Quand je me suis réveillé en sursaut, ma table basse lévitait à 1,50 mètre du sol et mon micro-ondes était encastré dans le plafond. Mon stress onirique s&#039;était transformé en force cinétique pure.</div><div class="interview-line"><strong>Vous voulez dire que votre esprit projette physiquement vos peurs pendant que vous dormez ?</strong>Exactement. Et le problème, c’est que je suis quelqu&#039;un de très anxieux. Si je rêve que je rate mon réveil, la force de ma panique soulève mon lit et le projette contre le mur. Si je rêve que je perds mes dents, ce sont tous les bibelots de l&#039;étagère qui se mettent à tourbillonner dans la pièce comme une tornade. Je ne contrôle rien. Je subis ma propre puissance mentale.</div><div class="interview-line"><strong>C’est un danger public pour vous-même et pour le voisinage, non ?</strong>Heureusement que j&#039;habite au rez-de-chaussée ! Mais oui, c’est invivable. J&#039;ai essayé de dormir avec un casque de chantier, mais le problème est ailleurs. L&#039;autre nuit, j&#039;ai rêvé d&#039;une invasion d&#039;araignées. Je me suis réveillé et j&#039;ai vu que toutes les fourchettes de la cuisine s&#039;étaient tordues pour former des pattes métalliques. Elles essayaient de &quot;marcher&quot; sur le carrelage. La télékinésie de peur, c&#039;est très créatif, malheureusement.</div><div class="interview-line"><strong>Avez-vous tenté des thérapies pour calmer vos nuits ?</strong>J&#039;ai vu un sophrologue. Il m&#039;a dit de visualiser une plage calme. Résultat : j&#039;ai rêvé qu&#039;un tsunami arrivait, et mon cerveau a expulsé toute l&#039;eau de la chasse d&#039;eau des toilettes jusque dans mon salon. Le plombier n&#039;a jamais cru à l&#039;explication du &quot;jet mental&quot;. Maintenant, je prends des somnifères ultra-puissants pour ne plus rêver du tout, mais je sens que la pression monte. Parfois, en pleine journée, si je stresse un peu trop, mes stylos se mettent à vibrer sur le bureau.</div><div class="interview-line"><strong>Quel est votre objectif à long terme ?</strong>J&#039;essaie d&#039;apprivoiser cette force. Si je pouvais canaliser ne serait-ce que 10 % de cette énergie pendant que je suis réveillé, je pourrais faire mes cartons de déménagement en un clin d&#039;œil. Mais pour l&#039;instant, la seule chose que je réussis à faire, c&#039;est de déplacer mon oreiller de dix centimètres quand je suis contrarié. Apparemment, mon cerveau a besoin d&#039;être terrifié pour être efficace.</div><div class="interview-line"><strong>Un dernier mot pour nos lecteurs qui entendent des bruits de meubles traînés chez leurs voisins la nuit ?</strong>Ne montez pas vous plaindre. Le pauvre gars est peut-être juste en train de rêver qu&#039;il tombe dans un trou sans fin, et sa commode est en train de tenter de le rattraper. Offrez-lui plutôt une tisane relaxante ou un kit de fixation murale.</div></div><div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : Si vous vous réveillez avec des objets qui flottent au-dessus de votre lit, ne paniquez pas, cela augmenterait leur vitesse de rotation. Respirez calmement, pensez à des choses lourdes comme des enclumes ou des impôts impayés, et attendez que la gravité reprenne ses droits.</div></div><section class="related"><h3>🕵️ Autres enquêtes à ne pas lire seul</h3><div class="related-grid"><a class="related-card" href="/articles/art-1781820756657.html" data-id="art-1781820756657"><picture><source srcset="/images/webp/tshirt.webp" type="image/webp"><img src="/images/tshirt.jpg" alt="" loading="lazy" decoding="async"></picture><span class="related-title">J&#039;ai acheté un t-shirt maudit sur Vinted, depuis je perds systématiquement à Pierre-Feuil…</span></a><a class="related-card" href="/articles/art-1781557971041.html" data-id="art-1781557971041"><picture><source srcset="/images/webp/metro.webp" type="image/webp"><img src="/images/metro.jpg" alt="" loading="lazy" decoding="async"></picture><span class="related-title">« Je suis télépathe, mais je ne capte que les pensées des gens qui s&#039;ennuient dans le mét…</span></a><a class="related-card" href="/articles/art-medium.html" data-id="art-medium"><picture><source srcset="/images/webp/medium.webp" type="image/webp"><img src="/images/medium.jpg" alt="" loading="lazy" decoding="async"></picture><span class="related-title">INVESTIGATION TRANSFRONTALIÈRE : « Oubliez les lignes de la main : la vérité sur votre av…</span></a></div></section></div>
         <div class="right-column">
             <div class="top-box" id="topBox" style="display:none;">
                 <div class="top-box-header">🏆 Le Top des Éveillés</div>
                 <div id="topList"></div>
             </div>
             <div class="stories-feed" id="storiesFeed"></div>
+            <div class="top-box" id="rubriquesBox" style="display:none;"></div>
         </div>
     </div>
 
@@ -155,11 +102,12 @@ Nous l’avons rencontré dans son studio, où tous les meubles sont désormais 
 
     <footer>
         <div class="footer-links">
-            <a href="#" onclick="toggleStudio(); return false;">Témoignez (Anonymement) !</a>
+            <a href="/theories.html">Fabriquez votre théorie !</a>
+            <a href="/rubriques/">Rubriques</a>
             <a href="/apropos.html">À propos / L'Investigateur Anonyme</a>
             <a href="/boutique.html">Boutique</a>
             <a href="/feed.xml">Flux RSS</a>
-            <a href="#" onclick="alert('Toute ressemblance avec la réalité serait franchement inquiétante.'); return false;">Mentions (Pas très) Légales</a>
+            <a href="/mentions-legales.html">Mentions (Pas très) Légales</a>
             <a href="https://endam-digital.com/">Un projet Endam Digital</a>
             <a href="https://endam-digital.com/soutenir/">Soutenir</a>
         </div>

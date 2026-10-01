@@ -67,7 +67,12 @@ console.log(`feed.xml généré (${articles.length} article(s), domaine: ${SITE}
 const today = new Date().toISOString().slice(0, 10);
 const urls = [
     `  <url><loc>${SITE}/</loc><lastmod>${today}</lastmod></url>`,
-    `  <url><loc>${SITE}/boutique.html</loc></url>`,
+    `  <url><loc>${SITE}/apropos.html</loc></url>`,
+    `  <url><loc>${SITE}/mentions-legales.html</loc></url>`,
+    `  <url><loc>${SITE}/theories.html</loc></url>`,
+    `  <url><loc>${SITE}/rubriques/</loc></url>`,
+    ...(existsSync('rubriques.json') ? JSON.parse(readFileSync('rubriques.json', 'utf8')) : [])
+        .map(r => `  <url><loc>${SITE}/rubriques/${encodeURIComponent(r.slug)}.html</loc></url>`),
     ...articles.map(art =>
         `  <url><loc>${SITE}/articles/${encodeURIComponent(art.id)}.html</loc>` +
         (art.published ? `<lastmod>${escXML(art.published)}</lastmod>` : '') +

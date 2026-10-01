@@ -67,6 +67,24 @@ function displayDate(art) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// --- Rubriques et enquêtes liées (même logique que assets/site.js) ---
+const RUBRIQUES = existsSync('rubriques.json') ? JSON.parse(readFileSync('rubriques.json', 'utf8')) : [];
+const SORTED = [...articles].sort((a, b) => String(b.published || '').localeCompare(String(a.published || '')));
+
+function relatedHTML(art) {
+    const others = SORTED.filter(a => a.id !== art.id);
+    const same = others.filter(a => art.rubrique && a.rubrique === art.rubrique);
+    const list = [...same, ...others.filter(a => !same.includes(a))].slice(0, 3);
+    if (!list.length) return '';
+    return '<section class="related"><h3>🕵️ Autres enquêtes à ne pas lire seul</h3><div class="related-grid">' +
+        list.map(a => {
+            const t = a.title.length > 90 ? a.title.slice(0, 89).trimEnd() + '…' : a.title;
+            return `<a class="related-card" href="/articles/${encodeURIComponent(a.id)}.html" data-id="${escHTML(a.id)}">` +
+                pictureTag('/' + resolveImg(a.img).replace(/^\/+/, ''), '', true) +
+                `<span class="related-title">${escHTML(t)}</span></a>`;
+        }).join('') + '</div></section>';
+}
+
 // --- Gabarit : index.html ---
 const TEMPLATE = readFileSync('index.html', 'utf8');
 const SEO_RE = /<!-- SEO:START[\s\S]*?<!-- SEO:END -->/;
@@ -79,9 +97,9 @@ if (!SEO_RE.test(TEMPLATE) || !TEMPLATE.includes(VIEWER_MARK)) {
 const PARODY_NOTE = "<strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.";
 
 // <picture> : WebP allégé si disponible, image d'origine sinon
-function pictureTag(imgRel, alt) {
+function pictureTag(imgRel, alt, lazy = false) {
     const webp = '/images/webp/' + imgRel.split('/').pop().replace(/\.[^.]+$/, '.webp');
-    const img = `<img src="${escHTML(imgRel)}" alt="${escHTML(alt)}" fetchpriority="high" decoding="async">`;
+    const img = `<img src="${escHTML(imgRel)}" alt="${escHTML(alt)}" ${lazy ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async">`;
     return existsSync(webp.slice(1)) && /\.(jpe?g|png)$/i.test(imgRel)
         ? `<picture><source srcset="${escHTML(webp)}" type="image/webp">${img}</picture>` : img;
 }
@@ -141,7 +159,9 @@ function buildPage(art, isLatest) {
     const stamp = art.classified ? '<span class="classified-stamp big">Classified</span>' : '';
     const banner = isLatest ? '<div class="breaking-banner">Breaking News</div>' : '<div class="archive-banner">Archive déclassifiée</div>';
 
+    const rub = RUBRIQUES.find(r => r.slug === art.rubrique);
     const body =
+        (rub ? `<a class="rubrique-chip" href="/rubriques/${encodeURIComponent(rub.slug)}.html">${escHTML(rub.label)}</a>` : '') +
         `<div class="meta-data">LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>` +
         `Date de publication : ${escHTML(displayDate(art))}<br>` +
         `Localisation : ${escHTML(art.location || '')}<br>` +
@@ -150,7 +170,8 @@ function buildPage(art, isLatest) {
         `<div class="hero-visual">${pictureTag(imgRel, art.title)}` +
         `<div class="hero-title-overlay"><h2>${escHTML(art.title)}</h2></div>${stamp}</div>` +
         `<div class="parody-banner" role="note">${PARODY_NOTE}</div>` +
-        `<div class="article-body"><p>${escHTML(art.intro || '')}</p>${interviewHTML}${noticeHTML}</div>`;
+        `<div class="article-body"><p>${escHTML(art.intro || '')}</p>${interviewHTML}${noticeHTML}</div>` +
+        relatedHTML(art);
 
     return TEMPLATE
         .replace(SEO_RE, () => head)

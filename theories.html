@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fabriquez votre théorie — Le Blog des Vérités Cachées</title>
+<meta name="description" content="🎭 Parodie : le générateur officiel de théories absurdes du Blog des Vérités Cachées. Trois menus, une révélation, zéro preuve.">
+<link rel="canonical" href="https://les-verites-cachees.endam-digital.com/theories.html">
+<meta property="og:title" content="Fabriquez votre théorie (parodie) — Le Blog des Vérités Cachées">
+<meta property="og:description" content="🎭 Parodie : trois menus, une révélation, zéro preuve.">
+<meta property="og:image" content="https://les-verites-cachees.endam-digital.com/logo_chat_loupe.png">
+<link rel="icon" type="image/png" href="/favicon-96.png">
+<link rel="apple-touch-icon" href="/favicon-192.png">
+<link rel="stylesheet" href="/assets/page.css">
+<style>
+  .machine { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+  .machine label { display: block; font-family: monospace; font-size: .8rem; color: #555; margin-bottom: 4px; text-transform: uppercase; }
+  .machine select { width: 100%; padding: 10px; font-size: .95rem; border: 2px solid #111; background: #fff; font-weight: bold; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 20px; }
+  .btn { background: #111; color: var(--accent-green); border: 2px solid var(--accent-green); padding: 11px 18px; font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; text-decoration: none; font-size: .95rem; }
+  .btn:hover { background: var(--accent-green); color: #111; }
+  .btn.big { font-size: 1.15rem; padding: 14px 24px; }
+  canvas { width: 100%; max-width: 540px; height: auto; display: block; margin: 0 auto; border: 2px solid #111; }
+  @media (max-width: 640px) { .machine { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <a href="/"><img src="/logo_chat_loupe.png" alt="Logo - chat à la loupe">
+    <h1>Fabriquez votre théorie<br><span class="slogan">Trois menus. Une révélation. Zéro preuve.</span></h1></a>
+  </header>
+  <div class="content">
+    <p>Vous aussi, vous sentez que quelque chose cloche ? Assemblez votre propre révélation avec la <strong>Machine à Vérités</strong> de l'Investigateur Anonyme, puis diffusez-la. Certifiée 100 % inventée.</p>
+
+    <div class="machine">
+      <div><label for="s1">Qui ?</label><select id="s1"></select></div>
+      <div><label for="s2">Fait quoi ?</label><select id="s2"></select></div>
+      <div><label for="s3">Et pourquoi ?</label><select id="s3"></select></div>
+    </div>
+    <div class="actions">
+      <button class="btn big" id="btnRandom">🎲 Révélation au hasard</button>
+      <button class="btn" id="btnDownload">⬇️ Télécharger l'image</button>
+      <a class="btn" id="btnShare" target="_blank" rel="noopener">𝕏 Partager</a>
+    </div>
+
+    <canvas id="cv" width="1080" height="1080" aria-label="Aperçu de la théorie générée"></canvas>
+
+    <div class="serious-note">
+      <h3>🎭 Mode d'emploi</h3>
+      <p>Ce générateur est une <strong>parodie</strong> : chaque combinaison est absurde par construction, et l'image porte toujours le tampon « PARODIE ». Partagez pour faire rire, pas pour faire croire.</p>
+    </div>
+  </div>
+  <div class="back-bar">
+    <a class="back-link" href="/">← Retour aux enquêtes</a>
+    <a class="back-link" href="/?hasard" style="margin-left:8px">🎲 Enquête au hasard</a>
+  </div>
+</div>
+
+<script>
+const QUI = [
+  "Les pigeons des villes", "Les belles-mères", "Les lobbyistes du pâté en croûte", "Les ronds-points",
+  "Les chaussettes orphelines", "Les box Wi-Fi des voisins", "Les influenceurs fitness", "Les grille-pains connectés",
+  "Les escargots du gouvernement", "Les nains de jardin", "Les machines à café du bureau", "Les moustiques",
+  "Les applis de météo", "Les chats de l'Investigateur", "Les distributeurs de billets", "Les plantes vertes d'open space"
+];
+const QUOI = [
+  "remplacent en secret", "lisent dans les pensées de", "aspirent la motivation de", "contrôlent la météo de",
+  "ont inventé", "espionnent à distance", "photocopient", "volent les lundis de",
+  "manipulent les horoscopes de", "cachent la vérité sur", "réécrivent les souvenirs de", "rechargent leurs batteries grâce à"
+];
+const POURQUOI = [
+  "pour dominer le marché de la raclette", "afin de rendre les dimanches plus courts", "pour financer une base secrète sous Clermont-Ferrand",
+  "dans le but de faire disparaître les stylos", "pour que la file d'à côté avance toujours plus vite", "afin de saboter les plans de vacances",
+  "pour fabriquer des clones qui font la vaisselle", "dans le cadre d'un plan quinquennal de chaussettes", "pour qu'on oublie ce qu'on venait chercher dans la cuisine",
+  "afin de rendre les codes Wi-Fi imprononçables", "pour préparer le grand retour du Minitel", "parce que le chat l'a exigé"
+];
+const CIBLES = ["les Français", "les chats domestiques", "les retraités du Cantal", "les joueurs de pétanque", "les télétravailleurs", "les fans de karaoké", "les gens qui disent « pain au chocolat »", "les comptables"];
+
+// « Fait quoi ? » appelle un complément : on l'intègre à la sélection du milieu
+const ACTIONS = [];
+QUOI.forEach(q => { ACTIONS.push(q + ' ' + CIBLES[ACTIONS.length % CIBLES.length]); });
+
+const pick = a => Math.floor(Math.random() * a.length);
+const sels = [['s1', QUI], ['s2', ACTIONS], ['s3', POURQUOI]].map(([id, list]) => {
+  const el = document.getElementById(id);
+  el.innerHTML = list.map((t, i) => '<option value="' + i + '">' + t.replace(/</g, '&lt;') + '</option>').join('');
+  el.addEventListener('change', draw);
+  return [el, list];
+});
+
+function theory() {
+  return sels.map(([el, list]) => list[el.value]).join(' ').replace(/\s+/g, ' ') + ' !';
+}
+
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const logo = new Image(); logo.src = '/favicon-192.png'; logo.onload = draw;
+
+function wrap(text, x, y, maxW, lh, maxLines) {
+  const words = text.split(' '); let line = ''; const lines = [];
+  for (const w of words) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; }
+  if (line) lines.push(line);
+  lines.slice(0, maxLines).forEach((l, i) => ctx.fillText(l, x, y + i * lh));
+  return Math.min(lines.length, maxLines);
+}
+
+function draw() {
+  const W = 1080, H = 1080;
+  ctx.fillStyle = '#111'; ctx.fillRect(0, 0, W, H);
+  // rayures vertes
+  ctx.fillStyle = 'rgba(118,185,0,0.10)';
+  for (let i = -H; i < W; i += 46) { ctx.save(); ctx.translate(i, 0); ctx.rotate(0.6); ctx.fillRect(0, 0, 18, H * 2); ctx.restore(); }
+  // bandeau
+  ctx.fillStyle = '#76b900'; ctx.fillRect(0, 0, W, 120);
+  ctx.fillStyle = '#111'; ctx.font = 'bold 54px Impact, "Arial Black", Arial'; ctx.textBaseline = 'middle';
+  ctx.fillText('RÉVÉLATION EXCLUSIVE', 50, 62);
+  // titre
+  ctx.textBaseline = 'alphabetic';
+  const text = theory().toUpperCase();
+  let size = 84; ctx.font = 'bold ' + size + 'px Impact, "Arial Black", Arial';
+  while (size > 44) {
+    ctx.font = 'bold ' + size + 'px Impact, "Arial Black", Arial';
+    const words = text.split(' '); let line = '', n = 1;
+    for (const w of words) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > W - 120 && line) { n++; line = w; } else line = t; }
+    if (n * (size + 12) <= 620) break;
+    size -= 4;
+  }
+  ctx.fillStyle = '#fff';
+  wrap(text, 60, 250, W - 120, size + 12, 9);
+  // tampon PARODIE
+  ctx.save(); ctx.translate(60, H - 170); ctx.rotate(-0.05);
+  ctx.font = 'bold 44px Impact, "Arial Black", Arial';
+  const label = '🎭 PARODIE · 100 % INVENTÉ'; const tw = ctx.measureText(label).width;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, -36, tw + 50, 74);
+  ctx.strokeStyle = '#a31515'; ctx.lineWidth = 6; ctx.strokeRect(0, -36, tw + 50, 74);
+  ctx.lineWidth = 2; ctx.strokeRect(8, -28, tw + 34, 58);
+  ctx.fillStyle = '#a31515'; ctx.textBaseline = 'middle'; ctx.fillText(label, 25, 3);
+  ctx.restore();
+  // pied
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#76b900'; ctx.font = 'bold 30px "Courier New", monospace';
+  ctx.fillText('▸ les-verites-cachees.endam-digital.com', 60, H - 50);
+  if (logo.complete && logo.naturalWidth) ctx.drawImage(logo, W - 170, H - 330, 120, 120);
+  // partage
+  document.getElementById('btnShare').href = 'https://twitter.com/intent/tweet?text=' +
+    encodeURIComponent('🎭 [Parodie] ' + theory()) + '&url=' + encodeURIComponent(location.origin + '/theories.html');
+}
+
+document.getElementById('btnRandom').addEventListener('click', () => {
+  sels.forEach(([el, list]) => { el.value = pick(list); });
+  draw();
+});
+document.getElementById('btnDownload').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.download = 'theorie-verites-cachees.png';
+  a.href = cv.toDataURL('image/png');
+  a.click();
+});
+
+sels.forEach(([el, list]) => { el.value = pick(list); });
+draw();
+</script>
+</body>
+</html>

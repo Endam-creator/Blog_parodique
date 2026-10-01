@@ -42,7 +42,7 @@
 
     <!-- HEADER -->
     <header>
-        <div class="logo-area" onclick="toggleStudio()" title="Console de l'Investigateur Anonyme">
+        <div class="logo-area" onclick="displayHome()" title="Retour à l'accueil">
             <img src="/logo_chat_loupe.png" alt="Logo - chat à la loupe" class="logo-img">
         </div>
         <div class="header-titles" onclick="displayHome()" title="Retour au dernier scoop">
@@ -51,6 +51,7 @@
         </div>
         <nav class="header-nav">
             <a href="https://les--verites--cachees-endam--digital-com.translate.goog/?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en" class="lang-link" target="_blank" rel="noopener" title="Read The Hidden Truths Blog in English">🇬🇧 EN</a>
+            <a href="/?hasard" class="lang-link random-link" data-random title="Laissez le destin vous éveiller">🎲 Au hasard</a>
             <a href="/boutique.html" class="boutique-link">🛒 Boutique</a>
         </nav>
     </header>
@@ -63,72 +64,18 @@
         </div>
     </div>
 
-    <!-- STUDIO DE RÉDACTION (accès protégé par identification SHA-256) -->
-    <div id="adminPanel" class="admin-panel">
-        <h3>Console de Transmission de l'Investigateur</h3>
-        <p class="admin-help">
-            Session authentifiée. 🔓 Gérez vos enquêtes ci-dessous (ajout, modification, suppression) :
-            chaque action met à jour une <strong>copie de travail</strong>. Quand tout est prêt, cliquez sur
-            « 📡 Générer articles.json » et remplacez le contenu du fichier sur GitHub.
-            Rien n'est publié tant que vous n'avez pas commité.
-        </p>
-
-        <h4>📂 Enquêtes en base (copie de travail)</h4>
-        <div class="manage-list" id="manageList"></div>
-
-        <h4 id="formHeading">✍️ Nouvelle enquête</h4>
-        <div class="editing-notice" id="editingNotice"></div>
-        <form id="studioForm" onsubmit="validateArticle(event)">
-            <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS D'ACHÈRES"></div>
-            <div class="form-group"><label>Date de publication (affichée)</label><input type="text" id="formDate"></div>
-            <div class="form-group"><label>Localisation</label><input type="text" id="formLoc" placeholder="Ex: National (Enquête en Ille-et-Vilaine)"></div>
-            <div class="form-group"><label>Auteur</label><input type="text" id="formAuthor" value="L'Investigateur Anonyme"></div>
-            <div class="form-group"><label>Résumé court (affiché dans le fil d'actualités, 1-2 phrases)</label><textarea id="formDesc" required placeholder="Ex: La créature cartilagineuse qui compresse son corps pour vous manger pendant votre sommeil !"></textarea></div>
-            <div class="form-group"><label>Chapô / Introduction de l'enquête</label><textarea id="formIntro" required placeholder="Texte d'introduction complet de l'enquête..."></textarea></div>
-            <div class="form-group">
-                <label>Interview Exclusive — préfixez chaque question par Q: et chaque réponse par R: (une réponse peut tenir sur plusieurs lignes)</label>
-                <textarea id="formInterview" style="height:140px;" placeholder="Q: Le Blog : Votre question ?&#10;R: Ulf : Ma réponse, qui peut contenir des deux-points : sans problème.&#10;Q: Le Blog : Question suivante ?&#10;R: La réponse suivante."></textarea>
-            </div>
-            <div class="form-group"><label>⚠️ L'AVIS DE LA RÉDACTION</label><textarea id="formNotice" placeholder="Conseils ou avertissements..."></textarea></div>
-            <div class="form-group"><label>Image d'illustration (nom du fichier déposé dans le dossier images/ du dépôt)</label><input type="text" id="formImg" placeholder="monstre_canalisation.png"></div>
-            <div class="form-group"><label>Tampon CLASSIFIED sur la carte ? (oui / non)</label><input type="text" id="formClassified" value="non" placeholder="oui ou non"></div>
-            <div class="studio-actions">
-                <button type="button" class="btn-secondary" onclick="previewArticle()">👁 Prévisualiser (local)</button>
-                <button type="submit" class="btn-submit" style="border:1px solid #fff" id="validateBtn">✅ Ajouter à la copie de travail</button>
-                <button type="button" class="btn-secondary" id="cancelEditBtn" style="display:none" onclick="cancelEdit()">✖ Annuler la modification</button>
-            </div>
-        </form>
-
-        <div class="studio-actions" style="margin-top:20px; border-top:1px solid #333; padding-top:15px;">
-            <button type="button" class="btn-submit" onclick="generateFullJSON()">📡 Générer articles.json (fichier complet)</button>
-        </div>
-
-        <div class="json-output-zone" id="jsonZone">
-            <h4>Fichier articles.json prêt à diffuser</h4>
-            <p class="json-steps">
-                1. Cliquez sur « Copier ».<br>
-                2. Sur GitHub : ouvrez <code>articles.json</code> → ✏️ Modifier → <strong>remplacez TOUT le contenu</strong> par ce qui est copié.<br>
-                3. Si de nouvelles images : déposez-les dans le dossier <code>images/</code> du dépôt.<br>
-                4. « Commit changes » → la GitHub Action valide le fichier et régénère le flux RSS + sitemap automatiquement. En ligne en ~1 minute. 📰
-            </p>
-            <textarea id="jsonOutput" readonly></textarea>
-            <div class="studio-actions">
-                <button type="button" class="btn-submit" onclick="copyJSON()">📋 Copier</button>
-            </div>
-        </div>
-    </div>
-
     <!-- MAIN -->
     <div class="main-layout">
-        <div class="featured-story" id="articleViewer"><div class="meta-data">LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>Date de publication : Mardi 25 août 2026<br>Localisation : Paris, Île-de-France<br>Auteur : L&#039;Investigateur Anonyme</div><div class="archive-banner">Archive déclassifiée</div><div class="hero-visual"><picture><source srcset="/images/webp/crypto.webp" type="image/webp"><img src="/images/crypto.jpg" alt="« Les faux policiers de Paris étaient de vrais agents de l&#039;État : comment le gouvernement vole vos Bitcoins »" fetchpriority="high" decoding="async"></picture><div class="hero-title-overlay"><h2>« Les faux policiers de Paris étaient de vrais agents de l&#039;État : comment le gouvernement vole vos Bitcoins »</h2></div><span class="classified-stamp big">Classified</span></div><div class="parody-banner" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</div><div class="article-body"><p>Pour la presse nationale et les tribunaux, l&#039;affaire est classée : un jeune trader de 22 ans, trop bavard sur sa fortune en cryptomonnaie, s&#039;est fait enlever en janvier 2020 dans le 10e arrondissement de Paris. Séquestré dans une forêt par des malfaiteurs déguisés en policiers, il a dû céder ses codes pour un butin estimé à 2 millions d&#039;euros en Bitcoin. Mais pour Laurent M., 45 ans, ancien spécialiste en cybersécurité pour le Ministère des Armées, cette version officielle est une insulte à l&#039;intelligence.
+        <div class="featured-story" id="articleViewer"><a class="rubrique-chip" href="/rubriques/complots-etat.html">🏛️ Complots d&#039;État</a><div class="meta-data">LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>Date de publication : Mardi 25 août 2026<br>Localisation : Paris, Île-de-France<br>Auteur : L&#039;Investigateur Anonyme</div><div class="archive-banner">Archive déclassifiée</div><div class="hero-visual"><picture><source srcset="/images/webp/crypto.webp" type="image/webp"><img src="/images/crypto.jpg" alt="« Les faux policiers de Paris étaient de vrais agents de l&#039;État : comment le gouvernement vole vos Bitcoins »" fetchpriority="high" decoding="async"></picture><div class="hero-title-overlay"><h2>« Les faux policiers de Paris étaient de vrais agents de l&#039;État : comment le gouvernement vole vos Bitcoins »</h2></div><span class="classified-stamp big">Classified</span></div><div class="parody-banner" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</div><div class="article-body"><p>Pour la presse nationale et les tribunaux, l&#039;affaire est classée : un jeune trader de 22 ans, trop bavard sur sa fortune en cryptomonnaie, s&#039;est fait enlever en janvier 2020 dans le 10e arrondissement de Paris. Séquestré dans une forêt par des malfaiteurs déguisés en policiers, il a dû céder ses codes pour un butin estimé à 2 millions d&#039;euros en Bitcoin. Mais pour Laurent M., 45 ans, ancien spécialiste en cybersécurité pour le Ministère des Armées, cette version officielle est une insulte à l&#039;intelligence.
 
-Nous l&#039;avons rencontré dans un café discret du quartier de la Défense, le téléphone placé dans une pochette brouilleuse d&#039;ondes.</p><div class="interview-box"><h3>L'Interview Exclusive</h3><div class="interview-line"><strong>Laurent, la police a pourtant arrêté les coupables. Ils ont été jugés et condamnés. Comment pouvez-vous affirmer qu&#039;il s&#039;agissait d&#039;une opération d&#039;État ?</strong>C&#039;est le principe même des opérations &quot;False Flag&quot; (sous faux drapeau). Regardez la logistique de l&#039;enlèvement. On nous vend des petites frappes de banlieue. Pourtant, le soir de l&#039;enlèvement, toutes les caméras de vidéosurveillance de la préfecture de police sur le trajet du véhicule ont connu une &quot;défaillance technique inexpliquée&quot; de 45 minutes. Vous croyez qu&#039;un braqueur de rue sait pirater le réseau de la préfecture ? C&#039;était une opération de barbouzes. Les voyous qui ont été arrêtés plus tard n&#039;étaient que des boucs émissaires, engagés via des intermédiaires aveugles pour servir de fusibles à la justice.</div><div class="interview-line"><strong>Vous affirmez que l&#039;État français kidnappe ses propres citoyens pour de la cryptomonnaie ? Dans quel but ?</strong>Pour le financement occulte ! Historiquement, la &quot;Françafrique&quot; ou les opérations clandestines à l&#039;étranger étaient financées par des valises de billets ou des rétrocommissions sur des ventes d&#039;armes. Aujourd&#039;hui, c&#039;est devenu trop surveillé. Les services de renseignement ont besoin de liquidités intraçables. Quoi de mieux que le Bitcoin ? Le trader ciblé en 2020 n&#039;a pas été choisi au hasard : ses portefeuilles n&#039;étaient pas déclarés au fisc. Il était la cible parfaite. S&#039;il parlait, il s&#039;auto-incriminait pour fraude fiscale.</div><div class="interview-line"><strong>Avez-vous une preuve technique de ce que vous avancez, ou est-ce seulement une déduction ?</strong>J&#039;ai tracé la blockchain. Quand les Bitcoins ont été volés ce soir-là, ils n&#039;ont pas été envoyés vers des &quot;mixeurs&quot; du dark web utilisés par les criminels traditionnels pour blanchir l&#039;argent. Non. Les fonds ont été divisés en micro-transactions et envoyés vers des adresses de contrats intelligents liées à des sociétés écrans basées à Dubaï. Ces mêmes sociétés écrans ont récemment remporté des appels d&#039;offres logistiques pour l&#039;armée française au Sahel. L&#039;argent volé dans cette forêt parisienne a servi à financer des opérations militaires non officielles.</div><div class="interview-line"><strong>Pourquoi cette vérité n&#039;éclate-t-elle pas au grand jour lors du procès ?</strong>Parce que la justice est cloisonnée. Le juge d&#039;instruction s&#039;est contenté des aveux des petites frappes (qui ont probablement touché 5 % du butin en liquide pour se taire). Quand les avocats de la victime ont demandé une commission rogatoire internationale pour tracer les portefeuilles numériques à Dubaï, le parquet a mystérieusement freiné des quatre fers en invoquant un &quot;manque de moyens techniques&quot;. Le dossier a été verrouillé de l&#039;intérieur par le Ministère de la Justice pour protéger le secret défense.</div><div class="interview-line"><strong>Qu&#039;attendez-vous de ce témoignage ?</strong>Je veux que les nouveaux riches de la crypto en France comprennent le danger. L&#039;État ne se contente plus de vous taxer à 30 % avec la Flat Tax. Si vos portefeuilles deviennent trop gros et trop opaques, vous n&#039;êtes plus un citoyen, vous devenez une ressource exploitable. Sécurisez vos clés, taisez-vous, et méfiez-vous des gyrophares banalisés en bas de chez vous.</div></div><div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : La prochaine fois que vous lirez dans le journal qu&#039;un influenceur crypto s&#039;est fait &quot;saucissonner&quot; par des cambrioleurs amateurs, regardez bien qui récupère les fonds à la fin. Les impôts sont la méthode douce de l&#039;État pour se financer ; ce genre de &quot;fait divers&quot; est leur méthode forte. Gardez vos Ledger dans des coffres physiques et ne faites jamais confiance aux uniformes.</div></div></div>
+Nous l&#039;avons rencontré dans un café discret du quartier de la Défense, le téléphone placé dans une pochette brouilleuse d&#039;ondes.</p><div class="interview-box"><h3>L'Interview Exclusive</h3><div class="interview-line"><strong>Laurent, la police a pourtant arrêté les coupables. Ils ont été jugés et condamnés. Comment pouvez-vous affirmer qu&#039;il s&#039;agissait d&#039;une opération d&#039;État ?</strong>C&#039;est le principe même des opérations &quot;False Flag&quot; (sous faux drapeau). Regardez la logistique de l&#039;enlèvement. On nous vend des petites frappes de banlieue. Pourtant, le soir de l&#039;enlèvement, toutes les caméras de vidéosurveillance de la préfecture de police sur le trajet du véhicule ont connu une &quot;défaillance technique inexpliquée&quot; de 45 minutes. Vous croyez qu&#039;un braqueur de rue sait pirater le réseau de la préfecture ? C&#039;était une opération de barbouzes. Les voyous qui ont été arrêtés plus tard n&#039;étaient que des boucs émissaires, engagés via des intermédiaires aveugles pour servir de fusibles à la justice.</div><div class="interview-line"><strong>Vous affirmez que l&#039;État français kidnappe ses propres citoyens pour de la cryptomonnaie ? Dans quel but ?</strong>Pour le financement occulte ! Historiquement, la &quot;Françafrique&quot; ou les opérations clandestines à l&#039;étranger étaient financées par des valises de billets ou des rétrocommissions sur des ventes d&#039;armes. Aujourd&#039;hui, c&#039;est devenu trop surveillé. Les services de renseignement ont besoin de liquidités intraçables. Quoi de mieux que le Bitcoin ? Le trader ciblé en 2020 n&#039;a pas été choisi au hasard : ses portefeuilles n&#039;étaient pas déclarés au fisc. Il était la cible parfaite. S&#039;il parlait, il s&#039;auto-incriminait pour fraude fiscale.</div><div class="interview-line"><strong>Avez-vous une preuve technique de ce que vous avancez, ou est-ce seulement une déduction ?</strong>J&#039;ai tracé la blockchain. Quand les Bitcoins ont été volés ce soir-là, ils n&#039;ont pas été envoyés vers des &quot;mixeurs&quot; du dark web utilisés par les criminels traditionnels pour blanchir l&#039;argent. Non. Les fonds ont été divisés en micro-transactions et envoyés vers des adresses de contrats intelligents liées à des sociétés écrans basées à Dubaï. Ces mêmes sociétés écrans ont récemment remporté des appels d&#039;offres logistiques pour l&#039;armée française au Sahel. L&#039;argent volé dans cette forêt parisienne a servi à financer des opérations militaires non officielles.</div><div class="interview-line"><strong>Pourquoi cette vérité n&#039;éclate-t-elle pas au grand jour lors du procès ?</strong>Parce que la justice est cloisonnée. Le juge d&#039;instruction s&#039;est contenté des aveux des petites frappes (qui ont probablement touché 5 % du butin en liquide pour se taire). Quand les avocats de la victime ont demandé une commission rogatoire internationale pour tracer les portefeuilles numériques à Dubaï, le parquet a mystérieusement freiné des quatre fers en invoquant un &quot;manque de moyens techniques&quot;. Le dossier a été verrouillé de l&#039;intérieur par le Ministère de la Justice pour protéger le secret défense.</div><div class="interview-line"><strong>Qu&#039;attendez-vous de ce témoignage ?</strong>Je veux que les nouveaux riches de la crypto en France comprennent le danger. L&#039;État ne se contente plus de vous taxer à 30 % avec la Flat Tax. Si vos portefeuilles deviennent trop gros et trop opaques, vous n&#039;êtes plus un citoyen, vous devenez une ressource exploitable. Sécurisez vos clés, taisez-vous, et méfiez-vous des gyrophares banalisés en bas de chez vous.</div></div><div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : La prochaine fois que vous lirez dans le journal qu&#039;un influenceur crypto s&#039;est fait &quot;saucissonner&quot; par des cambrioleurs amateurs, regardez bien qui récupère les fonds à la fin. Les impôts sont la méthode douce de l&#039;État pour se financer ; ce genre de &quot;fait divers&quot; est leur méthode forte. Gardez vos Ledger dans des coffres physiques et ne faites jamais confiance aux uniformes.</div></div><section class="related"><h3>🕵️ Autres enquêtes à ne pas lire seul</h3><div class="related-grid"><a class="related-card" href="/articles/art-1785698731156.html" data-id="art-1785698731156"><picture><source srcset="/images/webp/migrants.webp" type="image/webp"><img src="/images/migrants.jpg" alt="" loading="lazy" decoding="async"></picture><span class="related-title">« Il n&#039;y a pas de crise migratoire, ce sont des figurants payés au SMIC par le lobby euro…</span></a><a class="related-card" href="/articles/art-1781392895334.html" data-id="art-1781392895334"><picture><source srcset="/images/webp/Clone.webp" type="image/webp"><img src="/images/Clone.jpg" alt="" loading="lazy" decoding="async"></picture><span class="related-title">Le gouvernement a remplacé mon mari par un clone (et le nouveau fait la vaisselle)</span></a><a class="related-card" href="/articles/art-1789422528427.html" data-id="art-1789422528427"><picture><source srcset="/images/webp/celine.webp" type="image/webp"><img src="/images/celine.jpg" alt="" loading="lazy" decoding="async"></picture><span class="related-title">SCANDALE À LA PLENITUDE ARENA : « Ce n’est pas la vraie Céline Dion sur scène, c’est un c…</span></a></div></section></div>
         <div class="right-column">
             <div class="top-box" id="topBox" style="display:none;">
                 <div class="top-box-header">🏆 Le Top des Éveillés</div>
                 <div id="topList"></div>
             </div>
             <div class="stories-feed" id="storiesFeed"></div>
+            <div class="top-box" id="rubriquesBox" style="display:none;"></div>
         </div>
     </div>
 
@@ -155,11 +102,12 @@ Nous l&#039;avons rencontré dans un café discret du quartier de la Défense, l
 
     <footer>
         <div class="footer-links">
-            <a href="#" onclick="toggleStudio(); return false;">Témoignez (Anonymement) !</a>
+            <a href="/theories.html">Fabriquez votre théorie !</a>
+            <a href="/rubriques/">Rubriques</a>
             <a href="/apropos.html">À propos / L'Investigateur Anonyme</a>
             <a href="/boutique.html">Boutique</a>
             <a href="/feed.xml">Flux RSS</a>
-            <a href="#" onclick="alert('Toute ressemblance avec la réalité serait franchement inquiétante.'); return false;">Mentions (Pas très) Légales</a>
+            <a href="/mentions-legales.html">Mentions (Pas très) Légales</a>
             <a href="https://endam-digital.com/">Un projet Endam Digital</a>
             <a href="https://endam-digital.com/soutenir/">Soutenir</a>
         </div>

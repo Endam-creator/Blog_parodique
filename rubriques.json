@@ -1,0 +1,7 @@
+[
+  { "slug": "complots-etat",  "label": "🏛️ Complots d'État",          "desc": "Ce que le gouvernement fait vraiment quand vous avez le dos tourné." },
+  { "slug": "technologies",   "label": "📡 Technologies suspectes",    "desc": "Antennes, algorithmes et arbres connectés : la machine nous observe." },
+  { "slug": "paranormal",     "label": "🔮 Phénomènes paranormaux",    "desc": "Dons cachés, objets maudits et médiums transfrontaliers." },
+  { "slug": "stars-sport",    "label": "🎤 Stars & sport truqués",     "desc": "Clones sur scène, penaltys arrangés : le spectacle n'est jamais ce qu'il semble." },
+  { "slug": "science",        "label": "🧪 Science alternative",       "desc": "Des expériences rigoureuses menées depuis un canapé." }
+]

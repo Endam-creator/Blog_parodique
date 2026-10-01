@@ -2,6 +2,7 @@
   {
     "id": "art-1789422528427",
     "published": "2026-09-14",
+    "rubrique": "stars-sport",
     "title": "SCANDALE À LA PLENITUDE ARENA : « Ce n’est pas la vraie Céline Dion sur scène, c’est un clone biologique fabriqué en laboratoire ! »",
     "date": "Lundi 14 septembre 2026",
     "location": "Bar associatif, Porte de La Chapelle, Paris",
@@ -41,6 +42,7 @@
   {
     "id": "art-1787690746646",
     "published": "2026-08-25",
+    "rubrique": "complots-etat",
     "title": "« Les faux policiers de Paris étaient de vrais agents de l'État : comment le gouvernement vole vos Bitcoins »",
     "date": "Mardi 25 août 2026",
     "location": "Paris, Île-de-France",
@@ -76,6 +78,7 @@
   {
     "id": "art-1785698731156",
     "published": "2026-08-02",
+    "rubrique": "complots-etat",
     "title": "« Il n'y a pas de crise migratoire, ce sont des figurants payés au SMIC par le lobby européen de la vidéosurveillance ! »",
     "date": "Dimanche 2 août 2026",
     "location": "Algésiras, Andalousie",
@@ -111,6 +114,7 @@
   {
     "id": "art-1785011830622",
     "published": "2026-07-25",
+    "rubrique": "technologies",
     "title": "Oubliez les antennes 6G, les incendies sont des défrichages express commandités pour installer les Data Centers de l'Intelligence Artificielle !",
     "date": "Samedi 25 juillet 2026",
     "location": "Saint Germain en Laye, Yvelines",
@@ -150,6 +154,7 @@
   {
     "id": "art-1784838213511",
     "published": "2026-07-23",
+    "rubrique": "science",
     "title": "« J'ai posé un niveau à bulle sur mon canapé à Auxerre, et j'ai prouvé que la Terre est plate »",
     "date": "Jeudi 23 juillet 2026",
     "location": "Auxerre, Yonne",
@@ -185,6 +190,7 @@
   {
     "id": "art-1784216050840",
     "published": "2026-07-16",
+    "rubrique": "technologies",
     "title": "« Le réchauffement climatique a bon dos, j'ai vu la carte mère du pin parasol s'enflammer de mes propres yeux ! »",
     "date": "Jeudi 16 juillet 2026",
     "location": "La Teste-de-Buch, Gironde",
@@ -220,6 +226,7 @@
   {
     "id": "art-1784155068111",
     "published": "2026-07-15",
+    "rubrique": "stars-sport",
     "title": "Le penalty provoqué par Digne à la 20e minute n’avait rien d'une erreur défensive",
     "date": "Jeudi 16 juillet 2026",
     "location": "Bondy,Seine-Saint-Denis",
@@ -255,6 +262,7 @@
   {
     "id": "art-1783531260082",
     "published": "2026-07-08",
+    "rubrique": "paranormal",
     "title": "Je possède le don de télékinésie, mais uniquement quand je suis en plein cauchemar (et mon appartement est dévasté)",
     "date": "Mercredi 8 juillet 2026",
     "location": "Melun, Seine et Marne",
@@ -294,6 +302,7 @@
   {
     "id": "art-1781820756657",
     "published": "2026-06-18",
+    "rubrique": "paranormal",
     "title": "J'ai acheté un t-shirt maudit sur Vinted, depuis je perds systématiquement à Pierre-Feuille-Ciseaux",
     "date": "Jeudi 18 juin 2026",
     "location": "Boulogne-sur-Mer, Pas-de-Calais",
@@ -333,6 +342,7 @@
   {
     "id": "art-1781732936796",
     "published": "2026-06-17",
+    "rubrique": "technologies",
     "title": "« L'intelligence artificielle de Spotify essaie de me faire divorcer (et elle a de solides arguments) »",
     "date": "Mercredi 17 juin 2026",
     "location": "Serris, Île-de-France",
@@ -372,6 +382,7 @@
   {
     "id": "art-1781557971041",
     "published": "2026-06-15",
+    "rubrique": "paranormal",
     "title": "« Je suis télépathe, mais je ne capte que les pensées des gens qui s'ennuient dans le métro »",
     "date": "Lundi 15 juin 2026",
     "location": "Paris, Ligne 7 du metro",
@@ -407,6 +418,7 @@
   {
     "id": "art-1781392895334",
     "published": "2026-06-13",
+    "rubrique": "complots-etat",
     "title": "Le gouvernement a remplacé mon mari par un clone (et le nouveau fait la vaisselle)",
     "date": "Dimanche 14 juin 2026",
     "location": "Achères, Île-de-France",
@@ -446,6 +458,7 @@
   {
     "id": "art-medium",
     "published": "2026-06-07",
+    "rubrique": "paranormal",
     "title": "INVESTIGATION TRANSFRONTALIÈRE : « Oubliez les lignes de la main : la vérité sur votre avenir est écrite sur vos fessiers, selon ce médium allemand »",
     "date": "Dimanche 7 juin 2026",
     "location": "International (Enquête en Rhénanie-du-Nord-Westphalie)",

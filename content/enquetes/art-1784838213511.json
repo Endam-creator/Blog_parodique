@@ -31,5 +31,6 @@
     }
   ],
   "notice": "La prochaine fois que vous ferez une randonnée, n'oubliez pas d'emporter un niveau à bulle. Si la bulle reste bien au milieu du tube du début à la fin de votre marche, posez-vous les bonnes questions. L'horizon porte bien son nom : il est horizontal.",
-  "classified": false
+  "classified": false,
+  "rubrique": "science"
 }

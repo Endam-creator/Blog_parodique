@@ -18,7 +18,7 @@ content:
     format: json
     filename: "{fields.id}.json"
     view:
-      fields: [title, published]
+      fields: [title, rubrique, published]
       primary: title
       sort: published
       order: desc
@@ -37,6 +37,18 @@ content:
         required: true
         options:
           format: yyyy-MM-dd
+
+      - name: rubrique
+        label: Rubrique (pour ajouter une rubrique, la déclarer aussi dans rubriques.json)
+        type: select
+        required: true
+        options:
+          values:
+            - { value: complots-etat, label: "🏛️ Complots d'État" }
+            - { value: technologies, label: "📡 Technologies suspectes" }
+            - { value: paranormal, label: "🔮 Phénomènes paranormaux" }
+            - { value: stars-sport, label: "🎤 Stars & sport truqués" }
+            - { value: science, label: "🧪 Science alternative" }
 
       - name: title
         label: Titre de l'enquête

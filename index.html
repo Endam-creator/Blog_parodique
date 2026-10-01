@@ -51,7 +51,7 @@
 
     <!-- HEADER -->
     <header>
-        <div class="logo-area" onclick="toggleStudio()" title="Console de l'Investigateur Anonyme">
+        <div class="logo-area" onclick="displayHome()" title="Retour à l'accueil">
             <img src="/logo_chat_loupe.png" alt="Logo - chat à la loupe" class="logo-img">
         </div>
         <div class="header-titles" onclick="displayHome()" title="Retour au dernier scoop">
@@ -60,6 +60,7 @@
         </div>
         <nav class="header-nav">
             <a href="https://les--verites--cachees-endam--digital-com.translate.goog/?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en" class="lang-link" target="_blank" rel="noopener" title="Read The Hidden Truths Blog in English">🇬🇧 EN</a>
+            <a href="/?hasard" class="lang-link random-link" data-random title="Laissez le destin vous éveiller">🎲 Au hasard</a>
             <a href="/boutique.html" class="boutique-link">🛒 Boutique</a>
         </nav>
     </header>
@@ -72,61 +73,6 @@
         </div>
     </div>
 
-    <!-- STUDIO DE RÉDACTION (accès protégé par identification SHA-256) -->
-    <div id="adminPanel" class="admin-panel">
-        <h3>Console de Transmission de l'Investigateur</h3>
-        <p class="admin-help">
-            Session authentifiée. 🔓 Gérez vos enquêtes ci-dessous (ajout, modification, suppression) :
-            chaque action met à jour une <strong>copie de travail</strong>. Quand tout est prêt, cliquez sur
-            « 📡 Générer articles.json » et remplacez le contenu du fichier sur GitHub.
-            Rien n'est publié tant que vous n'avez pas commité.
-        </p>
-
-        <h4>📂 Enquêtes en base (copie de travail)</h4>
-        <div class="manage-list" id="manageList"></div>
-
-        <h4 id="formHeading">✍️ Nouvelle enquête</h4>
-        <div class="editing-notice" id="editingNotice"></div>
-        <form id="studioForm" onsubmit="validateArticle(event)">
-            <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS D'ACHÈRES"></div>
-            <div class="form-group"><label>Date de publication (affichée)</label><input type="text" id="formDate"></div>
-            <div class="form-group"><label>Localisation</label><input type="text" id="formLoc" placeholder="Ex: National (Enquête en Ille-et-Vilaine)"></div>
-            <div class="form-group"><label>Auteur</label><input type="text" id="formAuthor" value="L'Investigateur Anonyme"></div>
-            <div class="form-group"><label>Résumé court (affiché dans le fil d'actualités, 1-2 phrases)</label><textarea id="formDesc" required placeholder="Ex: La créature cartilagineuse qui compresse son corps pour vous manger pendant votre sommeil !"></textarea></div>
-            <div class="form-group"><label>Chapô / Introduction de l'enquête</label><textarea id="formIntro" required placeholder="Texte d'introduction complet de l'enquête..."></textarea></div>
-            <div class="form-group">
-                <label>Interview Exclusive — préfixez chaque question par Q: et chaque réponse par R: (une réponse peut tenir sur plusieurs lignes)</label>
-                <textarea id="formInterview" style="height:140px;" placeholder="Q: Le Blog : Votre question ?&#10;R: Ulf : Ma réponse, qui peut contenir des deux-points : sans problème.&#10;Q: Le Blog : Question suivante ?&#10;R: La réponse suivante."></textarea>
-            </div>
-            <div class="form-group"><label>⚠️ L'AVIS DE LA RÉDACTION</label><textarea id="formNotice" placeholder="Conseils ou avertissements..."></textarea></div>
-            <div class="form-group"><label>Image d'illustration (nom du fichier déposé dans le dossier images/ du dépôt)</label><input type="text" id="formImg" placeholder="monstre_canalisation.png"></div>
-            <div class="form-group"><label>Tampon CLASSIFIED sur la carte ? (oui / non)</label><input type="text" id="formClassified" value="non" placeholder="oui ou non"></div>
-            <div class="studio-actions">
-                <button type="button" class="btn-secondary" onclick="previewArticle()">👁 Prévisualiser (local)</button>
-                <button type="submit" class="btn-submit" style="border:1px solid #fff" id="validateBtn">✅ Ajouter à la copie de travail</button>
-                <button type="button" class="btn-secondary" id="cancelEditBtn" style="display:none" onclick="cancelEdit()">✖ Annuler la modification</button>
-            </div>
-        </form>
-
-        <div class="studio-actions" style="margin-top:20px; border-top:1px solid #333; padding-top:15px;">
-            <button type="button" class="btn-submit" onclick="generateFullJSON()">📡 Générer articles.json (fichier complet)</button>
-        </div>
-
-        <div class="json-output-zone" id="jsonZone">
-            <h4>Fichier articles.json prêt à diffuser</h4>
-            <p class="json-steps">
-                1. Cliquez sur « Copier ».<br>
-                2. Sur GitHub : ouvrez <code>articles.json</code> → ✏️ Modifier → <strong>remplacez TOUT le contenu</strong> par ce qui est copié.<br>
-                3. Si de nouvelles images : déposez-les dans le dossier <code>images/</code> du dépôt.<br>
-                4. « Commit changes » → la GitHub Action valide le fichier et régénère le flux RSS + sitemap automatiquement. En ligne en ~1 minute. 📰
-            </p>
-            <textarea id="jsonOutput" readonly></textarea>
-            <div class="studio-actions">
-                <button type="button" class="btn-submit" onclick="copyJSON()">📋 Copier</button>
-            </div>
-        </div>
-    </div>
-
     <!-- MAIN -->
     <div class="main-layout">
         <div class="featured-story" id="articleViewer"><!-- PRERENDER --></div>
@@ -136,6 +82,7 @@
                 <div id="topList"></div>
             </div>
             <div class="stories-feed" id="storiesFeed"></div>
+            <div class="top-box" id="rubriquesBox" style="display:none;"></div>
         </div>
     </div>
 
@@ -162,11 +109,12 @@
 
     <footer>
         <div class="footer-links">
-            <a href="#" onclick="toggleStudio(); return false;">Témoignez (Anonymement) !</a>
+            <a href="/theories.html">Fabriquez votre théorie !</a>
+            <a href="/rubriques/">Rubriques</a>
             <a href="/apropos.html">À propos / L'Investigateur Anonyme</a>
             <a href="/boutique.html">Boutique</a>
             <a href="/feed.xml">Flux RSS</a>
-            <a href="#" onclick="alert('Toute ressemblance avec la réalité serait franchement inquiétante.'); return false;">Mentions (Pas très) Légales</a>
+            <a href="/mentions-legales.html">Mentions (Pas très) Légales</a>
             <a href="https://endam-digital.com/">Un projet Endam Digital</a>
             <a href="https://endam-digital.com/soutenir/">Soutenir</a>
         </div>

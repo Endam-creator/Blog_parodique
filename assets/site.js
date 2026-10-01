@@ -32,11 +32,11 @@ const VOTE_PREFIX = "lvc_endam_";   // lvc = Le blog des Vérités Cachées
 
 // Cache mémoire des totaux de votes chargés depuis l'API : { id: {up, down} }
 let voteTotals = {};
+// État du service de votes : null = en cours de chargement, true = OK, false = injoignable
+let votesOnline = null;
 
 let articles = [];
-let workingArticles = null;
-let draftArticles = [];
-let editingId = null;
+let rubriques = [];   // chargées depuis /rubriques.json
 let feedPage = 1;
 
 // --- OUTILS ---
@@ -87,7 +87,7 @@ function todayFR() {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function allArticles() { return [...draftArticles, ...articles]; }
+function allArticles() { return articles; }
 function latestId() { return articles.length > 0 ? articles[0].id : null; }
 
 // Cascade de chargement d'image : essaie le chemin tel quel, puis images/<nom>,
@@ -128,21 +128,25 @@ function voteKey(id, type) {
 }
 
 // Lit un compteur en ligne sans l'incrémenter (renvoie 0 si la clé n'existe pas encore)
+// Renvoie le total, 0 si le compteur n'existe pas encore, null si l'API ne répond pas
 async function fetchCount(id, type) {
     try {
-        const r = await fetch(VOTE_API + '/get/' + encodeURIComponent(voteKey(id, type)));
-        if (!r.ok) return 0;
+        const r = await fetch(VOTE_API + '/get/' + encodeURIComponent(voteKey(id, type)),
+            { signal: AbortSignal.timeout(6000) });
+        if (r.status === 404) return 0;
+        if (!r.ok) return null;
         const d = await r.json();
         return parseInt(d.value, 10) || 0;
     } catch (e) {
-        return 0;
+        return null;
     }
 }
 
 // Incrémente un compteur de +1 et renvoie la nouvelle valeur
 async function hitCount(id, type) {
     try {
-        const r = await fetch(VOTE_API + '/hit/' + encodeURIComponent(voteKey(id, type)));
+        const r = await fetch(VOTE_API + '/hit/' + encodeURIComponent(voteKey(id, type)),
+            { signal: AbortSignal.timeout(6000) });
         if (!r.ok) return null;
         const d = await r.json();
         return parseInt(d.value, 10);
@@ -153,13 +157,18 @@ async function hitCount(id, type) {
 
 // Charge les totaux up/down de tous les articles affichés et rafraîchit l'UI
 async function loadVoteTotals() {
+    let answered = 0;
     await Promise.all(articles.map(async (art) => {
         const [up, down] = await Promise.all([
             fetchCount(art.id, 'up'),
             fetchCount(art.id, 'down')
         ]);
-        voteTotals[art.id] = { up, down };
+        if (up !== null || down !== null) answered++;
+        voteTotals[art.id] = { up: up || 0, down: down || 0 };
     }));
+    // Service injoignable → on masque discrètement votes et classement plutôt que d'afficher des zéros
+    votesOnline = articles.length === 0 || answered > 0;
+    document.body.classList.toggle('votes-off', !votesOnline);
     renderFeed();
     renderTop();
     // Met à jour les compteurs de l'article actuellement affiché, le cas échéant
@@ -188,6 +197,50 @@ function articleShareURL(id) {
     return articleURL(id);
 }
 
+// --- RUBRIQUES, ENQUÊTES LIÉES, HASARD ---
+
+function rubriqueOf(art) { return rubriques.find(r => r.slug === art.rubrique) || null; }
+function rubriqueURL(slug) { return '/rubriques/' + encodeURIComponent(slug) + '.html'; }
+
+// 3 enquêtes à lire ensuite : même rubrique d'abord, puis les plus récentes
+function relatedArticles(art, n = 3) {
+    const others = articles.filter(a => a.id !== art.id);
+    const same = others.filter(a => art.rubrique && a.rubrique === art.rubrique);
+    const rest = others.filter(a => !same.includes(a));
+    return [...same, ...rest].slice(0, n);
+}
+
+function relatedHTML(art) {
+    const list = relatedArticles(art);
+    if (!list.length) return '';
+    return '<section class="related"><h3>🕵️ Autres enquêtes à ne pas lire seul</h3><div class="related-grid">' +
+        list.map(a =>
+            '<a class="related-card" href="' + esc(articleURL(a.id)) + '" data-id="' + esc(a.id) + '">' +
+                imgTag(a.img, 'alt="" loading="lazy" decoding="async"') +
+                '<span class="related-title">' + esc(truncateTitle(a.title, 90)) + '</span>' +
+            '</a>').join('') +
+        '</div></section>';
+}
+
+function renderRubriquesBox() {
+    const box = document.getElementById('rubriquesBox');
+    if (!box || !rubriques.length) return;
+    box.innerHTML = '<div class="top-box-header">📂 Rubriques</div><div class="rubriques-list">' +
+        rubriques.map(r => {
+            const n = articles.filter(a => a.rubrique === r.slug).length;
+            return '<a href="' + rubriqueURL(r.slug) + '">' + esc(r.label) + ' <span>' + n + '</span></a>';
+        }).join('') + '</div>';
+    box.style.display = 'block';
+}
+
+function randomArticle() {
+    const current = window.__ARTICLE_ID__ ||
+        (location.pathname.match(/\/articles\/(.+)\.html$/) || [])[1];
+    const pool = articles.filter(a => a.id !== current);
+    if (!pool.length) return;
+    displayArticle(pool[Math.floor(Math.random() * pool.length)].id, true);
+}
+
 // --- CHARGEMENT + ROUTAGE PAR URL ---
 
 async function loadArticles() {
@@ -195,6 +248,10 @@ async function loadArticles() {
         const resp = await fetch('/articles.json?v=' + Date.now());
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         articles = await resp.json();
+        try {
+            const rr = await fetch('/rubriques.json');
+            if (rr.ok) rubriques = await rr.json();
+        } catch (e) { rubriques = []; }
     } catch (err) {
         console.error('Impossible de charger articles.json :', err);
         articles = [];
@@ -217,6 +274,7 @@ async function loadArticles() {
     renderTicker();
     renderTop();
     renderFeed();
+    renderRubriquesBox();
     loadVoteTotals(); // charge les vrais totaux partagés depuis l'API (asynchrone)
 
     // Routage : ?article=id dans l'URL → affichage direct de l'enquête (lien partageable)
@@ -226,6 +284,8 @@ async function loadArticles() {
     const wanted = window.__ARTICLE_ID__ || params.get('article');
     if (wanted && articles.some(a => a.id === wanted)) {
         displayArticle(wanted, true);
+    } else if (params.has('hasard')) {
+        randomArticle();
     } else {
         displayHome();
     }
@@ -248,7 +308,8 @@ function renderTicker() {
 function renderTop() {
     const box = document.getElementById('topBox');
     const list = document.getElementById('topList');
-    if (articles.length < 2) { box.style.display = 'none'; return; }
+    // Classement affiché seulement une fois les vrais totaux chargés, et si le service répond
+    if (articles.length < 2 || votesOnline !== true) { box.style.display = 'none'; return; }
 
     const medals = ['🥇', '🥈', '🥉', '4.', '5.'];
     const ranked = [...articles]
@@ -275,8 +336,8 @@ function renderTop() {
 function displayHome() {
     // Depuis une page d'article, l'accueil est une autre page (balises SEO différentes)
     if (window.__ARTICLE_ID__) { window.location.href = '/'; return; }
-    draftArticles = [];
     history.replaceState(null, '', '/'); // URL propre
+    trackView('/');
     const viewer = document.getElementById('articleViewer');
 
     if (articles.length === 0) {
@@ -425,10 +486,9 @@ function displayArticle(id, isArchive) {
     if (!art) return;
 
     // URL partageable (sauf brouillons)
-    if (!art._draft) {
-        history.replaceState(null, '', '/articles/' + encodeURIComponent(art.id) + '.html');
-        document.title = art.title + ' | Le Blog des Vérités Cachées';
-    }
+    history.replaceState(null, '', '/articles/' + encodeURIComponent(art.id) + '.html');
+    document.title = art.title + ' | Le Blog des Vérités Cachées';
+    trackView('/articles/' + art.id + '.html');
 
     let interviewHTML = "";
     if (art.interview && art.interview.length > 0) {
@@ -442,9 +502,7 @@ function displayArticle(id, isArchive) {
     const noticeHTML = art.notice ? '<div class="redac-notice">⚠️ L\'AVIS DE LA RÉDACTION : ' + esc(art.notice) + '</div>' : '';
 
     let banner;
-    if (art._draft) {
-        banner = '<div class="draft-banner">Aperçu local — non publié</div>';
-    } else if (isArchive && art.id !== latestId()) {
+    if (isArchive && art.id !== latestId()) {
         banner = '<div class="archive-banner">Archive déclassifiée</div>';
     } else {
         banner = '<div class="breaking-banner">Breaking News</div>';
@@ -455,7 +513,7 @@ function displayArticle(id, isArchive) {
     // Boutons de partage (pas sur les brouillons)
     let shareHTML = '';
     let voteHTML = '';
-    if (!art._draft) {
+    {
         const url = articleShareURL(art.id);
         const shareText = '🎭 [Parodie] ' + art.title;
 
@@ -482,7 +540,11 @@ function displayArticle(id, isArchive) {
             '</div>';
     }
 
+    const rub = rubriqueOf(art);
+    const rubHTML = rub ? '<a class="rubrique-chip" href="' + rubriqueURL(rub.slug) + '">' + esc(rub.label) + '</a>' : '';
+
     viewer.innerHTML =
+        rubHTML +
         '<div class="meta-data">' +
             'LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>' +
             'Date de publication : ' + esc(displayDate(art)) + '<br>' +
@@ -503,7 +565,17 @@ function displayArticle(id, isArchive) {
         '</div>' +
         voteHTML +
         shareHTML +
+        relatedHTML(art) +
         '<div class="comments-zone" id="commentsZone"></div>';
+
+    // Enquêtes liées : navigation sans rechargement
+    viewer.querySelectorAll('.related-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.metaKey || e.ctrlKey) return;   // ouverture dans un nouvel onglet : on laisse faire
+            e.preventDefault();
+            displayArticle(card.dataset.id, true);
+        });
+    });
 
     // Brancher les votes de l'article principal
     viewer.querySelectorAll('.article-vote-btn').forEach(btn => {
@@ -522,7 +594,7 @@ function displayArticle(id, isArchive) {
     });
 
     // Commentaires Cusdis (si configurés, hors brouillons)
-    if (CUSDIS_APP_ID && !art._draft) {
+    if (CUSDIS_APP_ID) {
         const zone = document.getElementById('commentsZone');
         zone.innerHTML = '<h3>💬 Témoignages des Éveillés</h3>' +
             '<div id="cusdis_thread" ' +
@@ -596,6 +668,15 @@ async function registerVote(articleId, type) {
 
 // --- COMPTEUR DE VISITES (GoatCounter) ---
 
+// Compte une vue GoatCounter (ignorée si le script n'est pas chargé ou si le visiteur est exclu)
+let lastTracked = null;
+function trackView(path) {
+    if (path === lastTracked) return;
+    if (!window.goatcounter || typeof window.goatcounter.count !== 'function') return;
+    lastTracked = path;
+    window.goatcounter.count({ path: path, title: document.title });
+}
+
 function initVisitCounter() {
     if (!GOATCOUNTER_CODE) return;
 
@@ -612,8 +693,10 @@ function initVisitCounter() {
 
     // Comptage de la visite (sauf si exclu)
     if (localStorage.getItem('skipgc') !== 't') {
-        window.goatcounter = { path: '/' }; // tout est compté sur la page d'accueil (site mono-page)
+        // Comptage manuel : une vue par page réellement affichée (accueil, chaque enquête)
+        window.goatcounter = { no_onload: true };
         const s = document.createElement('script');
+        s.onload = () => trackView(location.pathname);
         s.async = true;
         s.src = 'https://gc.zgo.at/count.js';
         s.setAttribute('data-goatcounter', 'https://' + GOATCOUNTER_CODE + '.goatcounter.com/count');
@@ -621,7 +704,7 @@ function initVisitCounter() {
     }
 
     // Affichage du total (nécessite d'activer "visitor counts" dans les réglages GoatCounter)
-    fetch('https://' + GOATCOUNTER_CODE + '.goatcounter.com/counter/' + encodeURIComponent('/') + '.json')
+    fetch('https://' + GOATCOUNTER_CODE + '.goatcounter.com/counter/TOTAL.json')
         .then(r => r.ok ? r.json() : null)
         .then(data => {
             if (data && data.count) {
@@ -633,285 +716,15 @@ function initVisitCounter() {
         .catch(() => {});
 }
 
-// --- IDENTIFICATION ---
-// Seule l'empreinte SHA-256 de "identifiant:motdepasse" est stockée ici.
-// Identifiants par défaut : admin / endam2026
-// Pour changer : console du navigateur (F12) → genHash("nouvelId", "nouveauMdp")
-// puis remplacez AUTH_HASH ci-dessous.
-const AUTH_HASH = "99262f0f6b773271fbd4b0a23eeeb960f0a541f4d744ec740077cfac09948081";
-
-let isAuthorized = false;
-
-async function sha256(text) {
-    const data = new TextEncoder().encode(text);
-    const buf = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-window.genHash = async function(user, pass) {
-    const h = await sha256(user + ':' + pass);
-    console.log('Nouveau AUTH_HASH à coller dans index.html :\n' + h);
-    return h;
-};
-
-async function toggleStudio() {
-    const panel = document.getElementById('adminPanel');
-
-    if (isAuthorized) {
-        const visible = panel.style.display === 'block';
-        panel.style.display = visible ? 'none' : 'block';
-        if (!visible) openStudioSession(panel);
-        return;
-    }
-
-    const username = prompt("Saisir l'Identifiant d'accès au serveur :");
-    if (username === null) return;
-    const password = prompt("Saisir la Clé d'authentification (Mot de passe) :");
-    if (password === null) return;
-
-    let hash;
-    try {
-        hash = await sha256(username.trim() + ':' + password);
-    } catch (err) {
-        alert("ERREUR : le module de chiffrement nécessite une connexion sécurisée (https ou localhost).");
-        return;
-    }
-
-    if (hash === AUTH_HASH) {
-        isAuthorized = true;
-        alert("Authentification réussie. Canal de transmission crypté ouvert. 📡");
-        panel.style.display = 'block';
-        openStudioSession(panel);
-    } else {
-        alert("ERREUR : Accès refusé. Les coordonnées ne correspondent pas aux archives secrètes.");
-    }
-}
-
-function openStudioSession(panel) {
-    if (workingArticles === null) {
-        workingArticles = JSON.parse(JSON.stringify(articles));
-    }
-    if (!document.getElementById('formDate').value) {
-        document.getElementById('formDate').value = todayFR();
-    }
-    renderManageList();
-    const y = panel.getBoundingClientRect().top + window.pageYOffset - 20;
-    window.scrollTo(0, y);
-}
-
-// --- GESTION DES ENQUÊTES (copie de travail) ---
-
-function renderManageList() {
-    const listDiv = document.getElementById('manageList');
-    listDiv.innerHTML = "";
-
-    if (!workingArticles || workingArticles.length === 0) {
-        listDiv.innerHTML = '<div class="manage-row"><span class="row-title">Aucune enquête dans la copie de travail.</span></div>';
-        return;
-    }
-
-    workingArticles.forEach((art, index) => {
-        const row = document.createElement('div');
-        row.className = 'manage-row' + (art._modified ? ' modified' : '');
-
-        const badge = index === 0 ? '<span class="row-badge">BREAKING</span>' : '';
-        const modifiedTag = art._modified ? ' (modifié ✏️)' : '';
-
-        row.innerHTML =
-            badge +
-            '<span class="row-title" title="' + esc(art.title) + '">' + esc(truncateTitle(art.title, 70)) + modifiedTag + '</span>' +
-            '<button type="button" class="mini-btn" data-action="edit">✏️ Modifier</button>' +
-            '<button type="button" class="mini-btn danger" data-action="delete">🗑 Supprimer</button>';
-
-        row.querySelector('[data-action="edit"]').addEventListener('click', () => editArticle(art.id));
-        row.querySelector('[data-action="delete"]').addEventListener('click', () => deleteArticle(art.id));
-
-        listDiv.appendChild(row);
-    });
-}
-
-function interviewToText(interview) {
-    if (!interview || interview.length === 0) return '';
-    return interview.map(r => 'Q: ' + r.q + '\nR: ' + r.a).join('\n');
-}
-
-function editArticle(id) {
-    const art = workingArticles.find(a => a.id === id);
-    if (!art) return;
-
-    editingId = id;
-    document.getElementById('formTitle').value = art.title || '';
-    document.getElementById('formDate').value = art.date || '';
-    document.getElementById('formLoc').value = art.location || '';
-    document.getElementById('formAuthor').value = art.author || "L'Investigateur Anonyme";
-    document.getElementById('formDesc').value = art.desc || '';
-    document.getElementById('formIntro').value = art.intro || '';
-    document.getElementById('formInterview').value = interviewToText(art.interview);
-    document.getElementById('formNotice').value = art.notice || '';
-    document.getElementById('formImg').value = (art.img || '').replace(/^images\//, '').replace(/^logo_chat_loupe\.png$/, '');
-    document.getElementById('formClassified').value = art.classified ? 'oui' : 'non';
-
-    document.getElementById('formHeading').textContent = '✏️ Modification de l\'enquête';
-    document.getElementById('validateBtn').textContent = '✅ Enregistrer la modification';
-    const notice = document.getElementById('editingNotice');
-    notice.style.display = 'block';
-    notice.textContent = 'Modification en cours : « ' + truncateTitle(art.title, 60) + ' »';
-    document.getElementById('cancelEditBtn').style.display = 'inline-block';
-
-    // Positionne la vue sur le titre du formulaire (sans 'smooth' qui bugue sur Safari,
-    // et sans bloquer le défilement vers le bas du formulaire)
-    const heading = document.getElementById('formHeading');
-    if (heading) {
-        const y = heading.getBoundingClientRect().top + window.pageYOffset - 20;
-        window.scrollTo(0, y);
-    }
-}
-
-function cancelEdit() {
-    editingId = null;
-    document.getElementById('studioForm').reset();
-    document.getElementById('formAuthor').value = "L'Investigateur Anonyme";
-    document.getElementById('formClassified').value = 'non';
-    document.getElementById('formDate').value = todayFR();
-    document.getElementById('formHeading').textContent = '✍️ Nouvelle enquête';
-    document.getElementById('validateBtn').textContent = '✅ Ajouter à la copie de travail';
-    document.getElementById('editingNotice').style.display = 'none';
-    document.getElementById('cancelEditBtn').style.display = 'none';
-}
-
-function deleteArticle(id) {
-    const art = workingArticles.find(a => a.id === id);
-    if (!art) return;
-    if (!confirm('Supprimer définitivement cette enquête de la copie de travail ?\n\n« ' + truncateTitle(art.title, 80) + ' »')) return;
-
-    workingArticles = workingArticles.filter(a => a.id !== id);
-    if (editingId === id) cancelEdit();
-    renderManageList();
-    refreshJSONIfVisible();
-}
-
-// --- CONSTRUCTION / VALIDATION D'UNE ENQUÊTE ---
-
-function buildArticleFromForm(keepId, keepPublished) {
-    const title = document.getElementById('formTitle').value.trim();
-    const date = document.getElementById('formDate').value.trim() || todayFR();
-    const location = document.getElementById('formLoc').value.trim() || "National";
-    const author = document.getElementById('formAuthor').value.trim() || "L'Investigateur Anonyme";
-    const desc = document.getElementById('formDesc').value.trim();
-    const intro = document.getElementById('formIntro').value.trim();
-    const notice = document.getElementById('formNotice').value.trim();
-    const classified = /^o/i.test(document.getElementById('formClassified').value.trim());
-    let img = document.getElementById('formImg').value.trim();
-    if (img && !img.includes('/')) img = 'images/' + img;
-
-    const interview = [];
-    const raw = document.getElementById('formInterview').value;
-    let current = null;
-    raw.split('\n').forEach(line => {
-        const trimmed = line.trim();
-        if (/^Q\s*:/i.test(trimmed)) {
-            if (current && current.q) interview.push(current);
-            current = { q: trimmed.replace(/^Q\s*:\s*/i, ''), a: '' };
-        } else if (/^R\s*:/i.test(trimmed)) {
-            if (current) current.a = trimmed.replace(/^R\s*:\s*/i, '');
-        } else if (trimmed && current) {
-            current.a = current.a ? current.a + ' ' + trimmed : trimmed;
-        }
-    });
-    if (current && current.q) interview.push(current);
-
-    return {
-        id: keepId || ("art-" + Date.now()),
-        title, date, location, author,
-        img: img || "logo_chat_loupe.png",
-        desc, intro, interview, notice, classified,
-        // Date ISO pour le tri automatique et le flux RSS
-        published: keepPublished || new Date().toISOString().slice(0, 10)
-    };
-}
-
-function validateArticle(e) {
-    e.preventDefault();
-
-    if (editingId) {
-        const index = workingArticles.findIndex(a => a.id === editingId);
-        if (index !== -1) {
-            const old = workingArticles[index];
-            const updated = buildArticleFromForm(editingId, old.published);
-            updated._modified = true;
-            workingArticles[index] = updated;
-        }
-        cancelEdit();
-        alert('Enquête mise à jour dans la copie de travail. ✏️\nPensez à générer et committer articles.json pour publier.');
-    } else {
-        const art = buildArticleFromForm();
-        workingArticles.unshift(art);
-        document.getElementById('studioForm').reset();
-        document.getElementById('formAuthor').value = "L'Investigateur Anonyme";
-        document.getElementById('formClassified').value = 'non';
-        document.getElementById('formDate').value = todayFR();
-        alert('Enquête ajoutée en tête de la copie de travail. 📰\nPensez à générer et committer articles.json pour publier.');
-    }
-
-    renderManageList();
-    refreshJSONIfVisible();
-}
-
-function previewArticle() {
-    const form = document.getElementById('studioForm');
-    if (!form.reportValidity()) return;
-
-    const art = buildArticleFromForm();
-    art._draft = true;
-    art.id = "draft-" + Date.now();
-
-    draftArticles = [art];
-    displayArticle(art.id, false);
-}
-
-// --- GÉNÉRATION DU FICHIER COMPLET ---
-
-function cleanForExport(list) {
-    return list.map(a => {
-        const copy = { ...a };
-        delete copy._modified;
-        delete copy._draft;
-        return copy;
-    });
-}
-
-function generateFullJSON() {
-    if (!workingArticles) return;
-    const zone = document.getElementById('jsonZone');
-    const output = document.getElementById('jsonOutput');
-    output.value = JSON.stringify(cleanForExport(workingArticles), null, 2);
-    zone.style.display = 'block';
-    output.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-function refreshJSONIfVisible() {
-    const zone = document.getElementById('jsonZone');
-    if (zone.style.display === 'block') {
-        document.getElementById('jsonOutput').value = JSON.stringify(cleanForExport(workingArticles), null, 2);
-    }
-}
-
-function copyJSON() {
-    const output = document.getElementById('jsonOutput');
-    output.select();
-    navigator.clipboard.writeText(output.value)
-        .then(() => alert("Fichier copié ! Direction GitHub → articles.json → remplacer tout le contenu. 📡"))
-        .catch(() => {
-            document.execCommand('copy');
-            alert("Fichier copié (méthode de secours).");
-        });
-}
-
 // --- INIT ---
 
 document.addEventListener("DOMContentLoaded", () => {
     loadArticles();
     initVisitCounter();
+    document.querySelectorAll('[data-random]').forEach(b => b.addEventListener('click', (e) => {
+        e.preventDefault();
+        randomArticle();
+    }));
 
     // Lien "Partager sur X" du pied de page → partage le site
     const sx = document.getElementById('socialX');

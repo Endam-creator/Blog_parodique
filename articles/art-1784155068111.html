@@ -42,7 +42,7 @@
 
     <!-- HEADER -->
     <header>
-        <div class="logo-area" onclick="toggleStudio()" title="Console de l'Investigateur Anonyme">
+        <div class="logo-area" onclick="displayHome()" title="Retour à l'accueil">
             <img src="/logo_chat_loupe.png" alt="Logo - chat à la loupe" class="logo-img">
         </div>
         <div class="header-titles" onclick="displayHome()" title="Retour au dernier scoop">
@@ -51,6 +51,7 @@
         </div>
         <nav class="header-nav">
             <a href="https://les--verites--cachees-endam--digital-com.translate.goog/?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en" class="lang-link" target="_blank" rel="noopener" title="Read The Hidden Truths Blog in English">🇬🇧 EN</a>
+            <a href="/?hasard" class="lang-link random-link" data-random title="Laissez le destin vous éveiller">🎲 Au hasard</a>
             <a href="/boutique.html" class="boutique-link">🛒 Boutique</a>
         </nav>
     </header>
@@ -63,70 +64,16 @@
         </div>
     </div>
 
-    <!-- STUDIO DE RÉDACTION (accès protégé par identification SHA-256) -->
-    <div id="adminPanel" class="admin-panel">
-        <h3>Console de Transmission de l'Investigateur</h3>
-        <p class="admin-help">
-            Session authentifiée. 🔓 Gérez vos enquêtes ci-dessous (ajout, modification, suppression) :
-            chaque action met à jour une <strong>copie de travail</strong>. Quand tout est prêt, cliquez sur
-            « 📡 Générer articles.json » et remplacez le contenu du fichier sur GitHub.
-            Rien n'est publié tant que vous n'avez pas commité.
-        </p>
-
-        <h4>📂 Enquêtes en base (copie de travail)</h4>
-        <div class="manage-list" id="manageList"></div>
-
-        <h4 id="formHeading">✍️ Nouvelle enquête</h4>
-        <div class="editing-notice" id="editingNotice"></div>
-        <form id="studioForm" onsubmit="validateArticle(event)">
-            <div class="form-group"><label>Titre de l'enquête</label><input type="text" id="formTitle" required placeholder="Ex: LE MONSTRE DES CANALISATIONS D'ACHÈRES"></div>
-            <div class="form-group"><label>Date de publication (affichée)</label><input type="text" id="formDate"></div>
-            <div class="form-group"><label>Localisation</label><input type="text" id="formLoc" placeholder="Ex: National (Enquête en Ille-et-Vilaine)"></div>
-            <div class="form-group"><label>Auteur</label><input type="text" id="formAuthor" value="L'Investigateur Anonyme"></div>
-            <div class="form-group"><label>Résumé court (affiché dans le fil d'actualités, 1-2 phrases)</label><textarea id="formDesc" required placeholder="Ex: La créature cartilagineuse qui compresse son corps pour vous manger pendant votre sommeil !"></textarea></div>
-            <div class="form-group"><label>Chapô / Introduction de l'enquête</label><textarea id="formIntro" required placeholder="Texte d'introduction complet de l'enquête..."></textarea></div>
-            <div class="form-group">
-                <label>Interview Exclusive — préfixez chaque question par Q: et chaque réponse par R: (une réponse peut tenir sur plusieurs lignes)</label>
-                <textarea id="formInterview" style="height:140px;" placeholder="Q: Le Blog : Votre question ?&#10;R: Ulf : Ma réponse, qui peut contenir des deux-points : sans problème.&#10;Q: Le Blog : Question suivante ?&#10;R: La réponse suivante."></textarea>
-            </div>
-            <div class="form-group"><label>⚠️ L'AVIS DE LA RÉDACTION</label><textarea id="formNotice" placeholder="Conseils ou avertissements..."></textarea></div>
-            <div class="form-group"><label>Image d'illustration (nom du fichier déposé dans le dossier images/ du dépôt)</label><input type="text" id="formImg" placeholder="monstre_canalisation.png"></div>
-            <div class="form-group"><label>Tampon CLASSIFIED sur la carte ? (oui / non)</label><input type="text" id="formClassified" value="non" placeholder="oui ou non"></div>
-            <div class="studio-actions">
-                <button type="button" class="btn-secondary" onclick="previewArticle()">👁 Prévisualiser (local)</button>
-                <button type="submit" class="btn-submit" style="border:1px solid #fff" id="validateBtn">✅ Ajouter à la copie de travail</button>
-                <button type="button" class="btn-secondary" id="cancelEditBtn" style="display:none" onclick="cancelEdit()">✖ Annuler la modification</button>
-            </div>
-        </form>
-
-        <div class="studio-actions" style="margin-top:20px; border-top:1px solid #333; padding-top:15px;">
-            <button type="button" class="btn-submit" onclick="generateFullJSON()">📡 Générer articles.json (fichier complet)</button>
-        </div>
-
-        <div class="json-output-zone" id="jsonZone">
-            <h4>Fichier articles.json prêt à diffuser</h4>
-            <p class="json-steps">
-                1. Cliquez sur « Copier ».<br>
-                2. Sur GitHub : ouvrez <code>articles.json</code> → ✏️ Modifier → <strong>remplacez TOUT le contenu</strong> par ce qui est copié.<br>
-                3. Si de nouvelles images : déposez-les dans le dossier <code>images/</code> du dépôt.<br>
-                4. « Commit changes » → la GitHub Action valide le fichier et régénère le flux RSS + sitemap automatiquement. En ligne en ~1 minute. 📰
-            </p>
-            <textarea id="jsonOutput" readonly></textarea>
-            <div class="studio-actions">
-                <button type="button" class="btn-submit" onclick="copyJSON()">📋 Copier</button>
-            </div>
-        </div>
-    </div>
-
     <!-- MAIN -->
     <div class="main-layout">
-        <div class="featured-story" id="articleViewer"><div class="meta-data">LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>Date de publication : Jeudi 16 juillet 2026<br>Localisation : Bondy,Seine-Saint-Denis<br>Auteur : L&#039;Investigateur Anonyme</div><div class="archive-banner">Archive déclassifiée</div><div class="hero-visual"><picture><source srcset="/images/webp/marabout.webp" type="image/webp"><img src="/images/marabout.jpg" alt="Le penalty provoqué par Digne à la 20e minute n’avait rien d&#039;une erreur défensive" fetchpriority="high" decoding="async"></picture><div class="hero-title-overlay"><h2>Le penalty provoqué par Digne à la 20e minute n’avait rien d&#039;une erreur défensive</h2></div></div><div class="parody-banner" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</div><div class="article-body"><p>Pour la France entière, l&#039;élimination des Bleus en demi-finale de la Coupe du Monde s&#039;explique par une tactique défaillante, une défense fébrile et un cruel manque de réussite. Mais pour Amadou T., 58 ans, réparateur de machines à laver et &quot;consultant en énergies occultes&quot; de la région parisienne, la version des commentateurs sportifs n&#039;est qu&#039;un ramassis d&#039;illusions. Selon lui, l&#039;Équipe de France n&#039;a pas perdu sur le terrain : elle a été victime d&#039;un maraboutage de très haut niveau, avec des preuves irréfutables à l&#039;appui.</p><div class="interview-box"><h3>L'Interview Exclusive</h3><div class="interview-line"><strong>Amadou, la défaite a été dure pour tout le monde, mais beaucoup parlent simplement de malchance ou d&#039;une erreur de jugement. Qu&#039;est-ce qui vous permet d&#039;affirmer qu&#039;il s&#039;agit de sorcellerie ?</strong>Je connais les flux magnétiques par cœur. J&#039;ai passé ma vie à décortiquer les auras. Lors de cette demi-finale, le ballon ne tournait pas rond, il dégageait une fumée astrale vert fluo. La veille du match, j&#039;ai été contacté par un confrère marabout d&#039;un autre pays qui s&#039;était vanté sur un groupe WhatsApp professionnel. Il avait reçu une commande très spéciale : un carton entier de mini-coqs en plastique et un maillot bleu taille L. Mais ce qui l&#039;a trahi, ce sont les ombres sur la pelouse. À plusieurs reprises en deuxième mi-temps, j&#039;ai vu les ombres de Mbappé et de Dembélé courir dans la direction opposée à eux ! C&#039;est un sortilège classique du &quot;reflet inversé&quot;, destiné à désorienter l&#039;esprit.</div><div class="interview-line"><strong>Une simple illusion d&#039;optique liée aux projecteurs du stade, peut-être ? Avez-vous une preuve physique, un geste ou un élément plus explicite ?</strong>Une illusion ? C&#039;était une signature occulte ! Prenez ce fameux penalty provoqué à la 20e minute. Vous avez vu le geste de Digne? Il n&#039;y est pour rien ! Sa jambe a été magnétiquement aspirée. J&#039;ai la preuve formelle. (Il sort de son tiroir une clé USB et me montre une photo floue). Un de mes clients était dans les tribunes avec un téléobjectif. À l&#039;instant exact de la faute, regardez bien le poteau de corner en arrière-plan : il y a un crapaud séché attaché au drapeau avec du fil de pêche ! Un passant lambda aurait cru à une grosse motte de terre. Moi, je reconnais direct le sortilège de &quot;la patte de plomb&quot;. Mes poils se sont hérissés.</div><div class="interview-line"><strong>Êtes-vous allé alerter la Fédération ou le staff technique ?</strong>J&#039;ai envoyé un fax en urgence à la Féderation Française de Football à la mi-temps. J&#039;ai dit : &quot;Versez du gros sel sur le point de penalty et frottez les crampons de Digne avec du citron vert !&quot;. Ils ne m&#039;ont sans doute pas pris aux sérieux !!!. Pourtant, sur le terrain, j&#039;ai vu notre Tchouaméni se figer d&#039;un coup peu après. Il n&#039;a pas glissé, ses chakras des genoux ont été littéralement verrouillés à distance. On pouvait presque entendre le clic du cadenas mystique depuis mon canapé.</div><div class="interview-line"><strong>Pourquoi quelqu&#039;un aurait-il orchestré ce maraboutage selon vous ?</strong>Vous avez vu ce qu&#039;il s&#039;est passé après le match du Paraguay et toutes les déclarations politiques ? On ne va pas revenir dessus, mais je suis sûr que c&#039;est une vengeance suite à tout ce qui s&#039;est passé extra-sportivement. Les esprits se nourrissent de ces tensions, vous savez. Un marabout paraguayen a été engagé pour désaxer nos défenseurs. Organiser ce fiasco dés la 20e minute, c&#039;était la plus belle des vengeances.</div><div class="interview-line"><strong>Qu&#039;attendez-vous de ce témoignage ?</strong>Je ne cherche pas la gloire. Si la Fédération veut continuer à croire aux &quot;retards défensifs&quot;, c&#039;est son droit le plus strict. Mais je veux que les supporters sachent : nos joueurs n&#039;étaient pas mauvais. Ils portaient le poids de trois hippopotames fantômes sur les épaules. Je suis d&#039;ailleurs disponible pour purifier le centre d&#039;entraînement, j&#039;ai déjà préparé une décoction spéciale à la citronnelle... tarif de groupe possible.</div></div><div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : Si vous remarquez que votre équipe favorite perd inexplicablement et que votre voisin fait brûler de la sauge en regardant l&#039;arbitre de touche, ne paniquez pas. Inutile de jeter du gros sel sur votre écran plat ou d&#039;envoyer un chèque à un inconnu pour &quot;désenvoûter votre abonnement BeIN Sports&quot;. Éteignez la télé discrètement, prenez une tisane, et laissez le football se reposer en paix.</div></div></div>
+        <div class="featured-story" id="articleViewer"><a class="rubrique-chip" href="/rubriques/stars-sport.html">🎤 Stars &amp; sport truqués</a><div class="meta-data">LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>Date de publication : Jeudi 16 juillet 2026<br>Localisation : Bondy,Seine-Saint-Denis<br>Auteur : L&#039;Investigateur Anonyme</div><div class="archive-banner">Archive déclassifiée</div><div class="hero-visual"><picture><source srcset="/images/webp/marabout.webp" type="image/webp"><img src="/images/marabout.jpg" alt="Le penalty provoqué par Digne à la 20e minute n’avait rien d&#039;une erreur défensive" fetchpriority="high" decoding="async"></picture><div class="hero-title-overlay"><h2>Le penalty provoqué par Digne à la 20e minute n’avait rien d&#039;une erreur défensive</h2></div></div><div class="parody-banner" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</div><div class="article-body"><p>Pour la France entière, l&#039;élimination des Bleus en demi-finale de la Coupe du Monde s&#039;explique par une tactique défaillante, une défense fébrile et un cruel manque de réussite. Mais pour Amadou T., 58 ans, réparateur de machines à laver et &quot;consultant en énergies occultes&quot; de la région parisienne, la version des commentateurs sportifs n&#039;est qu&#039;un ramassis d&#039;illusions. Selon lui, l&#039;Équipe de France n&#039;a pas perdu sur le terrain : elle a été victime d&#039;un maraboutage de très haut niveau, avec des preuves irréfutables à l&#039;appui.</p><div class="interview-box"><h3>L'Interview Exclusive</h3><div class="interview-line"><strong>Amadou, la défaite a été dure pour tout le monde, mais beaucoup parlent simplement de malchance ou d&#039;une erreur de jugement. Qu&#039;est-ce qui vous permet d&#039;affirmer qu&#039;il s&#039;agit de sorcellerie ?</strong>Je connais les flux magnétiques par cœur. J&#039;ai passé ma vie à décortiquer les auras. Lors de cette demi-finale, le ballon ne tournait pas rond, il dégageait une fumée astrale vert fluo. La veille du match, j&#039;ai été contacté par un confrère marabout d&#039;un autre pays qui s&#039;était vanté sur un groupe WhatsApp professionnel. Il avait reçu une commande très spéciale : un carton entier de mini-coqs en plastique et un maillot bleu taille L. Mais ce qui l&#039;a trahi, ce sont les ombres sur la pelouse. À plusieurs reprises en deuxième mi-temps, j&#039;ai vu les ombres de Mbappé et de Dembélé courir dans la direction opposée à eux ! C&#039;est un sortilège classique du &quot;reflet inversé&quot;, destiné à désorienter l&#039;esprit.</div><div class="interview-line"><strong>Une simple illusion d&#039;optique liée aux projecteurs du stade, peut-être ? Avez-vous une preuve physique, un geste ou un élément plus explicite ?</strong>Une illusion ? C&#039;était une signature occulte ! Prenez ce fameux penalty provoqué à la 20e minute. Vous avez vu le geste de Digne? Il n&#039;y est pour rien ! Sa jambe a été magnétiquement aspirée. J&#039;ai la preuve formelle. (Il sort de son tiroir une clé USB et me montre une photo floue). Un de mes clients était dans les tribunes avec un téléobjectif. À l&#039;instant exact de la faute, regardez bien le poteau de corner en arrière-plan : il y a un crapaud séché attaché au drapeau avec du fil de pêche ! Un passant lambda aurait cru à une grosse motte de terre. Moi, je reconnais direct le sortilège de &quot;la patte de plomb&quot;. Mes poils se sont hérissés.</div><div class="interview-line"><strong>Êtes-vous allé alerter la Fédération ou le staff technique ?</strong>J&#039;ai envoyé un fax en urgence à la Féderation Française de Football à la mi-temps. J&#039;ai dit : &quot;Versez du gros sel sur le point de penalty et frottez les crampons de Digne avec du citron vert !&quot;. Ils ne m&#039;ont sans doute pas pris aux sérieux !!!. Pourtant, sur le terrain, j&#039;ai vu notre Tchouaméni se figer d&#039;un coup peu après. Il n&#039;a pas glissé, ses chakras des genoux ont été littéralement verrouillés à distance. On pouvait presque entendre le clic du cadenas mystique depuis mon canapé.</div><div class="interview-line"><strong>Pourquoi quelqu&#039;un aurait-il orchestré ce maraboutage selon vous ?</strong>Vous avez vu ce qu&#039;il s&#039;est passé après le match du Paraguay et toutes les déclarations politiques ? On ne va pas revenir dessus, mais je suis sûr que c&#039;est une vengeance suite à tout ce qui s&#039;est passé extra-sportivement. Les esprits se nourrissent de ces tensions, vous savez. Un marabout paraguayen a été engagé pour désaxer nos défenseurs. Organiser ce fiasco dés la 20e minute, c&#039;était la plus belle des vengeances.</div><div class="interview-line"><strong>Qu&#039;attendez-vous de ce témoignage ?</strong>Je ne cherche pas la gloire. Si la Fédération veut continuer à croire aux &quot;retards défensifs&quot;, c&#039;est son droit le plus strict. Mais je veux que les supporters sachent : nos joueurs n&#039;étaient pas mauvais. Ils portaient le poids de trois hippopotames fantômes sur les épaules. Je suis d&#039;ailleurs disponible pour purifier le centre d&#039;entraînement, j&#039;ai déjà préparé une décoction spéciale à la citronnelle... tarif de groupe possible.</div></div><div class="redac-notice">⚠️ L'AVIS DE LA RÉDACTION : Si vous remarquez que votre équipe favorite perd inexplicablement et que votre voisin fait brûler de la sauge en regardant l&#039;arbitre de touche, ne paniquez pas. Inutile de jeter du gros sel sur votre écran plat ou d&#039;envoyer un chèque à un inconnu pour &quot;désenvoûter votre abonnement BeIN Sports&quot;. Éteignez la télé discrètement, prenez une tisane, et laissez le football se reposer en paix.</div></div><section class="related"><h3>🕵️ Autres enquêtes à ne pas lire seul</h3><div class="related-grid"><a class="related-card" href="/articles/art-1789422528427.html" data-id="art-1789422528427"><picture><source srcset="/images/webp/celine.webp" type="image/webp"><img src="/images/celine.jpg" alt="" loading="lazy" decoding="async"></picture><span class="related-title">SCANDALE À LA PLENITUDE ARENA : « Ce n’est pas la vraie Céline Dion sur scène, c’est un c…</span></a><a class="related-card" href="/articles/art-1787690746646.html" data-id="art-1787690746646"><picture><source srcset="/images/webp/crypto.webp" type="image/webp"><img src="/images/crypto.jpg" alt="" loading="lazy" decoding="async"></picture><span class="related-title">« Les faux policiers de Paris étaient de vrais agents de l&#039;État : comment le gouvernement…</span></a><a class="related-card" href="/articles/art-1785698731156.html" data-id="art-1785698731156"><picture><source srcset="/images/webp/migrants.webp" type="image/webp"><img src="/images/migrants.jpg" alt="" loading="lazy" decoding="async"></picture><span class="related-title">« Il n&#039;y a pas de crise migratoire, ce sont des figurants payés au SMIC par le lobby euro…</span></a></div></section></div>
         <div class="right-column">
             <div class="top-box" id="topBox" style="display:none;">
                 <div class="top-box-header">🏆 Le Top des Éveillés</div>
                 <div id="topList"></div>
             </div>
             <div class="stories-feed" id="storiesFeed"></div>
+            <div class="top-box" id="rubriquesBox" style="display:none;"></div>
         </div>
     </div>
 
@@ -153,11 +100,12 @@
 
     <footer>
         <div class="footer-links">
-            <a href="#" onclick="toggleStudio(); return false;">Témoignez (Anonymement) !</a>
+            <a href="/theories.html">Fabriquez votre théorie !</a>
+            <a href="/rubriques/">Rubriques</a>
             <a href="/apropos.html">À propos / L'Investigateur Anonyme</a>
             <a href="/boutique.html">Boutique</a>
             <a href="/feed.xml">Flux RSS</a>
-            <a href="#" onclick="alert('Toute ressemblance avec la réalité serait franchement inquiétante.'); return false;">Mentions (Pas très) Légales</a>
+            <a href="/mentions-legales.html">Mentions (Pas très) Légales</a>
             <a href="https://endam-digital.com/">Un projet Endam Digital</a>
             <a href="https://endam-digital.com/soutenir/">Soutenir</a>
         </div>
