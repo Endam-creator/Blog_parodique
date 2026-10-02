@@ -1,4 +1,10 @@
-// Génère automatiquement l'image d'une enquête avec Gemini (Google AI Studio).
+// Génère automatiquement l'image d'une enquête par IA.
+//
+// Fournisseur utilisé :
+//   1. Cloudflare Workers AI (FLUX.1 schnell) — GRATUIT : quota quotidien de l'offre gratuite,
+//      jamais de facturation (au-delà, la génération échoue simplement jusqu'au lendemain).
+//      Secrets : CLOUDFLARE_API_TOKEN (avec la permission « Workers AI ») et CLOUDFLARE_ACCOUNT_ID.
+//   2. Gemini (payant) — seulement si le secret GEMINI_API_KEY est configuré.
 //
 // Une enquête est traitée si son champ « img_prompt » est rempli ET
 //   - qu'elle n'a pas encore d'image, ou
@@ -7,12 +13,14 @@
 // et « img_regen » est décochée. Les étapes suivantes de l'Action produisent ensuite
 // WebP, aperçu de partage tamponné et unes.
 //
-// Secret GitHub requis : GEMINI_API_KEY (clé créée sur https://aistudio.google.com)
 // Variable facultative : GEMINI_IMAGE_MODEL (par défaut gemini-3.1-flash-image)
 import { readFileSync, writeFileSync, readdirSync, existsSync, rmSync } from 'node:fs';
 import sharp from 'sharp';
 
 const KEY = process.env.GEMINI_API_KEY;
+const CF_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
+const CF_ACCOUNT = process.env.CLOUDFLARE_ACCOUNT_ID;
+const PROVIDER = KEY ? 'gemini' : (CF_TOKEN && CF_ACCOUNT ? 'cloudflare' : null);
 const MODEL = process.env.GEMINI_IMAGE_MODEL || 'gemini-3.1-flash-image';
 const MAX_PER_RUN = 3;   // garde-fou sur le coût
 const DIR = 'content/enquetes';
@@ -33,9 +41,32 @@ const todo = readdirSync(DIR).filter(f => f.endsWith('.json')).map(f => {
 }).filter(({ art }) => String(art.img_prompt || '').trim() && (!art.img || art.img_regen === true));
 
 if (!todo.length) { console.log('Aucune image IA à générer.'); process.exit(0); }
-if (!KEY) {
-    console.log(`::warning::${todo.length} enquête(s) attendent une image IA, mais le secret GEMINI_API_KEY n'est pas configuré.`);
+if (!PROVIDER) {
+    console.log(`::warning::${todo.length} enquête(s) attendent une image IA, mais aucun fournisseur n'est configuré (CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID, ou GEMINI_API_KEY).`);
     process.exit(0);
+}
+console.log(`Fournisseur d'images : ${PROVIDER === 'cloudflare' ? 'Cloudflare Workers AI (FLUX.1 schnell, gratuit)' : 'Gemini (' + MODEL + ')'}`);
+
+// Cloudflare Workers AI — FLUX.1 schnell (image carrée, recadrée ensuite en 16:9)
+async function generateCloudflare(prompt) {
+    const full = `${prompt.trim()} ${STYLE}`.slice(0, 2000);
+    const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/ai/run/@cf/black-forest-labs/flux-1-schnell`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${CF_TOKEN}` },
+        body: JSON.stringify({ prompt: full, steps: 8 }),
+        signal: AbortSignal.timeout(180000),
+    });
+    const text = await r.text();
+    let json = null;
+    try { json = JSON.parse(text); } catch (e) {}
+    const img = json?.result?.image;
+    if (!r.ok || !img) {
+        const hint = r.status === 403 || r.status === 401
+            ? ' (le jeton Cloudflare doit avoir la permission « Workers AI »)'
+            : (r.status === 429 ? ' (quota gratuit du jour atteint, réessai au prochain passage)' : '');
+        throw new Error(`Cloudflare Workers AI → ${r.status}${hint} ${text.slice(0, 300)}`);
+    }
+    return Buffer.from(img, 'base64');
 }
 
 // Cherche récursivement une image base64 dans la réponse (compatible avec les deux formats d'API)
@@ -90,9 +121,10 @@ for (const { path, art } of todo.slice(0, MAX_PER_RUN)) {
     const label = `« ${String(art.title || art.id).slice(0, 60)} »`;
     try {
         console.log(`🎨 Génération de l'image pour ${label}…`);
-        const raw = await generate(art.img_prompt);
+        const raw = PROVIDER === 'cloudflare' ? await generateCloudflare(art.img_prompt) : await generate(art.img_prompt);
         const file = `images/${art.id}-ia-${Date.now()}.jpg`;
-        await sharp(raw).resize({ width: 1600, withoutEnlargement: true }).jpeg({ quality: 86, mozjpeg: true }).toFile(file);
+        // Format paysage 16:9 comme les autres illustrations (recadrage intelligent)
+        await sharp(raw).resize(1600, 900, { fit: 'cover', position: 'attention' }).jpeg({ quality: 86, mozjpeg: true }).toFile(file);
         // Supprime l'ancienne image IA de cette enquête (pas les images déposées à la main)
         const old = String(art.img || '').replace(/^\/+/, '');
         if (old && old !== file && /-ia-\d+\.jpg$/.test(old) && existsSync(old)) rmSync(old);

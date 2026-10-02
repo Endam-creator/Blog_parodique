@@ -50,9 +50,11 @@ jobs:
       - name: Installation de sharp
         run: npm install --no-save --no-package-lock --silent sharp@0.34
 
-      - name: Génération des images IA (Gemini)
+      - name: Génération des images IA (Cloudflare Workers AI, gratuit)
         continue-on-error: true
         env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_IMAGE_MODEL: ${{ vars.GEMINI_IMAGE_MODEL }}
         run: node .github/scripts/generate_ai_images.mjs
