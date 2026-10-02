@@ -66,6 +66,16 @@ function highlightTitle(title) {
 }
 
 // Date affichée : champ « date » si rempli, sinon calculée depuis « published » (AAAA-MM-JJ)
+// Numéro de dossier (purement décoratif), stable pour une enquête donnée.
+// Même calcul que dans .github/scripts/generate_pages.mjs.
+function dossierNo(id) {
+    const digits = String(id).replace(/\D/g, '');
+    if (digits.length >= 4) return digits.slice(-5);
+    let h = 0;
+    for (const c of String(id)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+    return String(h % 100000).padStart(5, '0');
+}
+
 function displayDate(art) {
     if (art.date) return art.date;
     if (!art.published) return '';
@@ -509,16 +519,14 @@ function displayArticle(id, isArchive) {
 
     viewer.innerHTML =
         rubHTML +
-        '<div class="meta-data">' +
-            'LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>' +
-            'Date de publication : ' + esc(displayDate(art)) + '<br>' +
-            'Localisation : ' + esc(art.location) + '<br>' +
-            'Auteur : ' + esc(art.author) +
-        '</div>' +
+        '<div class="dossier-line"><strong>Dossier n° ' + dossierNo(art.id) + '</strong>' +
+            (art.location ? ' · ' + esc(art.location) : '') +
+            ' · ' + esc(displayDate(art)) +
+            ' · Par ' + esc(art.author || "L'Investigateur Anonyme") + '</div>' +
         banner +
-        '<div class="hero-visual">' +
-            imgTag(art.img, 'alt="Illustration" fetchpriority="high" decoding="async"') +
-            '<div class="hero-title-overlay"><h2>' + esc(art.title) + '</h2></div>' +
+        '<h1 class="article-headline">' + esc(art.title) + '</h1>' +
+        '<div class="hero-visual no-overlay">' +
+            imgTag(art.img, 'alt="" fetchpriority="high" decoding="async"') +
             stampBig +
         '</div>' +
         '<div class="parody-banner" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</div>' +

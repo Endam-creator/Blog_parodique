@@ -85,6 +85,15 @@ function relatedHTML(art) {
         }).join('') + '</div></section>';
 }
 
+// Numéro de dossier décoratif (même calcul que assets/site.js)
+function dossierNo(id) {
+    const digits = String(id).replace(/\D/g, '');
+    if (digits.length >= 4) return digits.slice(-5);
+    let h = 0;
+    for (const c of String(id)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+    return String(h % 100000).padStart(5, '0');
+}
+
 // --- Gabarit : index.html ---
 const TEMPLATE = readFileSync('index.html', 'utf8');
 const SEO_RE = /<!-- SEO:START[\s\S]*?<!-- SEO:END -->/;
@@ -162,13 +171,12 @@ function buildPage(art, isLatest) {
     const rub = RUBRIQUES.find(r => r.slug === art.rubrique);
     const body =
         (rub ? `<a class="rubrique-chip" href="/rubriques/${encodeURIComponent(rub.slug)}.html">${escHTML(rub.label)}</a>` : '') +
-        `<div class="meta-data">LE BLOG DES VÉRITÉS CACHÉES – La voix de ceux qui savent<br>` +
-        `Date de publication : ${escHTML(displayDate(art))}<br>` +
-        `Localisation : ${escHTML(art.location || '')}<br>` +
-        `Auteur : ${escHTML(art.author || "L'Investigateur Anonyme")}</div>` +
+        `<div class="dossier-line"><strong>Dossier n° ${dossierNo(art.id)}</strong>` +
+        (art.location ? ` · ${escHTML(art.location)}` : '') +
+        ` · ${escHTML(displayDate(art))} · Par ${escHTML(art.author || "L'Investigateur Anonyme")}</div>` +
         banner +
-        `<div class="hero-visual">${pictureTag(imgRel, art.title)}` +
-        `<div class="hero-title-overlay"><h2>${escHTML(art.title)}</h2></div>${stamp}</div>` +
+        `<h1 class="article-headline">${escHTML(art.title)}</h1>` +
+        `<div class="hero-visual no-overlay">${pictureTag(imgRel, '')}${stamp}</div>` +
         `<div class="parody-banner" role="note">${PARODY_NOTE}</div>` +
         `<div class="article-body"><p>${escHTML(art.intro || '')}</p>${interviewHTML}${noticeHTML}</div>` +
         relatedHTML(art);

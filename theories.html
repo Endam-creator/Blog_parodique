@@ -9,6 +9,7 @@
 <meta property="og:title" content="Fabriquez votre théorie (parodie) — Le Blog des Vérités Cachées">
 <meta property="og:description" content="🎭 Parodie : trois menus, une révélation, zéro preuve.">
 <meta property="og:image" content="https://les-verites-cachees.endam-digital.com/logo_chat_loupe.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
 <link rel="icon" type="image/png" href="/favicon-96.png">
 <link rel="apple-touch-icon" href="/favicon-192.png">
 <link rel="stylesheet" href="/assets/page.css">
@@ -90,7 +91,8 @@ const sels = [['s1', QUI], ['s2', ACTIONS], ['s3', POURQUOI]].map(([id, list]) =
 });
 
 function theory() {
-  return sels.map(([el, list]) => list[el.value]).join(' ').replace(/\s+/g, ' ') + ' !';
+  return sels.map(([el, list]) => list[el.value]).join(' ').replace(/\s+/g, ' ')
+    .replace(/\bde les\b/g, 'des').replace(/\bde le\b/g, 'du') + ' !';
 }
 
 const cv = document.getElementById('cv');
@@ -113,14 +115,14 @@ function draw() {
   for (let i = -H; i < W; i += 46) { ctx.save(); ctx.translate(i, 0); ctx.rotate(0.6); ctx.fillRect(0, 0, 18, H * 2); ctx.restore(); }
   // bandeau
   ctx.fillStyle = '#76b900'; ctx.fillRect(0, 0, W, 120);
-  ctx.fillStyle = '#111'; ctx.font = 'bold 54px Impact, "Arial Black", Arial'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#111'; ctx.font = 'bold 54px Anton, Impact, "Arial Black", Arial'; ctx.textBaseline = 'middle';
   ctx.fillText('RÉVÉLATION EXCLUSIVE', 50, 62);
   // titre
   ctx.textBaseline = 'alphabetic';
   const text = theory().toUpperCase();
-  let size = 84; ctx.font = 'bold ' + size + 'px Impact, "Arial Black", Arial';
+  let size = 84; ctx.font = 'bold ' + size + 'px Anton, Impact, "Arial Black", Arial';
   while (size > 44) {
-    ctx.font = 'bold ' + size + 'px Impact, "Arial Black", Arial';
+    ctx.font = 'bold ' + size + 'px Anton, Impact, "Arial Black", Arial';
     const words = text.split(' '); let line = '', n = 1;
     for (const w of words) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > W - 120 && line) { n++; line = w; } else line = t; }
     if (n * (size + 12) <= 620) break;
@@ -130,7 +132,7 @@ function draw() {
   wrap(text, 60, 250, W - 120, size + 12, 9);
   // tampon PARODIE
   ctx.save(); ctx.translate(60, H - 170); ctx.rotate(-0.05);
-  ctx.font = 'bold 44px Impact, "Arial Black", Arial';
+  ctx.font = 'bold 44px Anton, Impact, "Arial Black", Arial';
   const label = '🎭 PARODIE · 100 % INVENTÉ'; const tw = ctx.measureText(label).width;
   ctx.fillStyle = '#fff'; ctx.fillRect(0, -36, tw + 50, 74);
   ctx.strokeStyle = '#a31515'; ctx.lineWidth = 6; ctx.strokeRect(0, -36, tw + 50, 74);
@@ -160,6 +162,8 @@ document.getElementById('btnDownload').addEventListener('click', () => {
 
 sels.forEach(([el, list]) => { el.value = pick(list); });
 draw();
+// Redessine quand la police Anton est chargée
+if (document.fonts) document.fonts.load('80px Anton').then(draw).catch(() => {});
 </script>
 </body>
 </html>

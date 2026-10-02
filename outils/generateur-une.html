@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Générateur de Une — Console Investigateur</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
 <link rel="icon" type="image/png" href="/favicon-96.png">
 <style>
     :root {
@@ -238,7 +239,7 @@ function render() {
         ctx.save();
         ctx.translate(40, 60);
         ctx.transform(1, 0, -0.18, 1, 0, 0); // skew
-        ctx.font = 'bold 44px Impact, Arial';
+        ctx.font = 'bold 44px Anton, Impact, Arial';
         const bw = ctx.measureText(banner).width;
         ctx.fillStyle = C.green;
         ctx.fillRect(0, -44, bw + 40, 60);
@@ -259,7 +260,7 @@ function render() {
     const title = document.getElementById('inTitle').value.trim().toUpperCase();
     ctx.fillStyle = C.white;
     const titleSize = H >= 1900 ? 62 : (H >= 1300 ? 54 : 52);
-    ctx.font = 'bold ' + titleSize + 'px Impact, "Arial Black", Arial';
+    ctx.font = 'bold ' + titleSize + 'px Anton, Impact, "Arial Black", Arial';
     ctx.textAlign = 'left';
     const pad = 50;
     const maxTitleLines = H >= 1900 ? 9 : (H >= 1300 ? 6 : 5);
@@ -282,7 +283,7 @@ function render() {
         ctx.strokeRect(0, 0, 200, 64);
         ctx.strokeRect(10, 10, 180, 44);
         ctx.fillStyle = 'rgba(163,21,21,0.85)';
-        ctx.font = 'bold 40px Impact, Arial';
+        ctx.font = 'bold 40px Anton, Impact, Arial';
         ctx.fillText('CLASSIFIED', 18, 46);
         ctx.restore();
     }
@@ -312,7 +313,7 @@ function drawParodyStamp(x, y) {
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(-0.06);
-    ctx.font = 'bold 34px Impact, "Arial Black", Arial';
+    ctx.font = 'bold 34px Anton, Impact, "Arial Black", Arial';
     const tw = ctx.measureText(label).width;
     const bw = tw + 44, bh = 60;
     ctx.fillStyle = C.white;
@@ -374,6 +375,7 @@ function download() {
 }
 
 loadArticles();
+if (document.fonts) document.fonts.load('52px Anton').then(() => render()).catch(() => {});
 </script>
 </body>
 </html>
