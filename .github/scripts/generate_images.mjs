@@ -40,7 +40,9 @@ console.log(`${webpCount} WebP (re)généré(s) dans ${WEBP_DIR}/`);
 if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
 
 // Nettoyage des aperçus d'articles supprimés
-const valid = new Set(articles.map(a => a.id + '.jpg'));
+// Seules les enquêtes qui ont une image gardent un aperçu (une image retirée = aperçu supprimé)
+const withImg = articles.filter(a => a.img);
+const valid = new Set(withImg.map(a => a.id + '.jpg'));
 for (const f of readdirSync(OUT_DIR)) {
     if (f.endsWith('.jpg') && !valid.has(f)) {
         rmSync(`${OUT_DIR}/${f}`);
@@ -105,7 +107,7 @@ console.log(`${count} aperçu(s) de partage généré(s) dans ${OUT_DIR}/`);
 // --- 3) Unes pour les réseaux sociaux ---
 const UNES_DIR = 'images/unes';
 if (!existsSync(UNES_DIR)) mkdirSync(UNES_DIR, { recursive: true });
-const unesValid = new Set(articles.flatMap(a => [`${a.id}-carre.jpg`, `${a.id}-story.jpg`]));
+const unesValid = new Set(withImg.flatMap(a => [`${a.id}-carre.jpg`, `${a.id}-story.jpg`]));
 for (const f of readdirSync(UNES_DIR)) if (!unesValid.has(f)) rmSync(`${UNES_DIR}/${f}`);
 
 const pango = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
