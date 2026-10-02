@@ -992,3 +992,14 @@ footer { padding: 16px 110px 26px; }
 .feed-title .hl, .read-more, .hero-title-overlay h2 span { font-family: inherit; }
 .footer-links a { white-space: nowrap; }
 @media (max-width: 600px) { .header-titles .dash { display: none; } }
+
+/* ===== UNE DE L'ACCUEIL (même traitement que les articles) ===== */
+.home-headline { cursor: pointer; }
+.home-headline:hover { color: #2f4f00; }
+.home-desc { font-size: 1.08rem; line-height: 1.6; margin: 0 0 4px; font-weight: bold; }
+.home-cta { margin: 6px 0 22px; }
+.home-cta + .article-body { border-top: 1px dashed #bbb; padding-top: 16px; }
+
+/* « S'abonner » : un vrai lien vers le flux RSS */
+a.subscribe-tag { text-decoration: none; display: inline-block; transition: background .15s, color .15s; }
+a.subscribe-tag:hover { background: var(--accent-green); color: #111; }

@@ -329,10 +329,14 @@ function displayHome() {
     const art = articles[0];
     viewer.innerHTML =
         '<div class="breaking-banner">Breaking News</div>' +
-        '<div class="hero-visual hero-clickable" id="homeHero" title="Lire l\'enquête complète">' +
-            imgTag(art.img, 'alt="' + esc(art.title) + '" fetchpriority="high" decoding="async"') +
-            '<div class="hero-title-overlay"><h2>' + esc(art.title) +
-                ' <span class="read-more">(Lire l\'enquête exclusive)</span></h2></div>' +
+        '<h2 class="article-headline home-headline" id="homeTitle">' + esc(art.title) + '</h2>' +
+        '<div class="hero-visual no-overlay hero-clickable" id="homeHero" title="Lire l\'enquête complète">' +
+            imgTag(art.img, 'alt="" fetchpriority="high" decoding="async"') +
+            (art.classified ? '<span class="classified-stamp big">Classified</span>' : '') +
+        '</div>' +
+        '<p class="home-desc">' + esc(art.desc || '') + '</p>' +
+        '<div class="studio-actions home-cta">' +
+            '<button type="button" class="btn-submit" id="homeReadBtn">📰 Lire l\'enquête exclusive</button>' +
         '</div>' +
         '<div class="article-body">' +
             '<p>Vous en avez assez des versions officielles lisses et ennuyeuses ? Vous sentez que la vérité ' +
@@ -341,9 +345,6 @@ function displayHome() {
             'pour révéler l\'incroyable complot qui se tisse sous nos yeux. Objets maudits, technologies ' +
             'suspectes, phénomènes inexpliqués et témoignages impossibles à ignorer... tout est là, mesuré ' +
             'et vérifié par l\'Investigateur Anonyme ! <strong>Entrez, si vous osez remettre en question le réel.</strong></p>' +
-        '</div>' +
-        '<div class="studio-actions" style="margin-top:14px;">' +
-            '<button type="button" class="btn-submit" id="homeReadBtn">📰 Lire la dernière enquête</button>' +
         '</div>' +
         '<div class="home-stats">' +
             '<div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">de vérités vérifiées par nous-mêmes</div></div>' +
@@ -361,6 +362,7 @@ function displayHome() {
 
     document.getElementById('homeHero').addEventListener('click', () => displayArticle(art.id, false));
     document.getElementById('homeReadBtn').addEventListener('click', () => displayArticle(art.id, false));
+    document.getElementById('homeTitle').addEventListener('click', () => displayArticle(art.id, false));
 
     renderFeed();
 }
