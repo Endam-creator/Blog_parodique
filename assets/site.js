@@ -20,11 +20,8 @@ const COMMENTS_API = (window.COMMENTS_API || '').replace(/\/+$/, '');
 const FEED_PAGE_SIZE = 5;      // nb d'enquêtes par "page" dans le fil
 const TOP_SIZE = 3;            // nb d'enquêtes dans le Top
 
-// Votes partagés entre tous les visiteurs (CountAPI de Miles Hilliard, gratuit, sans clé).
-// Le préfixe doit être UNIQUE à ton site pour ne pas entrer en collision avec d'autres.
-// Ne le change plus après la mise en ligne, sinon les compteurs repartent de zéro.
-const VOTE_API = "https://countapi.mileshilliard.com/api/v1";
-const VOTE_PREFIX = "lvc_endam_";   // lvc = Le blog des Vérités Cachées
+// Votes partagés entre tous les visiteurs : même Worker Cloudflare que les commentaires
+// (un vote par personne et par enquête, contrôlé côté serveur). Voir commentaires/src/index.js.
 // -----------------------------------
 
 // Cache mémoire des totaux de votes chargés depuis l'API : { id: {up, down} }
@@ -119,52 +116,22 @@ function voteScore(art) {
     return { up: t.up || 0, down: t.down || 0, score: (t.up || 0) - (t.down || 0) };
 }
 
-// Clé unique d'un compteur pour un article donné
-function voteKey(id, type) {
-    return VOTE_PREFIX + id + '_' + type;
-}
-
-// Lit un compteur en ligne sans l'incrémenter (renvoie 0 si la clé n'existe pas encore)
-// Renvoie le total, 0 si le compteur n'existe pas encore, null si l'API ne répond pas
-async function fetchCount(id, type) {
-    try {
-        const r = await fetch(VOTE_API + '/get/' + encodeURIComponent(voteKey(id, type)),
-            { signal: AbortSignal.timeout(6000) });
-        if (r.status === 404) return 0;
-        if (!r.ok) return null;
-        const d = await r.json();
-        return parseInt(d.value, 10) || 0;
-    } catch (e) {
-        return null;
-    }
-}
-
-// Incrémente un compteur de +1 et renvoie la nouvelle valeur
-async function hitCount(id, type) {
-    try {
-        const r = await fetch(VOTE_API + '/hit/' + encodeURIComponent(voteKey(id, type)),
-            { signal: AbortSignal.timeout(6000) });
-        if (!r.ok) return null;
-        const d = await r.json();
-        return parseInt(d.value, 10);
-    } catch (e) {
-        return null;
-    }
-}
-
 // Charge les totaux up/down de tous les articles affichés et rafraîchit l'UI
 async function loadVoteTotals() {
-    let answered = 0;
-    await Promise.all(articles.map(async (art) => {
-        const [up, down] = await Promise.all([
-            fetchCount(art.id, 'up'),
-            fetchCount(art.id, 'down')
-        ]);
-        if (up !== null || down !== null) answered++;
-        voteTotals[art.id] = { up: up || 0, down: down || 0 };
-    }));
+    let ok = false;
+    if (COMMENTS_API && articles.length) {
+        try {
+            const ids = articles.map(a => a.id).join(',');
+            const r = await fetch(COMMENTS_API + '/votes?pages=' + encodeURIComponent(ids), { signal: AbortSignal.timeout(6000) });
+            if (r.ok) {
+                const { votes } = await r.json();
+                for (const art of articles) voteTotals[art.id] = votes[art.id] || { up: 0, down: 0 };
+                ok = true;
+            }
+        } catch (e) {}
+    }
     // Service injoignable → on masque discrètement votes et classement plutôt que d'afficher des zéros
-    votesOnline = articles.length === 0 || answered > 0;
+    votesOnline = articles.length === 0 || ok;
     document.body.classList.toggle('votes-off', !votesOnline);
     renderFeed();
     renderTop();
@@ -709,11 +676,18 @@ async function registerVote(articleId, type) {
     // Marque le vote AVANT l'appel réseau, pour bloquer les clics rapides répétés
     localStorage.setItem(storageKey, type);
 
-    // Incrémente le choix en ligne
-    const newVal = await hitCount(articleId, type);
-    if (newVal !== null) {
-        voteTotals[articleId][type] = newVal;
-    } else {
+    // Enregistre le vote en ligne (le serveur refuse un 2e vote de la même personne)
+    try {
+        const r = await fetch(COMMENTS_API + '/votes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ page: articleId, type }),
+            signal: AbortSignal.timeout(6000)
+        });
+        const d = await r.json().catch(() => ({}));
+        if (d.totals) voteTotals[articleId] = d.totals;
+        else voteTotals[articleId][type] = (voteTotals[articleId][type] || 0) + 1;
+    } catch (e) {
         // En cas d'échec réseau, on incrémente localement pour le retour visuel
         voteTotals[articleId][type] = (voteTotals[articleId][type] || 0) + 1;
     }

@@ -13,6 +13,11 @@
 //   GET  /admin/comments?status=pending|approved   → liste
 //   POST /admin/moderate  { id, action: "approve" | "delete" }
 //   POST /admin/reply     { page, body }           → réponse « La Rédaction », publiée directement
+//   POST /admin/votes/set { page, up, down, onlyIfEmpty? } → fixer / importer les totaux de votes
+//
+// Votes (« Cette enquête vous a-t-elle éveillé ? »)
+//   GET  /votes?pages=<id1>,<id2>     → { votes: { id: { up, down } } }
+//   POST /votes { page, type: "up"|"down" } → un seul vote par personne et par enquête
 //
 // Variables / secrets (wrangler)
 //   ADMIN_TOKEN       (secret)  mot de passe de modération
@@ -40,6 +45,44 @@ export class CommentStore extends DurableObject {
         )`);
         this.sql.exec(`CREATE INDEX IF NOT EXISTS idx_page_status ON comments(page, status)`);
         this.sql.exec(`CREATE INDEX IF NOT EXISTS idx_ip_created ON comments(ip_hash, created)`);
+        // Votes : totaux par enquête + registre « qui a déjà voté » (empreintes non réversibles)
+        this.sql.exec(`CREATE TABLE IF NOT EXISTS votes (
+            page TEXT PRIMARY KEY, up INTEGER NOT NULL DEFAULT 0, down INTEGER NOT NULL DEFAULT 0)`);
+        this.sql.exec(`CREATE TABLE IF NOT EXISTS voters (
+            page TEXT NOT NULL, voter TEXT NOT NULL, created INTEGER NOT NULL, PRIMARY KEY (page, voter))`);
+        this.sql.exec(`CREATE INDEX IF NOT EXISTS idx_voters_voter ON voters(voter, created)`);
+    }
+
+    voteTotals(pages) {
+        const out = {};
+        for (const p of pages) out[p] = { up: 0, down: 0 };
+        if (!pages.length) return out;
+        const marks = pages.map(() => '?').join(',');
+        for (const r of this.sql.exec(`SELECT page, up, down FROM votes WHERE page IN (${marks})`, ...pages).toArray())
+            out[r.page] = { up: r.up, down: r.down };
+        return out;
+    }
+
+    // Renvoie { ok, already, limited, totals }
+    vote(page, type, voter) {
+        const now = Date.now();
+        const recent = this.sql.exec(`SELECT COUNT(*) AS n FROM voters WHERE voter = ? AND created > ?`, voter, now - 3600 * 1000).one().n;
+        const done = this.sql.exec(`SELECT 1 FROM voters WHERE page = ? AND voter = ?`, page, voter).toArray().length > 0;
+        if (!done && recent < 60) {
+            this.sql.exec(`INSERT INTO voters (page, voter, created) VALUES (?, ?, ?)`, page, voter, now);
+            this.sql.exec(`INSERT INTO votes (page, up, down) VALUES (?, 0, 0) ON CONFLICT(page) DO NOTHING`, page);
+            this.sql.exec(`UPDATE votes SET ${type === 'up' ? 'up = up + 1' : 'down = down + 1'} WHERE page = ?`, page);
+        }
+        return { ok: !done && recent < 60, already: done, limited: !done && recent >= 60, totals: this.voteTotals([page])[page] };
+    }
+
+    setVotes(page, up, down, onlyIfEmpty) {
+        const cur = this.voteTotals([page])[page];
+        if (onlyIfEmpty && (cur.up > 0 || cur.down > 0)) return { skipped: true, totals: cur };
+        this.sql.exec(`INSERT INTO votes (page, up, down) VALUES (?, ?, ?)
+                       ON CONFLICT(page) DO UPDATE SET up = excluded.up, down = excluded.down`, page, up, down);
+        if (up === 0 && down === 0) this.sql.exec(`DELETE FROM voters WHERE page = ?`, page);
+        return { skipped: false, totals: { up, down } };
     }
 
     list(page) {
@@ -160,6 +203,23 @@ export default {
                 return json({ counts: await store.counts(pages) }, 200, { ...h, 'Cache-Control': 'public, max-age=60' });
             }
 
+            // --- Public : votes ---
+            if (req.method === 'GET' && url.pathname === '/votes') {
+                const pages = String(url.searchParams.get('pages') || '').split(',').filter(validPage).slice(0, 200);
+                return json({ votes: await store.voteTotals(pages) }, 200, { ...h, 'Cache-Control': 'no-store' });
+            }
+            if (req.method === 'POST' && url.pathname === '/votes') {
+                let data;
+                try { data = await req.json(); } catch (e) { return json({ error: 'requête invalide' }, 400, h); }
+                if (!validPage(data.page) || !['up', 'down'].includes(data.type)) return json({ error: 'requête invalide' }, 400, h);
+                const ip = req.headers.get('CF-Connecting-IP') || 'local';
+                const ua = req.headers.get('User-Agent') || '';
+                const voter = await sha256('vote|' + ip + '|' + ua + '|' + (env.ADMIN_TOKEN || 'sel'));
+                const r = await store.vote(data.page, data.type, voter);
+                if (r.limited) return json({ error: 'Trop de votes, patientez.', totals: r.totals }, 429, h);
+                return json({ ok: r.ok, already: r.already, totals: r.totals }, r.already ? 409 : 200, h);
+            }
+
             // --- Public : envoi ---
             if (req.method === 'POST' && url.pathname === '/comments') {
                 let data;
@@ -197,6 +257,13 @@ export default {
                     if (!Number.isInteger(id) || !['approve', 'delete'].includes(action)) return json({ error: 'requête invalide' }, 400, h);
                     await store.moderate(id, action);
                     return json({ ok: true }, 200, h);
+                }
+                if (req.method === 'POST' && url.pathname === '/admin/votes/set') {
+                    const d = await req.json();
+                    const up = Number(d.up), down = Number(d.down);
+                    if (!validPage(d.page) || !Number.isInteger(up) || !Number.isInteger(down) || up < 0 || down < 0)
+                        return json({ error: 'requête invalide' }, 400, h);
+                    return json({ ok: true, ...(await store.setVotes(d.page, up, down, !!d.onlyIfEmpty)) }, 200, h);
                 }
                 if (req.method === 'POST' && url.pathname === '/admin/reply') {
                     const d = await req.json();

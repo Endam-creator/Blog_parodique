@@ -4,182 +4,89 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Réinitialisation des votes — Console Investigateur</title>
-<link rel="icon" type="image/png" href="/logo_chat_loupe.png">
+<title>Gestion des votes — Console Investigateur</title>
+<link rel="icon" type="image/png" href="/favicon-96.png">
+<link rel="stylesheet" href="/assets/page.css">
 <style>
-    :root { --accent-green: #76b900; --danger-red: #a31515; }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background: #161616; color: #eee; padding: 25px 18px; max-width: 760px; margin: 0 auto; }
-    h1 { font-family: 'Impact', sans-serif; color: var(--accent-green); text-transform: uppercase; margin-bottom: 6px; }
-    .warn { background: #3a0000; border: 1px solid var(--danger-red); padding: 12px; font-size: .9rem; margin: 14px 0; line-height: 1.5; }
-    .row {
-        display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-        border: 1px solid #333; padding: 12px; margin-bottom: 10px; background: #1d1d1d;
-    }
-    .row .title { flex-grow: 1; font-size: .9rem; line-height: 1.3; min-width: 160px; }
-    .row .scores { font-family: monospace; font-size: .85rem; color: var(--accent-green); white-space: nowrap; }
-    .set-fields { display: flex; align-items: center; gap: 6px; font-size: .85rem; white-space: nowrap; }
-    .set-fields input {
-        background: #0a0a0a; color: var(--accent-green); border: 1px solid #555;
-        padding: 5px; font-family: monospace; text-align: center;
-    }
-    .set-btn { background: #2a4d00; border-color: var(--accent-green); }
-    .set-btn:hover { background: var(--accent-green); color: #111; }
-    button {
-        background: #333; color: #fff; border: 1px solid #666; padding: 8px 14px;
-        cursor: pointer; font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 1px;
-        font-size: .82rem; flex-shrink: 0;
-    }
-    button:hover { border-color: var(--accent-green); color: var(--accent-green); }
-    button.danger:hover { border-color: var(--danger-red); color: #ff6b6b; }
-    .actions-all { margin: 18px 0; display: flex; gap: 10px; flex-wrap: wrap; }
-    .btn-big { background: var(--danger-red); border-color: var(--danger-red); padding: 12px 20px; }
-    .btn-big:hover { background: #c81818; color: #fff; border-color: #fff; }
-    .btn-reload { background: var(--accent-green); color: #111; border-color: var(--accent-green); }
-    .log { margin-top: 18px; font-family: monospace; font-size: .8rem; color: #9fe000; white-space: pre-wrap;
-           background: #0a0a0a; border: 1px solid #333; padding: 12px; min-height: 40px; }
-    a.back { color: var(--accent-green); display: inline-block; margin-top: 20px; }
-    .loading { color: #888; font-style: italic; }
+  .login { border: 2px solid #111; padding: 14px; margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .login input { font: inherit; padding: 8px 10px; border: 2px solid #111; flex: 1 1 240px; }
+  .btn { background: #111; color: var(--accent-green); border: 2px solid var(--accent-green); padding: 7px 12px; font-weight: bold; cursor: pointer; }
+  .btn:hover { background: var(--accent-green); color: #111; }
+  .btn.del { border-color: var(--danger-red); color: var(--danger-red); background: #fff; }
+  .row { display: grid; grid-template-columns: 1fr auto auto auto auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid #ddd; }
+  .row .t { font-size: .9rem; font-weight: bold; line-height: 1.3; }
+  .row input { width: 64px; padding: 6px; border: 2px solid #111; font: inherit; }
+  #status { min-height: 1.3em; font-weight: bold; margin-bottom: 10px; }
+  .hidden { display: none !important; }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr 1fr; } .row .t { grid-column: 1 / -1; } }
 </style>
 </head>
 <body>
-    <h1>🔧 Réinitialisation des votes</h1>
-    <p>Console privée de l'Investigateur — remet les compteurs de votes à zéro.</p>
-
-    <div class="warn">
-        ⚠️ Console réservée à ton usage. Agit directement sur les compteurs en ligne (CountAPI).<br>
-        • <strong>↺ 0</strong> : remet l'article à zéro. • <strong>Définir</strong> : fixe toi-même le nombre de 👍 et 👎 (pratique pour pré-remplir ou corriger).<br>
-        • <strong>🧹 Réinitialiser MON vote local</strong> : efface ta propre marque de vote dans CE navigateur, pour pouvoir revoter toi-même après une remise à zéro.
+<div class="container" style="max-width:900px">
+  <header><a href="/"><img src="/logo_chat_loupe.png" alt=""><h1>Gestion des votes<br><span class="slogan">Le Top des Éveillés</span></h1></a></header>
+  <div class="content">
+    <div id="status" role="status"></div>
+    <form class="login" id="login">
+      <input type="password" id="token" placeholder="Mot de passe de modération (COMMENTS_ADMIN_TOKEN)" autocomplete="current-password" required>
+      <button class="btn" type="submit">🔓 Se connecter</button>
+    </form>
+    <div id="panel" class="hidden">
+      <p>Modifie les totaux puis clique sur « Enregistrer ». « ↺ 0 » remet l'enquête à zéro et permet à tout le monde de revoter.</p>
+      <div id="list"></div>
     </div>
-
-    <div class="actions-all">
-        <button class="btn-big" onclick="resetAll()">💥 Tout remettre à 0 (tous les articles)</button>
-        <button class="btn-reload btn-big" onclick="loadAll()">🔄 Rafraîchir les compteurs</button>
-        <button onclick="clearLocal()">🧹 Réinitialiser MON vote local</button>
-    </div>
-
-    <div id="list"><p class="loading">Chargement des articles…</p></div>
-
-    <div class="log" id="log">Prêt.</div>
-
-    <a class="back" href="/">← Retour au Blog</a>
-
+  </div>
+  <div class="back-bar"><a class="back-link" href="/">← Retour au blog</a> <a class="back-link" href="/outils/moderation.html" style="margin-left:8px">💬 Modération</a></div>
+</div>
+<script src="/assets/comments-config.js"></script>
 <script>
-const VOTE_API = "https://countapi.mileshilliard.com/api/v1";
-const VOTE_PREFIX = "lvc_endam_";   // DOIT être identique à celui de index.html
+const API = (window.COMMENTS_API || '').replace(/\/+$/, '');
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let token = ''; try { token = sessionStorage.getItem('mod_token') || ''; } catch (e) {}
+const setStatus = (t, err) => { $('status').textContent = t; $('status').style.color = err ? '#a31515' : '#3d6b00'; };
 
-let articles = [];
-
-function log(msg) {
-    document.getElementById('log').textContent = msg;
+async function setVotes(page, up, down) {
+  const r = await fetch(API + '/admin/votes/set', { method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+    body: JSON.stringify({ page, up, down }) });
+  if (r.status === 401) { token = ''; try { sessionStorage.removeItem('mod_token'); } catch (e) {} throw new Error('Mot de passe incorrect.'); }
+  if (!r.ok) throw new Error('Erreur HTTP ' + r.status);
 }
 
-function voteKey(id, type) { return VOTE_PREFIX + id + '_' + type; }
-
-async function getCount(id, type) {
-    try {
-        const r = await fetch(VOTE_API + '/get/' + encodeURIComponent(voteKey(id, type)));
-        if (!r.ok) return 0;
-        const d = await r.json();
-        return parseInt(d.value, 10) || 0;
-    } catch (e) { return 0; }
+async function load() {
+  const list = await (await fetch('/articles.json?v=' + Date.now())).json();
+  list.sort((a, b) => String(b.published || '').localeCompare(String(a.published || '')));
+  const { votes } = await (await fetch(API + '/votes?pages=' + encodeURIComponent(list.map(a => a.id).join(',')))).json();
+  $('list').innerHTML = list.map(a => {
+    const v = votes[a.id] || { up: 0, down: 0 };
+    return '<div class="row" data-id="' + esc(a.id) + '"><span class="t">' + esc(a.title.slice(0, 90)) + '</span>' +
+      '<label>👍 <input type="number" min="0" class="up" value="' + v.up + '"></label>' +
+      '<label>👎 <input type="number" min="0" class="down" value="' + v.down + '"></label>' +
+      '<button class="btn save">Enregistrer</button><button class="btn del zero">↺ 0</button></div>';
+  }).join('');
 }
 
-async function setOne(id, type, value) {
-    const v = Math.max(0, parseInt(value, 10) || 0);
-    const r = await fetch(VOTE_API + '/set/' + encodeURIComponent(voteKey(id, type)) + '?value=' + v);
-    return r.ok;
-}
+$('list').addEventListener('click', async e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const row = b.closest('.row'); const page = row.dataset.id;
+  let up = parseInt(row.querySelector('.up').value, 10), down = parseInt(row.querySelector('.down').value, 10);
+  if (b.classList.contains('zero')) { if (!confirm('Remettre les votes de cette enquête à zéro ?')) return; up = 0; down = 0; }
+  if (!(up >= 0 && down >= 0)) { setStatus('Saisis des nombres valides (≥ 0).', true); return; }
+  try { await setVotes(page, up, down); setStatus('✅ Votes enregistrés (👍 ' + up + ' / 👎 ' + down + ').'); load(); }
+  catch (err) { setStatus(err.message, true); if (!token) { $('panel').classList.add('hidden'); $('login').classList.remove('hidden'); } }
+});
 
-async function setValues(id, title, up, down) {
-    if (isNaN(up) || isNaN(down) || up < 0 || down < 0) {
-        log('⚠️ Saisis des nombres valides (≥ 0).');
-        return;
-    }
-    if (!confirm('Définir les votes de :\n\n« ' + (title || id).substring(0, 60) + ' »\n\n👍 ' + up + '   👎 ' + down + ' ?')) return;
-    log('Application des valeurs sur ' + id + '…');
-    const ok1 = await setOne(id, 'up', up);
-    const ok2 = await setOne(id, 'down', down);
-    log((ok1 && ok2) ? '✅ Valeurs définies (👍 ' + up + ' / 👎 ' + down + ').' : '⚠️ Erreur réseau, réessaie.');
-    loadAll();
-}
+$('login').addEventListener('submit', async e => {
+  e.preventDefault(); token = $('token').value.trim();
+  const r = await fetch(API + '/admin/comments?status=pending', { headers: { Authorization: 'Bearer ' + token } });
+  if (r.status === 401) { setStatus('Mot de passe incorrect.', true); return; }
+  try { sessionStorage.setItem('mod_token', token); } catch (e) {}
+  start();
+});
+function start() { $('login').classList.add('hidden'); $('panel').classList.remove('hidden'); setStatus(''); load().catch(() => setStatus('Impossible de charger les votes.', true)); }
 
-async function setZero(id, type) {
-    const r = await fetch(VOTE_API + '/set/' + encodeURIComponent(voteKey(id, type)) + '?value=0');
-    return r.ok;
-}
-
-async function loadAll() {
-    log('Chargement des compteurs en ligne…');
-    try {
-        const resp = await fetch('/articles.json?v=' + Date.now());
-        articles = await resp.json();
-    } catch (e) {
-        document.getElementById('list').innerHTML = '<p style="color:#ff6b6b">Impossible de charger articles.json</p>';
-        return;
-    }
-
-    const listDiv = document.getElementById('list');
-    listDiv.innerHTML = '';
-    for (const art of articles) {
-        const up = await getCount(art.id, 'up');
-        const down = await getCount(art.id, 'down');
-        const row = document.createElement('div');
-        row.className = 'row';
-        row.innerHTML =
-            '<span class="title">' + (art.title || art.id).substring(0, 50) + '</span>' +
-            '<span class="scores">👍 ' + up + ' &nbsp; 👎 ' + down + '</span>' +
-            '<span class="set-fields">' +
-                '👍 <input type="number" min="0" class="val-up" value="' + up + '" style="width:60px">' +
-                '👎 <input type="number" min="0" class="val-down" value="' + down + '" style="width:60px">' +
-                '<button class="set-btn">Définir</button>' +
-            '</span>' +
-            '<button class="danger reset-btn">↺ 0</button>';
-        row.querySelector('.reset-btn').addEventListener('click', () => resetOne(art.id, art.title));
-        row.querySelector('.set-btn').addEventListener('click', () => {
-            const u = parseInt(row.querySelector('.val-up').value, 10);
-            const d = parseInt(row.querySelector('.val-down').value, 10);
-            setValues(art.id, art.title, u, d);
-        });
-        listDiv.appendChild(row);
-    }
-    log('Compteurs chargés. ' + articles.length + ' article(s).');
-}
-
-async function resetOne(id, title) {
-    if (!confirm('Remettre à 0 les votes de :\n\n« ' + (title || id).substring(0, 70) + ' » ?')) return;
-    log('Réinitialisation de ' + id + '…');
-    const ok1 = await setZero(id, 'up');
-    const ok2 = await setZero(id, 'down');
-    log((ok1 && ok2) ? '✅ Votes remis à 0. Pense à "Réinitialiser MON vote local" si tu veux revoter toi-même.' : '⚠️ Erreur réseau, réessaie.');
-    loadAll();
-}
-
-async function resetAll() {
-    if (!confirm('⚠️ Remettre à 0 les votes de TOUS les articles ?\nCette action est définitive.')) return;
-    log('Réinitialisation globale en cours…');
-    let done = 0;
-    for (const art of articles) {
-        await setZero(art.id, 'up');
-        await setZero(art.id, 'down');
-        done++;
-        log('Réinitialisé ' + done + '/' + articles.length + '…');
-    }
-    log('✅ Tous les compteurs ont été remis à 0.');
-    loadAll();
-}
-
-function clearLocal() {
-    // Supprime uniquement les marques de vote locales (clés vote_*)
-    let n = 0;
-    for (let i = localStorage.length - 1; i >= 0; i--) {
-        const k = localStorage.key(i);
-        if (k && k.startsWith('vote_')) { localStorage.removeItem(k); n++; }
-    }
-    log('🧹 ' + n + ' vote(s) local(aux) effacé(s). Tu peux revoter comme un nouveau visiteur.');
-}
-
-loadAll();
+if (!API) { setStatus('Service non déployé (assets/comments-config.js vide).', true); $('login').classList.add('hidden'); }
+else if (token) start();
 </script>
 </body>
 </html>
