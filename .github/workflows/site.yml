@@ -46,6 +46,17 @@ jobs:
         with:
           node-version: '20'
 
+      # ÉTAPE 0 a : images générées par IA (Gemini) pour les enquêtes qui le demandent
+      - name: Installation de sharp
+        run: npm install --no-save --no-package-lock --silent sharp@0.34
+
+      - name: Génération des images IA (Gemini)
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_IMAGE_MODEL: ${{ vars.GEMINI_IMAGE_MODEL }}
+        run: node .github/scripts/generate_ai_images.mjs
+
       # ÉTAPE 0 : synchronisation content/enquetes/*.json (Pages CMS) ⇄ articles.json (site)
       # Si seul articles.json a été modifié à la main → on le découpe en fichiers.
       # Sinon → articles.json est reconstruit à partir des fichiers d'enquêtes.
@@ -83,9 +94,7 @@ jobs:
         run: node .github/scripts/generate_feed.mjs
 
       - name: Génération des images WebP et des aperçus de partage tamponnés « PARODIE »
-        run: |
-          npm install --no-save --no-package-lock --silent sharp@0.34
-          node .github/scripts/generate_images.mjs
+        run: node .github/scripts/generate_images.mjs
 
       - name: Génération des pages de rubriques
         run: node .github/scripts/generate_rubriques.mjs
@@ -104,7 +113,7 @@ jobs:
         run: |
           git config user.name "L'Investigateur Automatique"
           git config user.email "actions@github.com"
-          git add articles.json content/enquetes/ feed.xml sitemap.xml articles/ rubriques/ images/og/ images/webp/ images/unes/
+          git add articles.json content/enquetes/ feed.xml sitemap.xml articles/ rubriques/ images/
           if git diff --cached --quiet; then
             echo "Rien à committer."
           else

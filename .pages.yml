@@ -66,10 +66,19 @@ content:
         required: true
 
       - name: img
-        label: Image d'illustration
+        label: Image d'illustration (laisser vide pour la faire générer par l'IA à partir de la description ci-dessous)
         type: image
         options:
           rename: safe
+
+      - name: img_prompt
+        label: 🎨 Description de l'image à générer par l'IA (scène, personnage, décor, détails drôles)
+        type: text
+
+      - name: img_regen
+        label: 🔄 Régénérer l'image avec la description ci-dessus (remplace l'image actuelle)
+        type: boolean
+        default: false
 
       - name: classified
         label: Tampon CLASSIFIED

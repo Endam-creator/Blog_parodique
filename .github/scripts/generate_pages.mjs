@@ -177,6 +177,7 @@ function buildPage(art, isLatest) {
         banner +
         `<h1 class="article-headline">${escHTML(art.title)}</h1>` +
         `<div class="hero-visual no-overlay">${pictureTag(imgRel, '')}${stamp}</div>` +
+        (art.img ? '<p class="img-credit">Illustration générée par IA · Parodie</p>' : '') +
         `<div class="parody-banner" role="note">${PARODY_NOTE}</div>` +
         `<div class="article-body"><p>${escHTML(art.intro || '')}</p>${interviewHTML}${noticeHTML}</div>` +
         relatedHTML(art);

@@ -32,5 +32,7 @@
   ],
   "notice": "Si vous remarquez que votre équipe favorite perd inexplicablement et que votre voisin fait brûler de la sauge en regardant l'arbitre de touche, ne paniquez pas. Inutile de jeter du gros sel sur votre écran plat ou d'envoyer un chèque à un inconnu pour \"désenvoûter votre abonnement BeIN Sports\". Éteignez la télé discrètement, prenez une tisane, et laissez le football se reposer en paix.",
   "classified": false,
-  "rubrique": "stars-sport"
+  "rubrique": "stars-sport",
+  "img_prompt": "A cluttered washing-machine repair workshop in a Paris suburb (Bondy). Gilles, a white Frenchman in his late fifties with a grey moustache, reading glasses on his forehead and a navy work apron, sits at his workbench looking very serious. Next to a half-disassembled washing-machine drum he has built a makeshift altar: a French national football team scarf, three scented 'sea breeze' candles, a coarse salt jar, a lime cut in half and a small dried toad on a saucer. On the wall, a framed mail-order diploma 'Énergies occultes — Niveau 2' hangs crookedly next to a pressure washer. An old CRT television in the corner shows a blurry football match. He holds up a very blurry printed photo of a corner flag as if it were crucial evidence.",
+  "img_regen": true
 }

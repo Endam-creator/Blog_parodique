@@ -28,5 +28,7 @@
   ],
   "notice": "La prochaine fois que vous passerez un entretien d'embauche ou un contrôle de sécurité, surveillez vos arrières. Si la divination fessière se démocratise en France, il faudra soigner votre posture sur votre chaise pour ne pas envoyer de mauvaises ondes à vos examinateurs.",
   "classified": false,
-  "rubrique": "paranormal"
+  "rubrique": "paranormal",
+  "img_prompt": "A small, very tidy consulting room near Cologne, Germany. Ulf, a blind German man in his late fifties with round dark glasses, a beige cardigan and a neatly trimmed white beard, sits upright behind a desk with an air of total professional seriousness, hands raised and slightly cupped in front of him as if feeling invisible vibrations. Behind him, a framed anatomical-style poster with three simple fruit silhouettes labelled only with drawings of an apple, a pear and a square (no text), and a cushioned stool covered with a towel. A tea set and a box of tissues on the desk. Respectful and non-explicit: no nudity, no client in the frame.",
+  "img_regen": true
 }

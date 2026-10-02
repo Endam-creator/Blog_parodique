@@ -58,7 +58,7 @@ if (process.argv.includes('--import')) {
         if (!art.id) art.id = f.replace(/\.json$/, '');
         return art;
     }).sort(byDate);
-    const pub = articles.filter(isPublic).map(a => { const c = { ...a }; delete c.brouillon; return c; });
+    const pub = articles.filter(isPublic).map(a => { const c = { ...a }; delete c.brouillon; delete c.img_prompt; delete c.img_regen; return c; });
     writeFileSync('articles.json', JSON.stringify(pub, null, 2) + '\n');
     console.log(`📰 articles.json reconstruit : ${pub.length} enquête(s) publiée(s) (date du jour : ${TODAY})`);
     for (const a of articles.filter(isDraft)) console.log(`   ✏️  brouillon : ${a.title || a.id}`);

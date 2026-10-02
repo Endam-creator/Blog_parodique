@@ -1003,3 +1003,6 @@ footer { padding: 16px 110px 26px; }
 /* « S'abonner » : un vrai lien vers le flux RSS */
 a.subscribe-tag { text-decoration: none; display: inline-block; transition: background .15s, color .15s; }
 a.subscribe-tag:hover { background: var(--accent-green); color: #111; }
+
+/* Légende des illustrations */
+.img-credit { margin: -9px 0 14px; font-family: 'Courier New', monospace; font-size: .72rem; color: #777; text-align: right; letter-spacing: .3px; }
