@@ -5,7 +5,7 @@
   "date": "Dimanche 2 août 2026",
   "location": "Algésiras, Espagne (et son canapé)",
   "author": "L'Investigateur Anonyme",
-  "img": "",
+  "img": "images/art-1785698731156-ia-1791057213152.jpg",
   "desc": "Ancien douanier, Michel tient un carnet de tous les « acteurs » qu'il reconnaît à la télévision. Il en est à 1 412, dont un pigeon.",
   "intro": "Il y a trois ans, Michel R., 55 ans, ancien douanier fraîchement retraité, s'est présenté à un casting de figurants pour une série tournée près d'Almería. Rôle : « passant n° 4 ». Verdict du directeur de casting : « pas assez naturel ». Depuis ce jour, Michel en est convaincu : rien de ce qui passe à la télévision n'est vrai. Ni la météo, ni le Tour de France, ni les reportages, ni les micros-trottoirs. Tout est joué. Par des figurants. Qui, eux, ont été pris.\n\nNous l'avons rencontré dans un café du port d'Algésiras, où il s'est installé « pour être près des tournages ». Devant lui, un carnet à spirale de 300 pages, rempli de visages découpés dans des magazines.",
   "interview": [
@@ -33,5 +33,6 @@
   "notice": "Si vous avez l'impression de recroiser le même passant dans plusieurs reportages, ne paniquez pas : il habite probablement près d'une rédaction. Inutile de tenir un carnet, d'écrire à l'Arcom ou de suivre les pigeons. Éteignez la télévision, sortez faire un tour, et profitez du fait que, dans la vraie vie, personne ne vous demande d'être naturel.",
   "classified": false,
   "rubrique": "complots-etat",
-  "img_prompt": "A harbour café in Algeciras, Spain, late afternoon. Michel, a French retired customs officer in his mid-fifties, balding, in a beige windbreaker, sits alone at a formica table, intensely studying a thick spiral notebook stuffed with hundreds of small faces cut out of magazines, numbered with a red pen, some circled. One page shows only a pigeon, circled several times. A small TV mounted on the wall behind him shows a generic news broadcast. Next to his espresso: scissors, a glue stick, and a slightly bent passport-style photo of himself smiling awkwardly. Ferries visible through the window."
+  "img_prompt": "A harbour café in Algeciras, Spain, late afternoon. Michel, a French retired customs officer in his mid-fifties, balding, in a beige windbreaker, sits alone at a formica table, intensely studying a thick spiral notebook stuffed with hundreds of small faces cut out of magazines, numbered with a red pen, some circled. One page shows only a pigeon, circled several times. A small TV mounted on the wall behind him shows a generic news broadcast. Next to his espresso: scissors, a glue stick, and a slightly bent passport-style photo of himself smiling awkwardly. Ferries visible through the window.",
+  "img_regen": false
 }

@@ -5,7 +5,7 @@
   "date": "Dimanche 7 juin 2026",
   "location": "International (Enquête en Rhénanie-du-Nord-Westphalie)",
   "author": "L'Investigateur Anonyme",
-  "img": "images/medium.jpg",
+  "img": "images/art-medium-ia-1791057215524.jpg",
   "desc": "La chiromancie classique est dépassée par le Nouvel Ordre Mondial. Un visionnaire d'outre-Rhin prouve que les véritables secrets de votre destinée cosmique se cachent dans l'asymétrie de votre fessier.",
   "intro": "Alors que les voyants traditionnels s'épuisent à scruter des cartes de tarot ou à déchiffrer les plis de vos paumes, la science occulte vient de franchir une nouvelle frontière en Europe. Outre-Rhin, un homme a développé une méthode de divination unique au monde, basée sur la topographie musculaire et thermique de l'anatomie humaine. Pour lui, le grand livre du destin ne s'ouvre pas dans les mains, mais un peu plus bas. Nous avons traversé la frontière pour rencontrer Ulf S., 58 ans, un médium non-voyant qui redéfinit l'art de la voyance depuis son cabinet près de Cologne.",
   "interview": [
@@ -30,5 +30,5 @@
   "classified": false,
   "rubrique": "paranormal",
   "img_prompt": "A small, very tidy consulting room near Cologne, Germany. Ulf, a blind German man in his late fifties with round dark glasses, a beige cardigan and a neatly trimmed white beard, sits upright behind a desk with an air of total professional seriousness, hands raised and slightly cupped in front of him as if feeling invisible vibrations. Behind him, a framed anatomical-style poster with three simple fruit silhouettes labelled only with drawings of an apple, a pear and a square (no text), and a cushioned stool covered with a towel. A tea set and a box of tissues on the desk. Respectful and non-explicit: no nudity, no client in the frame.",
-  "img_regen": true
+  "img_regen": false
 }

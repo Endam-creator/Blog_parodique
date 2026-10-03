@@ -5,7 +5,7 @@
   "date": "Jeudi 16 juillet 2026",
   "location": "Bondy,Seine-Saint-Denis",
   "author": "L'Investigateur Anonyme",
-  "img": "images/marabout.jpg",
+  "img": "images/art-1784155068111-ia-1791057210742.jpg",
   "desc": "Amadou T., un réparateur de machines à laver et \"consultant en énergies occultes\" de Bondy, affirme que l'Équipe de France a été victime de maraboutage lors de sa défaite en Coupe du Monde",
   "intro": "Pour la France entière, l'élimination des Bleus en demi-finale de la Coupe du monde s'explique par une tactique défaillante, une défense fébrile et un cruel manque de réussite. Mais pour Gilles P., 58 ans, réparateur de machines à laver à Bondy et « consultant en énergies occultes » diplômé par correspondance (module 1 et 2, le module 3 est « en cours d'envoi »), la version des commentateurs sportifs n'est qu'un ramassis d'illusions. Selon lui, l'équipe de France n'a pas perdu sur le terrain : elle a été victime d'un envoûtement de très haut niveau.\n\nNous l'avons rencontré dans son atelier, entre un tambour de lave-linge démonté et un autel décoré d'une écharpe des Bleus et de trois bougies parfumées « brise marine ».",
   "interview": [
@@ -34,5 +34,5 @@
   "classified": false,
   "rubrique": "stars-sport",
   "img_prompt": "A cluttered washing-machine repair workshop in a Paris suburb (Bondy). Gilles, a white Frenchman in his late fifties with a grey moustache, reading glasses on his forehead and a navy work apron, sits at his workbench looking very serious. Next to a half-disassembled washing-machine drum he has built a makeshift altar: a French national football team scarf, three scented 'sea breeze' candles, a coarse salt jar, a lime cut in half and a small dried toad on a saucer. On the wall, a framed mail-order diploma 'Énergies occultes — Niveau 2' hangs crookedly next to a pressure washer. An old CRT television in the corner shows a blurry football match. He holds up a very blurry printed photo of a corner flag as if it were crucial evidence.",
-  "img_regen": true
+  "img_regen": false
 }
