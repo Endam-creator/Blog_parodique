@@ -5,7 +5,7 @@
   "title": "« Tous les anciens de la 3e B se réveillent dans la forêt en pyjama à 3 h 33 : je suis le dernier à ne pas y être allé »",
   "location": "Saint-Fiacre-les-Bois, Creuse",
   "author": "L'Investigateur Anonyme",
-  "img": "",
+  "img": "images/art-1791059621182-ia-1791059669352.jpg",
   "desc": "Depuis septembre, les anciens élèves d'une même classe de 3e de 1989 sont retrouvés à l'aube au milieu des bois, pieds nus et sans aucun souvenir. Bernard, 51 ans, est persuadé qu'il est le prochain. Son épouse, elle, a une autre explication.",
   "intro": "À Saint-Fiacre-les-Bois, 412 habitants, une boulangerie et un radar pédagogique, il ne se passe jamais rien. Jusqu'à cet automne. En six semaines, cinq anciens élèves de la 3e B du collège Jean-Moulin, promotion 1989, ont été retrouvés à l'aube en lisière de la forêt communale. Tous en pyjama, pieds nus, et incapables d'expliquer ce qu'ils faisaient là. Tous portent deux petits points rouges en bas du dos. Bernard M., 51 ans, agent d'entretien à la mairie et ancien de la 3e B, est formel : « ILS » reprennent la classe dans l'ordre alphabétique, et il est le prochain sur la liste. Son épouse Ginette, 52 ans, aide-soignante, a tenu à assister à l'entretien. « Pour rectifier », a-t-elle précisé.\n\nNous les avons rencontrés dans leur cuisine, où Bernard dort désormais assis sur une chaise, attaché à la table par une sangle de déménagement.",
   "interview": [
@@ -32,5 +32,6 @@
   ],
   "notice": "Si vous vous réveillez en pyjama dans une forêt avec deux points rouges dans le bas du dos, ne paniquez pas. Vérifiez d'abord la présence d'orties, puis celle d'un ancien camarade de collège qui vous aurait entraîné dans un pari stupide. Inutile de dormir attaché à votre table de cuisine ou de conserver vos sécrétions nasales dans du papier aluminium. Remettez vos horloges à l'heure, et laissez la 3e B de 1989 vivre sa crise de la cinquantaine en paix.",
   "classified": false,
-  "img_prompt": "Medium-wide shot of a French countryside house kitchen at night under a pale fluorescent tube light. In the centre, Bernard, a Frenchman in his early fifties wearing jeans and steel-toe work boots, sleeps sitting upright on a wooden chair, strapped to the kitchen table with an orange moving strap, clutching a small matchbox wrapped in aluminium foil. Behind him, his wife in a quilted dressing gown holds a mug of herbal tea and rolls her eyes. On the wall, a round clock, an oven and an old alarm clock radio, all with their hands stopped. Oilcloth tablecloth, rustic cupboards, a window showing a dark forest."
+  "img_prompt": "Medium-wide shot of a French countryside house kitchen at night under a pale fluorescent tube light. In the centre, Bernard, a Frenchman in his early fifties wearing jeans and steel-toe work boots, sleeps sitting upright on a wooden chair, strapped to the kitchen table with an orange moving strap, clutching a small matchbox wrapped in aluminium foil. Behind him, his wife in a quilted dressing gown holds a mug of herbal tea and rolls her eyes. On the wall, a round clock, an oven and an old alarm clock radio, all with their hands stopped. Oilcloth tablecloth, rustic cupboards, a window showing a dark forest.",
+  "img_regen": false
 }
