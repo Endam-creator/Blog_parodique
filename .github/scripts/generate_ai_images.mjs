@@ -38,7 +38,9 @@ const STYLE = [
 
 const todo = readdirSync(DIR).filter(f => f.endsWith('.json')).map(f => {
     const path = `${DIR}/${f}`;
-    return { path, art: JSON.parse(readFileSync(path, 'utf8')) };
+    const art = JSON.parse(readFileSync(path, 'utf8'));
+    if (!art.id) art.id = f.replace(/\.json$/, '');   // nouvelle enquête : id = nom du fichier
+    return { path, art };
 }).filter(({ art }) => String(art.img_prompt || '').trim() && (!art.img || art.img_regen === true));
 
 if (!todo.length) { console.log('Aucune image IA à générer.'); process.exit(0); }

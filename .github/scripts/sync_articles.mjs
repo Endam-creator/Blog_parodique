@@ -54,8 +54,14 @@ if (process.argv.includes('--import')) {
     console.log(`📥 ${keep.size} enquête(s) importée(s) depuis articles.json vers ${DIR}/`);
 } else {
     const articles = readdirSync(DIR).filter(f => f.endsWith('.json')).map(f => {
-        const art = clean(JSON.parse(readFileSync(`${DIR}/${f}`, 'utf8')));
-        if (!art.id) art.id = f.replace(/\.json$/, '');
+        const raw = JSON.parse(readFileSync(`${DIR}/${f}`, 'utf8'));
+        // Nouvelle enquête créée dans Pages CMS : l'identifiant = nom du fichier, inscrit dans le fichier
+        if (!raw.id) {
+            raw.id = f.replace(/\.json$/, '');
+            writeFileSync(`${DIR}/${f}`, JSON.stringify(raw, null, 2) + '\n');
+            console.log(`🆔 Identifiant attribué : ${raw.id}`);
+        }
+        const art = clean(raw);
         return art;
     }).sort(byDate);
     const pub = articles.filter(isPublic).map(a => { const c = { ...a }; delete c.brouillon; delete c.img_prompt; delete c.img_regen; return c; });

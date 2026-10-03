@@ -16,7 +16,9 @@ content:
     type: collection
     path: content/enquetes
     format: json
-    filename: "{fields.id}.json"
+    # Nouvelle enquête : fichier nommé d'après la date et l'heure de création ;
+    # l'identifiant est repris automatiquement du nom de fichier par la GitHub Action.
+    filename: "art-{year}{month}{day}{hour}{minute}{second}.json"
     view:
       fields: [title, rubrique, published, brouillon]
       primary: title
@@ -24,12 +26,9 @@ content:
       order: desc
     fields:
       - name: id
-        label: Identifiant (généré automatiquement, ne pas modifier)
-        type: uuid
-        required: true
-        options:
-          editable: false
-          generate: false
+        label: Identifiant (automatique — vide pour une nouvelle enquête)
+        type: string
+        readonly: true
 
       - name: brouillon
         label: ✏️ Brouillon (cochée = invisible sur le site)
