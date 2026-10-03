@@ -36,5 +36,7 @@
   ],
   "notice": "Si, lors du prochain concert, la star que vous adorez semble ne jamais s'essouffler, si elle interagit avec le public en répétant exactement les mêmes phrases d'un soir à l'autre, ou si vous remarquez que ses empreintes digitales ont mystérieusement disparu des objets qu'elle touche, ne paniquez pas. Inutile de demander un test ADN au guichet ou d'essayer de lui arracher un cheveu pour le faire analyser. Applaudissez la performance biologique et laissez Big Entertainment rentabiliser son investissement.",
   "classified": false,
-  "rubrique": "stars-sport"
+  "rubrique": "stars-sport",
+  "img_prompt": "Medium-wide shot in a small Parisian café at night, near a concert venue. In the centre, Sylvie, a Frenchwoman in her late forties with a messy bun, a tape measure around her neck and an old backstage lanyard with a blank badge, sits at a table looking dramatically suspicious and slightly teary. On the table in front of her: a drinking glass dusted with white flour, a big fluffy makeup brush, a magnifying glass, a sewing kit with pins, an open box of tissues and a few crumpled used tissues. Behind her, through the café window, a blurred crowd queueing outside a concert arena with coloured stage lights. No famous person, no performer visible.",
+  "img_regen": true
 }
