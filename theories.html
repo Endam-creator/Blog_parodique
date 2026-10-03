@@ -59,28 +59,48 @@
 </div>
 
 <script>
+// Chaque liste est écrite pour que N'IMPORTE QUELLE combinaison donne une phrase correcte :
+// sujet au pluriel + action complète (verbe + complément) + motif qui se suffit à lui-même.
 const QUI = [
-  "Les pigeons des villes", "Les belles-mères", "Les lobbyistes du pâté en croûte", "Les ronds-points",
-  "Les chaussettes orphelines", "Les box Wi-Fi des voisins", "Les influenceurs fitness", "Les grille-pains connectés",
-  "Les escargots du gouvernement", "Les nains de jardin", "Les machines à café du bureau", "Les moustiques",
-  "Les applis de météo", "Les chats de l'Investigateur", "Les distributeurs de billets", "Les plantes vertes d'open space"
+  "Les pigeons des villes", "Les nains de jardin", "Les chats d'appartement", "Les belles-mères",
+  "Les grille-pains connectés", "Les machines à café du bureau", "Les applis météo", "Les box internet",
+  "Les influenceurs fitness", "Les caisses automatiques", "Les plantes vertes d'open space", "Les moustiques",
+  "Les lobbyistes du pâté en croûte", "Les escargots du ministère", "Les syndics de copropriété", "Les robots aspirateurs"
 ];
-const QUOI = [
-  "remplacent en secret", "lisent dans les pensées de", "aspirent la motivation de", "contrôlent la météo de",
-  "ont inventé", "espionnent à distance", "photocopient", "volent les lundis de",
-  "manipulent les horoscopes de", "cachent la vérité sur", "réécrivent les souvenirs de", "rechargent leurs batteries grâce à"
+const ACTIONS = [
+  "volent une chaussette dans chaque machine à laver",
+  "cachent la télécommande dans le canapé",
+  "font avancer la file d'à côté plus vite que la vôtre",
+  "rallongent les lundis de quatre minutes",
+  "font disparaître les stylos du bureau",
+  "programment la pluie pour tous les week-ends",
+  "font passer tous les feux au rouge quand vous êtes en retard",
+  "remplissent les paquets de chips avec de l'air",
+  "déplacent les rayons du supermarché chaque mois",
+  "vous montrent une pub juste après que vous en avez parlé",
+  "retirent un carré de chocolat par tablette chaque année",
+  "coupent le Wi-Fi pile pendant le dernier épisode",
+  "font sonner le livreur quand vous êtes sous la douche",
+  "emmêlent les écouteurs dans votre poche",
+  "font tomber les tartines côté confiture",
+  "lancent une mise à jour pile quand vous êtes pressé"
 ];
 const POURQUOI = [
-  "pour dominer le marché de la raclette", "afin de rendre les dimanches plus courts", "pour financer une base secrète sous Clermont-Ferrand",
-  "dans le but de faire disparaître les stylos", "pour que la file d'à côté avance toujours plus vite", "afin de saboter les plans de vacances",
-  "pour fabriquer des clones qui font la vaisselle", "dans le cadre d'un plan quinquennal de chaussettes", "pour qu'on oublie ce qu'on venait chercher dans la cuisine",
-  "afin de rendre les codes Wi-Fi imprononçables", "pour préparer le grand retour du Minitel", "parce que le chat l'a exigé"
+  "pour faire grimper le cours mondial de la chaussette",
+  "afin de rendre les dimanches plus courts",
+  "pour financer une base secrète sous Clermont-Ferrand",
+  "pour préparer le grand retour du Minitel",
+  "parce que le chat l'a exigé",
+  "pour tester notre patience avant l'invasion",
+  "parce que quelqu'un, quelque part, a perdu un pari",
+  "pour nous vendre toujours plus de canapés",
+  "dans le cadre d'un plan quinquennal ultra-secret",
+  "pour que personne ne lise jamais les conditions d'utilisation",
+  "afin de nous habituer en douceur à vivre en mode avion",
+  "pour entraîner une armée de pigeons voyageurs",
+  "parce que c'est écrit sur un vieux Minitel retrouvé à Vierzon",
+  "pour que l'on oublie ce que l'on venait chercher dans la cuisine"
 ];
-const CIBLES = ["les Français", "les chats domestiques", "les retraités du Cantal", "les joueurs de pétanque", "les télétravailleurs", "les fans de karaoké", "les gens qui disent « pain au chocolat »", "les comptables"];
-
-// « Fait quoi ? » appelle un complément : on l'intègre à la sélection du milieu
-const ACTIONS = [];
-QUOI.forEach(q => { ACTIONS.push(q + ' ' + CIBLES[ACTIONS.length % CIBLES.length]); });
 
 const pick = a => Math.floor(Math.random() * a.length);
 const sels = [['s1', QUI], ['s2', ACTIONS], ['s3', POURQUOI]].map(([id, list]) => {
