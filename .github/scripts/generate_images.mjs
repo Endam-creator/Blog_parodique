@@ -1,7 +1,7 @@
 // 1) Versions WebP légères de chaque photo (images/webp/<nom>.webp), affichées par le site.
 //    Les originaux restent en place et servent de secours si le WebP manque.
 // 3) Des « unes » prêtes à poster (carré 1080x1080 et story 1080x1920) dans images/unes/,
-//    avec titre, tampon PARODIE et adresse du site.
+//    avec titre et adresse du site, sans tampon (choix éditorial).
 // 2) Une image d'aperçu de partage (1200x630) par article dans images/og/<id>.jpg,
 // avec un tampon « PARODIE · 100 % INVENTÉ » incrusté.
 // Objectif : que l'aperçu affiché par X, WhatsApp, Telegram, Facebook… reste
@@ -136,7 +136,6 @@ async function buildUne(art, W, H, out) {
             { input: photo, top: 0, left: 0 },
             { input: band, top: 0, left: 0 },
             { input: title.data, top: titleTop, left: pad },
-            { input: stamp, top: imgH - Math.round(stampInfo.height / 2), left: pad - 10 },
             { input: url.data, top: H - url.info.height - 55, left: pad },
         ])
         .jpeg({ quality: 80, mozjpeg: true })
