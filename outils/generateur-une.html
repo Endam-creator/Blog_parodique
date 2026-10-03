@@ -96,6 +96,7 @@
             <label><input type="checkbox" id="ckClassified"> Tampon CLASSIFIED</label>
             <label><input type="checkbox" id="ckTape" checked> Coins scotchés</label>
             <label><input type="checkbox" id="ckLogo" checked> Logo en filigrane</label>
+            <label><input type="checkbox" id="ckParody"> Tampon PARODIE</label>
         </div>
     </div>
 
@@ -288,10 +289,8 @@ function render() {
         ctx.restore();
     }
 
-    // Tampon PARODIE — toujours présent (non désactivable) : l'image doit rester
-    // identifiable comme satire même partagée seule, sans lien vers le blog.
-    // Posé à cheval sur l'image et le titre pour résister à un recadrage simple.
-    drawParodyStamp(pad - 10, imgH + 4);
+    // Tampon PARODIE : facultatif (case décochée par défaut)
+    if (document.getElementById('ckParody').checked) drawParodyStamp(pad - 10, imgH + 4);
 
     // Coins scotchés
     if (document.getElementById('ckTape').checked) {
@@ -361,7 +360,7 @@ document.querySelectorAll('#formatBtns button').forEach(btn => {
 });
 
 // Champs qui rafraîchissent l'aperçu
-['inTitle', 'inBanner', 'inKicker', 'ckClassified', 'ckTape', 'ckLogo'].forEach(id => {
+['inTitle', 'inBanner', 'inKicker', 'ckClassified', 'ckTape', 'ckLogo', 'ckParody'].forEach(id => {
     document.getElementById(id).addEventListener('input', render);
 });
 
