@@ -23,7 +23,7 @@ for (const a of articles) {
     if (!existsSync(page)) { errors.push(`${who} : page ${page} non générée`); continue; }
     const html = readFileSync(page, 'utf8');
     if (statSync(page).size < 5000) errors.push(`${who} : page ${page} anormalement petite`);
-    if (!html.includes('Article parodique')) errors.push(`${who} : mention parodie absente de ${page}`);
+    if (!html.includes('/mentions-legales.html')) errors.push(`${who} : lien vers les mentions légales absent de ${page}`);
     if (img && !/^https?:/.test(img) && existsSync(img)) {
         if (!existsSync(`images/og/${a.id}.jpg`)) errors.push(`${who} : aperçu de partage images/og/${a.id}.jpg manquant`);
         for (const f of ['carre', 'story']) if (!existsSync(`images/unes/${a.id}-${f}.jpg`)) errors.push(`${who} : une ${f} manquante`);

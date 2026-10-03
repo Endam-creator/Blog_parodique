@@ -531,8 +531,6 @@ function displayArticle(id, isArchive) {
             imgTag(art.img, 'alt="" fetchpriority="high" decoding="async"') +
             stampBig +
         '</div>' +
-        (art.img ? '<p class="img-credit">Illustration générée par IA · Parodie</p>' : '') +
-        '<div class="parody-banner" role="note"><strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.</div>' +
         '<div class="article-body">' +
             '<p>' + esc(art.intro) + '</p>' +
             interviewHTML +

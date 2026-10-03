@@ -103,7 +103,6 @@ if (!SEO_RE.test(TEMPLATE) || !TEMPLATE.includes(VIEWER_MARK)) {
     process.exit(1);
 }
 
-const PARODY_NOTE = "<strong>🎭 Article parodique</strong> — Faits, témoins et citations sont entièrement inventés. Certifié 100 % faux par la Rédaction.";
 
 // <picture> : WebP allégé si disponible, image d'origine sinon
 function pictureTag(imgRel, alt, lazy = false) {
@@ -177,8 +176,6 @@ function buildPage(art, isLatest) {
         banner +
         `<h1 class="article-headline">${escHTML(art.title)}</h1>` +
         `<div class="hero-visual no-overlay">${pictureTag(imgRel, '')}${stamp}</div>` +
-        (art.img ? '<p class="img-credit">Illustration générée par IA · Parodie</p>' : '') +
-        `<div class="parody-banner" role="note">${PARODY_NOTE}</div>` +
         `<div class="article-body"><p>${escHTML(art.intro || '')}</p>${interviewHTML}${noticeHTML}</div>` +
         relatedHTML(art);
 
