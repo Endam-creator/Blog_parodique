@@ -31,7 +31,8 @@ const STYLE = [
     'Photorealistic documentary photograph, French tabloid / regional newspaper reportage style,',
     'natural available light, slightly gritty everyday setting, candid, 35mm lens, 16:9 landscape framing.',
     'The scene must read as comic and absurd on close inspection.',
-    'No text overlays, no captions, no logos, no watermarks.',
+    'Absolutely no written text anywhere: no letters, words, signs, labels, captions, book titles, posters with words or screens showing text; no logos, no watermarks.',
+    'Wide landscape composition: keep the main character (including the whole head) and the key props inside the central horizontal band of the frame, with plain background above and below.',
     'Do not depict any real, identifiable person or celebrity; all people are fictional and ordinary-looking.',
 ].join(' ');
 
@@ -123,8 +124,15 @@ for (const { path, art } of todo.slice(0, MAX_PER_RUN)) {
         console.log(`🎨 Génération de l'image pour ${label}…`);
         const raw = PROVIDER === 'cloudflare' ? await generateCloudflare(art.img_prompt) : await generate(art.img_prompt);
         const file = `images/${art.id}-ia-${Date.now()}.jpg`;
-        // Format paysage 16:9 comme les autres illustrations (recadrage intelligent)
-        await sharp(raw).resize(1600, 900, { fit: 'cover', position: 'attention' }).jpeg({ quality: 86, mozjpeg: true }).toFile(file);
+        // Format paysage 16:9 comme les autres illustrations. Les images carrées sont recadrées
+        // un peu au-dessus du centre (35 % de la marge en haut) pour ne pas couper les visages.
+        const meta = await sharp(raw).metadata();
+        const scaled = await sharp(raw).resize({ width: 1600 }).toBuffer();
+        const h = Math.round(1600 * meta.height / meta.width);
+        const img = h > 900
+            ? sharp(scaled).extract({ left: 0, top: Math.round((h - 900) * 0.35), width: 1600, height: 900 })
+            : sharp(scaled).resize(1600, 900, { fit: 'cover' });
+        await img.jpeg({ quality: 86, mozjpeg: true }).toFile(file);
         // Supprime l'ancienne image IA de cette enquête (pas les images déposées à la main)
         const old = String(art.img || '').replace(/^\/+/, '');
         if (old && old !== file && /-ia-\d+\.jpg$/.test(old) && existsSync(old)) rmSync(old);
