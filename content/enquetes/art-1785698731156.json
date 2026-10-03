@@ -5,7 +5,7 @@
   "date": "Dimanche 2 août 2026",
   "location": "Algésiras, Espagne (et son canapé)",
   "author": "L'Investigateur Anonyme",
-  "img": "images/art-1785698731156-ia-1791057213152.jpg",
+  "img": "images/art-1785698731156-ia-1791057883165.jpg",
   "desc": "Ancien douanier, Michel tient un carnet de tous les « acteurs » qu'il reconnaît à la télévision. Il en est à 1 412, dont un pigeon.",
   "intro": "Il y a trois ans, Michel R., 55 ans, ancien douanier fraîchement retraité, s'est présenté à un casting de figurants pour une série tournée près d'Almería. Rôle : « passant n° 4 ». Verdict du directeur de casting : « pas assez naturel ». Depuis ce jour, Michel en est convaincu : rien de ce qui passe à la télévision n'est vrai. Ni la météo, ni le Tour de France, ni les reportages, ni les micros-trottoirs. Tout est joué. Par des figurants. Qui, eux, ont été pris.\n\nNous l'avons rencontré dans un café du port d'Algésiras, où il s'est installé « pour être près des tournages ». Devant lui, un carnet à spirale de 300 pages, rempli de visages découpés dans des magazines.",
   "interview": [
@@ -34,5 +34,5 @@
   "classified": false,
   "rubrique": "complots-etat",
   "img_prompt": "Medium-wide shot inside a harbour café, late afternoon light. In the centre, Michel, a fit Frenchman in his mid-fifties with short dark hair greying at the temples and a beige windbreaker, leans intensely over a large open spiral notebook lying flat on the table in front of him; the notebook pages are covered with dozens of small photo portraits cut out of magazines, glued in rows and circled with red pen, and one page shows only a cut-out pigeon circled several times. Scissors, a glue stick and an espresso cup beside the notebook. Behind him, a switched-off black television on the wall, and through the window, a white ferry in the port.",
-  "img_regen": true
+  "img_regen": false
 }
