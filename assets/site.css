@@ -394,7 +394,7 @@ blockquote.temoin cite {
     padding: 2px 10px;
 }
 
-.interview-line { margin-bottom: 14px; }
+.interview-line { margin-bottom: 14px; white-space: pre-line; }
 .interview-line strong { display: block; margin-bottom: 3px; }
 
 .redac-notice {
