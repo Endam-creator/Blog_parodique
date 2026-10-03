@@ -35,6 +35,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Récupération du dépôt
         uses: actions/checkout@v4
@@ -131,6 +132,7 @@ jobs:
       - name: Signalement IndexNow
         if: steps.commit.outputs.committed == '1'
         continue-on-error: true
+        timeout-minutes: 4
         run: |
           sleep 90
           # État d'avant = parent du commit automatique
@@ -147,6 +149,7 @@ jobs:
               .concat(changes.map(id => 'https://' + HOST + '/articles/' + encodeURIComponent(id) + '.html'));
             console.log('URLs signalées :\n' + urls.join('\n'));
             fetch('https://api.indexnow.org/indexnow', {
+              signal: AbortSignal.timeout(30000),
               method: 'POST',
               headers: { 'Content-Type': 'application/json; charset=utf-8' },
               body: JSON.stringify({ host: HOST, key: KEY, keyLocation: 'https://' + HOST + '/' + KEY + '.txt', urlList: urls })
