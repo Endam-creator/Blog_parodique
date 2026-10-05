@@ -10,7 +10,7 @@
 // Pour NE PAS compter vos propres visites : visitez une fois votre site avec
 // #toggle-goatcounter à la fin de l'URL (ex: https://votre-site.fr/#toggle-goatcounter)
 // → vos visites depuis ce navigateur ne seront plus comptées. Re-visitez la même URL pour réactiver.
-const GOATCOUNTER_CODE = "endam-digital";   // ex: "veritescachees"
+const GOATCOUNTER_CODE = "veritescachees-endam";   // ex: "veritescachees"
 
 // Commentaires : Worker Cloudflare maison (dossier commentaires/ du dépôt).
 // L'adresse de l'API est écrite automatiquement dans /assets/comments-config.js au déploiement.
