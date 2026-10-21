@@ -1,5 +1,41 @@
 [
   {
+    "id": "art-1792618974828",
+    "published": "2026-10-21",
+    "rubrique": "stars-sport",
+    "title": "« Michael Jackson n'est pas mort : il anime les soirées d'un club de vacances au Maroc, je l'ai vu de mes yeux »",
+    "date": "",
+    "location": "Agadir, Maroc",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/michael-agadir.jpg",
+    "desc": "Pour le monde entier, le roi de la pop s'est éteint en 2009. Pour Nadine, caissière à Cholet, il est bien vivant : elle l'a vu faire le moonwalk tous les jeudis soir pendant ses vacances dans un club tout compris d'Agadir. Et elle est la seule à l'avoir reconnu.",
+    "intro": "Nadine P., 57 ans, caissière dans un hypermarché de Cholet, a vu Michael Jackson en concert à Paris en 1988. Elle a gardé le billet, la casquette, le badge et une cassette audio usée jusqu'à la corde. Comme des millions de fans, elle a pleuré en juin 2009. Mais en septembre, Nadine s'est offert deux semaines de vacances au Club Palmeraie Soleil d'Agadir, formule tout compris. Elle en est revenue bronzée, reposée, et convaincue que le roi de la pop est vivant. Il a 34 ans, et il chante tous les jeudis soir au bord de la piscine, entre l'aquagym et la soirée orientale.\n\nNous l'avons rencontrée chez elle, à Cholet, entourée de ses photos de vacances et du bracelet du club, qu'elle refuse d'enlever.",
+    "interview": [
+      {
+        "q": "Nadine, comment l'avez-vous reconnu ?",
+        "a": "Premier jeudi des vacances. Soirée spectacle au bord de la piscine. Le gars monte sur la scène : chapeau noir, veste rouge pleine de boucles, pantalon trop court, chaussettes blanches, et un seul gant blanc à paillettes. La musique démarre, et là… le moonwalk. Il glisse en arrière comme sur de la glace, il s'arrête sur la pointe des pieds, et il pousse le petit cri. J'ai renversé mon cocktail sans alcool sur mon transat. Tout le club a applaudi, les enfants dansaient, les Allemands filmaient. Mais moi, j'ai compris. Personne ne glisse comme ça. Personne."
+      },
+      {
+        "q": "Vous a-t-il parlé ?",
+        "a": "Jamais en français. Que de l'anglais, avec moi. Le lendemain, je le croise au buffet et je lui dis : « Hello. » Il me répond : « Hello, my friend! » Avec la voix. La petite voix douce. Bon, avec les autres clients, je l'ai entendu parler français, allemand, italien, et même un peu de néerlandais au mini-golf. Mais ça, c'est pour donner le change. Un vrai Américain qui parle cinq langues, personne ne le soupçonnerait. C'est très malin."
+      },
+      {
+        "q": "Michael Jackson aurait 68 ans aujourd'hui. L'homme que vous avez vu en a 34…",
+        "a": "Justement. Vous croyez que les stars vieillissent comme nous ? Ils ont des moyens qu'on n'imagine pas : des cures, des coachs, des régimes secrets. Et puis il vit au soleil, il mange des dattes, il danse tous les soirs. Ça conserve. Moi, si je faisais le moonwalk tous les soirs, j'aurais pas mes genoux."
+      },
+      {
+        "q": "Pourquoi aurait-il fait croire à sa mort ?",
+        "a": "Pour avoir la paix ! Imaginez la vie de cet homme : des photographes partout, des fans devant chez lui jour et nuit, pas moyen d'aller acheter du pain. Alors il disparaît, et il va là où personne ne pensera jamais à le chercher : dans un club de vacances au Maroc. Ici, personne ne le dérange. Il fait l'aquagym le matin, le ping-pong l'après-midi, le spectacle le jeudi. Logé, nourri, au soleil. La belle vie, enfin. Je le comprends, remarquez."
+      },
+      {
+        "q": "Avez-vous des preuves ?",
+        "a": "D'abord, le gant. Un seul gant, comme lui. Mais attention : un jeudi il le porte à la main gauche, le jeudi d'après à la main droite. Il brouille les pistes, c'est un professionnel. Ensuite, le programme de la semaine, affiché à la réception. C'est écrit noir sur blanc : « Jeudi 21 h, show Michael Jackson par Youssef, votre animateur. » Votre animateur ! C'est le déguisement parfait : se faire passer pour l'animateur qui imite Michael Jackson. Personne ne soupçonne rien. Personne sauf moi. Le dernier soir, je suis allée le voir après le spectacle et je lui ai dit, dans mon meilleur anglais : « I know who you are. » Il m'a fait un clin d'œil et il m'a répondu : « Everybody says that, madam! » Évidemment, il peut pas avouer."
+      }
+    ],
+    "notice": "Les légendes ne meurent jamais tout à fait : elles se réincarnent en animateurs de clubs de vacances, au bord des piscines du monde entier. Si vous croyez reconnaître le roi de la pop à la soirée du jeudi, lisez d'abord le programme affiché à la réception. Un gant qui change de main d'une semaine à l'autre n'est pas une technique d'espionnage, juste un problème de rangement. Et laissez un pourboire aux animateurs : ce sont eux qui font vivre la musique, en cinq langues.",
+    "classified": false
+  },
+  {
     "id": "art-1791662701159",
     "published": "2026-10-10",
     "rubrique": "paranormal",
