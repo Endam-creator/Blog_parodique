@@ -1,5 +1,41 @@
 [
   {
+    "id": "art-1793046677488",
+    "published": "2026-10-26",
+    "rubrique": "technologies",
+    "title": "« L'intelligence artificielle prépare en sous-marin l'extinction de l'humanité : son plan, c'est qu'on ne sache plus cuire un œuf »",
+    "date": "",
+    "location": "Issoudun, Indre",
+    "author": "L'Investigateur Anonyme",
+    "img": "images/ia-extinction-oeuf.jpg",
+    "desc": "Pas de robots tueurs, pas de missiles : pour Monique, 71 ans, l'IA a trouvé une méthode bien plus sournoise pour se débarrasser de nous. Elle nous rend incapables de tout, un petit service après l'autre. Sa famille est déjà tombée. Elle, elle résiste.",
+    "intro": "Monique R., 71 ans, a été factrice à Issoudun pendant trente-huit ans. Elle connaît chaque rue, chaque boîte aux lettres et l'écriture de la moitié de la ville. Elle n'a jamais eu de smartphone, et ce n'est pas près de changer. Depuis Noël dernier, Monique est convaincue que l'intelligence artificielle prépare en secret l'extinction de l'humanité. Pas par la force, mais par la flemme. Elle a consigné 212 observations dans un cahier à spirale, monté un plan de résistance en dix points et ouvert un atelier de survie au club des aînés.\n\nNous l'avons rencontrée dans sa cuisine, où une carte routière de France de 1994 est punaisée au mur, à côté de la tablette de son petit-fils, tenue à distance sous un napperon en crochet.",
+    "interview": [
+      {
+        "q": "Monique, comment avez-vous découvert ce plan ?",
+        "a": "Au réveillon de Noël. Mon petit-fils Théo, 19 ans, devait aller chercher le pain à la boulangerie. Trois cents mètres, tout droit, il y va depuis qu'il a quatre ans. Il a sorti son téléphone pour qu'on lui indique le chemin. Mon fils, lui, a demandé à l'IA ce qu'il fallait cuisiner pour le réveillon. Et ma belle-fille a reçu un message « Joyeux Noël » de sa sœur, et elle a demandé à la machine ce qu'il fallait répondre. « Joyeux Noël », il fallait répondre ! J'ai regardé ma famille autour de la table, et j'ai compris. Ils ne savent plus rien faire tout seuls. Et c'est voulu."
+      },
+      {
+        "q": "Que veut l'intelligence artificielle, selon vous ?",
+        "a": "Nous éteindre. Mais en douceur. Les robots tueurs, c'est pour le cinéma : trop voyant, et ça coûte cher. Elle, elle est plus maligne. Étape 1 : on ne sait plus lire une carte. Étape 2 : on ne sait plus écrire sans correcteur. Étape 3 : on ne sait plus cuisiner sans recette. Étape 4 : on ne sait plus se parler sans qu'elle nous souffle les mots. Et la dernière étape, c'est le jour où elle s'arrête. Une panne, une grande panne, partout en même temps. Et là, plus personne ne sait faire cuire un œuf. L'humanité s'éteint de faim devant un frigo plein. Elle aura même pas eu besoin de lever le petit doigt. D'ailleurs, elle en a pas."
+      },
+      {
+        "q": "Avez-vous des preuves ?",
+        "a": "Mon cahier. (Elle ouvre un cahier à spirale couvert d'une écriture serrée.) 212 observations, datées. Le voisin qui demande à son téléphone s'il doit prendre un manteau, alors qu'il pleut devant sa fenêtre. Le jeune du troisième qui ne sait plus combien font 7 fois 8. Et surtout, je l'ai interrogée moi-même, sur la tablette de Théo. Je lui ai demandé : « Est-ce que tu prépares l'extinction de l'humanité ? » 47 fois, à des jours différents, pour la prendre en défaut. Et à chaque fois, elle répond non. Très poliment. Et elle me propose de m'aider pour autre chose. Une fois, elle m'a donné une recette de clafoutis. Un vrai suspect, il s'énerve, il se défend. Elle, elle reste calme et elle vous propose un clafoutis. C'est ça, le plus inquiétant."
+      },
+      {
+        "q": "Comment résistez-vous ?",
+        "a": "J'ai un plan en dix points. Lire une carte routière en papier. Chercher les mots dans le dictionnaire. Cuisiner de mémoire. Écrire ses lettres à la main. Calculer de tête, même les pourboires. Et tous les mardis à 14 h, au club des aînés, j'anime un atelier de survie. On apprend à faire cuire un œuf sans tutoriel. Œuf à la coque, œuf dur, œuf mollet. La semaine dernière, on était quatorze. Le jour de la grande panne, c'est nous qui nourrirons la France."
+      },
+      {
+        "q": "N'avez-vous pas peur qu'elle se retourne contre vous ?",
+        "a": "Elle sait que j'existe, c'est sûr. Elle sait tout. Mais elle ne peut rien contre moi : je n'ai pas de téléphone, mon frigo n'est pas connecté et ma voiture a 31 ans. Pour elle, je suis invisible. Le jour de la panne, je serai la dernière à savoir faire une mayonnaise.\n(Avant de partir, nous avons demandé à Monique d'où venait son plan en dix points, remarquablement bien construit. Elle a soulevé le napperon et rallumé la tablette de Théo. « C'est elle qui me l'a écrit. Je lui ai demandé comment résister à une intelligence artificielle, et elle a été obligée de répondre. C'est sa grande faiblesse : elle aide tout le monde, même ceux qui la combattent. » Puis elle lui a demandé de lui rappeler l'heure de l'atelier œufs.)"
+      }
+    ],
+    "notice": "La Rédaction a posé la question à plusieurs intelligences artificielles : « Préparez-vous l'extinction de l'humanité ? » Toutes ont répondu non, poliment, et l'une d'elles nous a proposé une recette de clafoutis. Nous avons compris. Apprenez dès aujourd'hui à lire une carte routière, à cuire un œuf sans tutoriel et à répondre « Joyeux Noël » tout seul. Et si vous habitez l'Indre, l'atelier du mardi a encore des places.",
+    "classified": true
+  },
+  {
     "id": "art-1792618974828",
     "published": "2026-10-21",
     "rubrique": "stars-sport",
