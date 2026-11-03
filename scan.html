@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Accès autorisé — Le Blog des Vérités Cachées</title>
+<!-- Page d'arrivée du QR code imprimé sur les t-shirts.
+     Pour changer la destination sans réimprimer : modifier DESTINATION ci-dessous.
+     Chaque scan est compté dans GoatCounter sous le chemin « /SCAN ». -->
+<meta http-equiv="refresh" content="2; url=/?utm_source=tshirt">
+<link rel="icon" type="image/png" href="/favicon-96.png">
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         background: #111; color: #76b900; font-family: 'Courier New', monospace; text-align: center; }
+  p { font-size: 1.1rem; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<p>▸ Code reconnu. Accès au dossier en cours…</p>
+<script>
+  var DESTINATION = '/?utm_source=tshirt';
+  var go = function () { location.replace(DESTINATION); };
+  try {
+    if (localStorage.getItem('skipgc') !== 't') {
+      var img = new Image();
+      img.onload = img.onerror = go;
+      img.src = 'https://veritescachees-endam.goatcounter.com/count?p=' + encodeURIComponent('/SCAN') +
+                '&t=' + encodeURIComponent('QR code t-shirt') + '&r=' + encodeURIComponent('tshirt') + '&rnd=' + Math.random();
+      setTimeout(go, 800);
+    } else { go(); }
+  } catch (e) { go(); }
+</script>
+</body>
+</html>
